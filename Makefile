@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/04/19 10:25:22 by yessemna         ###   ########.fr        #
+#    Updated: 2024/04/21 13:53:28 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = cc #-g -fsanitize=address 
 CFLAGS = -Wall -Wextra -Werror 
-RDFLAGS =  -L $(shell brew --prefix readline)/lib -lreadline
+RDFLAGS = -lreadline
 SRC = minishell.c \
 		tools/ft_split.c \
 		tools/ft_bzero.c \
@@ -35,7 +35,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 %.o : %.c minishell.h
-	@$(CC) $(CFLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 	
 clean:
 	@rm -rf $(OBJ)

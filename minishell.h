@@ -20,18 +20,21 @@ typedef enum e_type
 {
     CMD,
     PIPE,
+    SPACE,
     IN,
+    HEREDOC,
     OUT,
     APPEND,
     Sgl_q,
     Dbl_q,
+    VAR,
 }	t_type;
 
 
 typedef struct s_env
 {
     char	*key;
-    char	*value;
+    t_type	value;
     struct s_env	*next;
 }	t_env;
 
@@ -53,7 +56,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 //lst_tools.c
 
 void    lst_add_back(t_env **head, t_env *new);
-t_env   *lst_new(char *key, char *value);
+t_env   *lst_new(char *key, t_type value);
 
 
 #endif

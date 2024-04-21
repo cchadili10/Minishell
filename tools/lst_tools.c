@@ -6,13 +6,13 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/04/19 08:29:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:46:13 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-t_env   *lst_new(char *key, char *value)
+t_env   *lst_new(char *key, t_type value)
 {
     t_env *new;
     
@@ -41,5 +41,4 @@ void    lst_add_back(t_env **head, t_env *new)
             tmp = tmp->next;
         tmp->next = new;
     }
-    return (new);
 }
