@@ -25,9 +25,10 @@ typedef enum e_type
     HEREDOC,
     OUT,
     APPEND,
-    Sgl_q,
-    Dbl_q,
+    SNGL_Q,
+    DBL_Q,
     VAR,
+    DBL_VAR
 }	t_type;
 
 
@@ -52,6 +53,8 @@ void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	ft_putendl_fd(char *s, int fd);
+void print_error(char *str);
 
 //lst_tools.c
 

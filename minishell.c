@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/04/21 16:18:50 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:14:46 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ void print_list(t_env *list)
             printf("OUT\n");
         else if(tmp->value == APPEND)
             printf("APPEND\n");
-        else if(tmp->value == Sgl_q)
+        else if(tmp->value == SNGL_Q)
             printf("Sgl_q\n");
-        else if(tmp->value == Dbl_q)
+        else if(tmp->value == DBL_Q)
             printf("Dbl_q\n");
         else if(tmp->value == VAR)
             printf("VAR\n");
         else if(tmp->value == CMD)
             printf("CMD\n");
+        else if(tmp->value == DBL_VAR)
+            printf("DBL_VAR\n");
         tmp = tmp->next;
     }
 
@@ -80,13 +82,30 @@ int is_special(char c)
 {
     return (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '$' || is_space(c));
 }
+int find_char(char *str, char c)
+{
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == c)
+            return (i);
+        i++;
+    }
+    return (0);
+}
+int is_alnum(char c)
+{
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
+}
 
 void processline(char *line, t_env **list)
 {
     int i;
     int start;
+    int end;
     
     start = 0;
+    end = 0;
     i = 0;
     
     while (line[i] != '\0')
@@ -115,21 +134,78 @@ void processline(char *line, t_env **list)
                 lst_add_back(list, lst_new(ft_substr(line, i, 1), OUT));
             i++;
         }
-//         // else if (line[i] == '\'')
-//         //     lst_add_back(&list, lst_new(ft_substr(line, i++, 1), Sgl_q));
-//         // else if (line[i] == '\"')
-//         //     lst_add_back(&list, lst_new(ft_substr(line, i++, 1), Dbl_q));
-//         else if (line[i] == '$')
-//             lst_add_back(&list, lst_new(ft_substr(line, i++, 1), VAR));
+        else if (line[i] == '\'')
+        {
+            if (line[i + 1] == '\'')
+                lst_add_back(list, lst_new(ft_substr(line, i++, 2), SNGL_Q));
+            else
+            {
+                start = i;
+                end = find_char(line + i + 1, '\'');
+                if(end)
+                    lst_add_back(list, lst_new(ft_substr(line, start, end + 2), SNGL_Q));
+                else
+                    print_error("Error: missing single quote\n");
+                i += end + 1;
+            }
+            i++;
+            start = 0;
+            end = 0;
+        }
+        else if (line[i] == '\"')
+        {
+            if (line[i + 1] == '\"')
+                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_Q));
+            else
+            {
+                start = i;
+                end = find_char(line + i + 1, '\"');
+                if(end)
+                    lst_add_back(list, lst_new(ft_substr(line, start, end + 2), DBL_Q));
+                else
+                    print_error("Error: missing double quote\n");
+                i += end + 1;
+                start = 0;
+                end = 0;
+            }
+            i++;
+        }
+        else if(line[i] == '$' && (line[i + 1] >= '0' && line[i + 1] <= '9'))
+        {
+            lst_add_back(list, lst_new(ft_substr(line, i++, 2), VAR));
+            i++;
+        }
+        else if(line[i] == '$' && line[i + 1] == '$')
+        {
+            lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
+            i++;
+        }
+        else if (line[i] == '$') // ---------------> prob in $.HOME  ~~~~ fixed
+        {
+            if (!is_alnum(line[i + 1]))
+                lst_add_back(list, lst_new(ft_substr(line, i++, 1), CMD));
+            else
+            {
+                start = i;
+                end = i;
+                while (is_alnum(line[end + 1]))
+                    end++;
+                lst_add_back(list, lst_new(ft_substr(line, start, end + 1), VAR));
+                i += end + 1;
+                start = 0;
+                end = 0;
+            }
+        }
         else
         {
             start = i;
             while (line [i] &&  !is_special(line[i]))
                 i++;
             lst_add_back(list, lst_new(ft_substr(line, start, i - start), CMD));
+            start = 0;
         }
         
-    }
+    }//----------------------> problem in $"command" and $'command' : dollar should not be printed
     
 }
 
@@ -154,7 +230,7 @@ int main(int ac, char **av, char **env)
         //     continue;
 
         processline(line , &list);
-        printf("\n----> %s\n", line);
+        printf("\n-----------\n");
         print_list(list);
         
         // printf("---->%d\n", execFlag);
