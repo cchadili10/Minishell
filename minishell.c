@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/04/22 20:14:46 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:37:55 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,24 +188,29 @@ void processline(char *line, t_env **list)
             {
                 start = i;
                 end = i;
+            printf("$ ---> '%c'\n", line[i]);
                 while (is_alnum(line[end + 1]))
                     end++;
-                lst_add_back(list, lst_new(ft_substr(line, start, end + 1), VAR));
-                i += end + 1;
+            printf("end ---> '%c' , %d\n", line[end], end);
+                lst_add_back(list, lst_new(ft_substr(line, start, end),VAR));
+                i = end;
                 start = 0;
                 end = 0;
             }
+            i++;
         }
-        else
+        else // prowem in a$cmd.a  ~~~~ fixed
         {
             start = i;
-            while (line [i] &&  !is_special(line[i]))
+            while (line[i] && !is_special(line[i + 1]))
                 i++;
-            lst_add_back(list, lst_new(ft_substr(line, start, i - start), CMD));
+            printf("cmd ---> '%c'\n", line[i]);
+            lst_add_back(list, lst_new(ft_substr(line, start, i - start + 1), CMD));
+            i++;
             start = 0;
         }
         
-    }//----------------------> problem in $"command" and $'command' : dollar should not be printed
+    }//----------------------> problem in $"command" and $'command' : dollar should not be printed  !!
     
 }
 
