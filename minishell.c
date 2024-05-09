@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/04/24 20:37:55 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/09 16:59:27 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,35 +44,8 @@ void print_list(t_env *list)
             printf("DBL_VAR\n");
         tmp = tmp->next;
     }
-
 }
 
-// Function to take input 
-// int takeInput(char* str) 
-// { 
-//     char* buf;
-//     char prompt[12] = "Minishell> ";
-//     buf = readline(prompt); 
-//     if (ft_strlen(buf) != 0) { 
-//         add_history(buf); 
-//         ft_strcpy(str, buf); 
-//         return 0; 
-//     } else { 
-//         return 1; 
-//     } 
-// }
-
-// int is_pipe(char *line)
-// {
-//     int i = 0;
-//     while (line[i] != '\0')
-//     {
-//         if (line[i] == '|')
-//             return (1);
-//         i++;
-//     }
-//     return (0);
-// }
 int is_space(char c)
 {
     return (c == ' ' || (c > 9 && c < 13));
@@ -121,7 +94,7 @@ void processline(char *line, t_env **list)
         else if (line[i] == '<')
         {
             if (line[i + 1] == '<')
-                lst_add_back(list, lst_new(ft_substr(line, i++, 2), HEREDOC)); // 2
+                lst_add_back(list, lst_new(ft_substr(line, i++, 2), HEREDOC));
             else
                 lst_add_back(list, lst_new(ft_substr(line, i, 1), IN));
             i++;
@@ -149,8 +122,6 @@ void processline(char *line, t_env **list)
                 i += end + 1;
             }
             i++;
-            start = 0;
-            end = 0;
         }
         else if (line[i] == '\"')
         {
@@ -165,8 +136,6 @@ void processline(char *line, t_env **list)
                 else
                     print_error("Error: missing double quote\n");
                 i += end + 1;
-                start = 0;
-                end = 0;
             }
             i++;
         }
@@ -180,34 +149,37 @@ void processline(char *line, t_env **list)
             lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
             i++;
         }
-        else if (line[i] == '$') // ---------------> prob in $.HOME  ~~~~ fixed
+        else if (line[i] == '$')
         {
             if (!is_alnum(line[i + 1]))
                 lst_add_back(list, lst_new(ft_substr(line, i++, 1), CMD));
             else
             {
                 start = i;
-                end = i;
-            printf("$ ---> '%c'\n", line[i]);
-                while (is_alnum(line[end + 1]))
-                    end++;
-            printf("end ---> '%c' , %d\n", line[end], end);
-                lst_add_back(list, lst_new(ft_substr(line, start, end),VAR));
-                i = end;
-                start = 0;
-                end = 0;
+                i++;
+                while (is_alnum(line[i]) && !is_special(line[i]))
+                {
+                    if(!is_alnum(line[i + 1]))
+                        break;
+                    i++;
+                }
+                end = i - start;
+                lst_add_back(list, lst_new(ft_substr(line, start, end+1),VAR));
+                i++;
             }
-            i++;
         }
-        else // prowem in a$cmd.a  ~~~~ fixed
+        else
         {
             start = i;
-            while (line[i] && !is_special(line[i + 1]))
+            while (line[i] && !is_special(line[i]))
+            {
+                if(is_special(line[i + 1]))
+                    break;
                 i++;
-            printf("cmd ---> '%c'\n", line[i]);
-            lst_add_back(list, lst_new(ft_substr(line, start, i - start + 1), CMD));
+            }
+            end = i - start;
+            lst_add_back(list, lst_new(ft_substr(line, start, end + 1), CMD));
             i++;
-            start = 0;
         }
         
     }//----------------------> problem in $"command" and $'command' : dollar should not be printed  !!
@@ -215,7 +187,7 @@ void processline(char *line, t_env **list)
 }
 
 // Main function
-int main(int ac, char **av, char **env)
+int main(int ac, char **av, char **env)//$home.c
 {
     (void)ac;
     (void)av;
