@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/09 16:59:27 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:16:29 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ void processline(char *line, t_env **list)
                 lst_add_back(list, lst_new(ft_substr(line, i, 1), OUT));
             i++;
         }
-        else if (line[i] == '\'')
+        else if (line[i] == '\'' || (line[i] == '$' && line[i + 1] == '\''))
         {
+            if(line[i] == '$')
+                i++;
             if (line[i + 1] == '\'')
                 lst_add_back(list, lst_new(ft_substr(line, i++, 2), SNGL_Q));
             else
@@ -123,8 +125,10 @@ void processline(char *line, t_env **list)
             }
             i++;
         }
-        else if (line[i] == '\"')
+        else if (line[i] == '\"' || (line[i] == '$' && line[i + 1] == '\"'))
         {
+            if(line[i] == '$')
+                i++;
             if (line[i + 1] == '\"')
                 lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_Q));
             else
@@ -182,7 +186,7 @@ void processline(char *line, t_env **list)
             i++;
         }
         
-    }//----------------------> problem in $"command" and $'command' : dollar should not be printed  !!
+    }//----------------------> problem in $"command" and $'command' : dollar should not be printed  !! -> fixed
     
 }
 
