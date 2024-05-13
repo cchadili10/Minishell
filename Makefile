@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/04/21 21:59:18 by yessemna         ###   ########.fr        #
+#    Updated: 2024/05/12 17:22:58 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRC = minishell.c \
 		tools/lst_tools.c \
 		tools/error.c \
 		tools/ft_putendl_fd.c \
+		tools/ft_lstclear.c \
+		parsing/errors.c \
 		
 
 OBJ = $(SRC:.c=.o)

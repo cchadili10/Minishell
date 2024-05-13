@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/09 17:16:29 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/12 19:25:01 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int is_alnum(char c)
     return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
 }
 
-void processline(char *line, t_env **list)
+int processline(char *line, t_env **list)
 {
     int i;
     int start;
@@ -80,7 +80,8 @@ void processline(char *line, t_env **list)
     start = 0;
     end = 0;
     i = 0;
-    
+    if (line == NULL)
+        return (0);
     while (line[i] != '\0')
     {
         if (line[i] == '|')
@@ -185,11 +186,9 @@ void processline(char *line, t_env **list)
             lst_add_back(list, lst_new(ft_substr(line, start, end + 1), CMD));
             i++;
         }
-        
-    }//----------------------> problem in $"command" and $'command' : dollar should not be printed  !! -> fixed
-    
+    }
+    return (0);
 }
-
 // Main function
 int main(int ac, char **av, char **env)//$home.c
 {
@@ -206,16 +205,17 @@ int main(int ac, char **av, char **env)//$home.c
     { 
         line =  readline("Minishell> "); 
         if (ft_strlen(line) != 0)
-            add_history(line); 
+            add_history(line);
         // if (takeInput(line))
         //     continue;
 
         processline(line , &list);
+        if(catch_errors(&list) == 1)
+            continue;
         printf("\n-----------\n");
         print_list(list);
-        
-        // printf("---->%d\n", execFlag);
+
         free(line);
-        list = NULL;
+        ft_lstclear(&list);
     }
-}
+}// ???????????????????????

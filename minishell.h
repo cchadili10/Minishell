@@ -56,10 +56,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putendl_fd(char *s, int fd);
 void print_error(char *str);
 
+// parsing
+
+int catch_errors(t_env **arg);
+
 //lst_tools.c
 
 void    lst_add_back(t_env **head, t_env *new);
 t_env   *lst_new(char *key, t_type value);
+void	ft_lstclear(t_env **lst);
 
 
 #endif
