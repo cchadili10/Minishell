@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/13 01:24:39 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:09:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ int catch_errors(t_env **arg)
 			if (is_redirection(cur->next->value) || (cur->next->value == SPACE && is_redirection(cur->next->next->value)))
 				return print_err(NULL, arg);
 		}
+		if (cur->value == PIPE)
+		{
+			if (cur->next == NULL || (cur->next->value == SPACE && cur->next->next == NULL))
+				return print_err(NULL, arg);
+			if (cur->next->value == PIPE || (cur->next->value == SPACE && cur->next->next->value == PIPE))
+				return print_err(NULL, arg);
+		}
 		cur = cur->next;
 	}
 	
@@ -59,7 +66,7 @@ int catch_errors(t_env **arg)
 
 /*
 
-        '| echo'
+        '| echo'  --> DONE!
         '||' , '| |'
         '| 0' , '|0'
 		
@@ -67,30 +74,4 @@ int catch_errors(t_env **arg)
         '> 0' , '>0'  --> DONE!
 		'><' , '> <'  --> DONE!
 
-
-
-while (cur)
-	{
-		if (is_redirection(cur->type))
-		{
-			if (cur->next == NULL || (cur->next->type == SPACE && cur->next->next == NULL))
-				return print_error(NULL);
-			if (cur->next->type == PIPE || is_redirection(cur->next->type))
-				return print_error(NULL);
-			else if ( cur->next->type == SPACE && cur->next->next &&
-				(cur->next->next->type == PIPE || is_redirection(cur->next->next->type)))
-				return print_error(NULL);
-			if (cur->next->type == PIPE || is_redirection(cur->next->type))
-				return print_error(NULL);
-			else if ( cur->next->type == SPACE && cur->next->next && 
-					(cur->next->next->type == PIPE || is_redirection(cur->next->next->type)))
-				return print_error(NULL);
-		}
-		if (cur->type != SPACE)
-			prev = cur;
-		cur = cur->next;
-	}
-	if (prev && prev->type == PIPE)
-		return (print_error(NULL));
-	return (0);
 */
