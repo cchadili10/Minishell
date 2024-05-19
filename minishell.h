@@ -28,22 +28,23 @@ typedef enum e_type
     SNGL_Q,
     DBL_Q,
     VAR,
-    DBL_VAR
+    DBL_VAR,
 }	t_type;
 
+
+typedef struct s_token
+{
+    char	*key;
+    t_type	value;
+    struct s_token	*next;
+}	t_token;
 
 typedef struct s_env
 {
     char	*key;
-    t_type	value;
-    struct s_env	*next;
+    char	*value;
+    struct s_env    *next;
 }	t_env;
-
-typedef struct s_cmd
-{
-    char	*cmd;
-    char	**args;
-}	t_cmd;
 
 char *ft_strcpy(char *dest, const char *src);
 int ft_strlen(const char *str);
@@ -58,13 +59,17 @@ void print_error(char *str);
 
 // parsing
 
-int catch_errors(t_env **arg);
+int catch_errors(t_token **arg);
 
 //lst_tools.c
 
-void    lst_add_back(t_env **head, t_env *new);
-t_env   *lst_new(char *key, t_type value);
-void	ft_lstclear(t_env **lst);
+void    lst_add_back(t_token **head, t_token *new);
+t_token   *lst_new(char *key, t_type value);
+
+void    lst_add_back_env(t_env **head, t_env *new);
+t_env   *lst_new_env(char *key, char *value);
+void	ft_lstclear(t_token **lst);
+void	ft_lstclear_env(t_env **lst);
 
 
 #endif

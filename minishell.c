@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/12 19:25:01 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:56:33 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // print list as a table
 
-void print_list(t_env *list)
+void print_list(t_token *list)
 {
-    t_env *tmp = list;
+    t_token *tmp = list;
     while (tmp)
     {
         printf(" (%s)  ->  ", tmp->key);
@@ -71,7 +71,7 @@ int is_alnum(char c)
     return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
 }
 
-int processline(char *line, t_env **list)
+int processline(char *line, t_token **list)
 {
     int i;
     int start;
@@ -190,17 +190,44 @@ int processline(char *line, t_env **list)
     return (0);
 }
 // Main function
+    #include "libc.h"
+
+void    initenv(char **env, t_env **envi)
+{
+    (void)env;
+    (void)envi;
+    char **str;
+    int i;
+    i = 0;
+    // printf("%lu", strlen(*env));
+    while (env[i])
+    {
+        str = ft_split(env[i], '=');
+        lst_add_back_env(envi, lst_new_env(str[0], str[1]));
+        i++;
+        free(str);
+    }
+}
+
+// find leaks
+void f()
+{
+    system("leaks minishell");
+}
 int main(int ac, char **av, char **env)//$home.c
 {
+    atexit(f);
     (void)ac;
     (void)av;
+    t_env *envi;
+    envi = NULL;
     (void)env;
     char *line;
-    // int execFlag = 0;
-    t_env *list;
+    // // int execFlag = 0;
+    t_token *list;
     list = NULL;
     
-    // initshell(env);
+    initenv(env, &envi);
     while (1)
     { 
         line =  readline("Minishell> "); 
@@ -217,5 +244,25 @@ int main(int ac, char **av, char **env)//$home.c
 
         free(line);
         ft_lstclear(&list);
+        // ft_lstclear_env(&envi);
     }
+    
 }// ???????????????????????
+
+
+/*
+
+--> "$HOME" 
+--> print env
+--> env: r: No such file or directory
+
+
+
+??
+--> export
+--> unset
+
+
+--> 
+
+*/

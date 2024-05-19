@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/13 19:09:45 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:26:36 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int is_redirection(t_type type)
     return (0);
 }
 
-int print_err(char *str, t_env **arg)
+int print_err(char *str, t_token **arg)
 {
     if(str == NULL)
         ft_putendl_fd("syntax error", 2);
@@ -27,16 +27,16 @@ int print_err(char *str, t_env **arg)
     return (1);
 }
 
-int catch_errors(t_env **arg)
+int catch_errors(t_token **arg)
 {
-    t_env *cur;
-    // t_env *prev;
+    t_token *cur;
+    // t_token *prev;
 
     cur = *arg;
 
     if(!cur)
         return (0);
-    if(cur->value == PIPE)
+    if(cur->value == PIPE || (cur->value == SPACE && cur->next->value == PIPE))
         return (print_err(NULL, arg));
     
     while (cur)
