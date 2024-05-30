@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/19 17:56:33 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:38:14 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,6 @@ void print_list(t_token *list)
             printf("DBL_VAR\n");
         tmp = tmp->next;
     }
-}
-
-int is_space(char c)
-{
-    return (c == ' ' || (c > 9 && c < 13));
-}
-
-int is_special(char c)
-{
-    return (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '$' || is_space(c));
-}
-int find_char(char *str, char c)
-{
-    int i = 0;
-    while (str[i] != '\0')
-    {
-        if (str[i] == c)
-            return (i);
-        i++;
-    }
-    return (0);
-}
-int is_alnum(char c)
-{
-    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
 }
 
 int processline(char *line, t_token **list)
@@ -116,10 +91,9 @@ int processline(char *line, t_token **list)
                 lst_add_back(list, lst_new(ft_substr(line, i++, 2), SNGL_Q));
             else
             {
-                start = i;
                 end = find_char(line + i + 1, '\'');
                 if(end)
-                    lst_add_back(list, lst_new(ft_substr(line, start, end + 2), SNGL_Q));
+                    lst_add_back(list, lst_new(ft_substr(line, i + 1, end), SNGL_Q));
                 else
                     print_error("Error: missing single quote\n");
                 i += end + 1;
@@ -132,12 +106,19 @@ int processline(char *line, t_token **list)
                 i++;
             if (line[i + 1] == '\"')
                 lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_Q));
+            else if(line[i] == '\"' && line[i + 1] == '$')
+            {
+                if((end = find_char(line + i + 1, '\"')))
+                    lst_add_back(list, lst_new(ft_substr(line, i + 2, end - 1), VAR));
+                else
+                    print_error("Error: missing double quote\n");
+                i += end + 1;
+            }
             else
             {
-                start = i;
                 end = find_char(line + i + 1, '\"');
                 if(end)
-                    lst_add_back(list, lst_new(ft_substr(line, start, end + 2), DBL_Q));
+                    lst_add_back(list, lst_new(ft_substr(line, i + 1, end), DBL_Q));
                 else
                     print_error("Error: missing double quote\n");
                 i += end + 1;
@@ -160,8 +141,7 @@ int processline(char *line, t_token **list)
                 lst_add_back(list, lst_new(ft_substr(line, i++, 1), CMD));
             else
             {
-                start = i;
-                i++;
+                start = ++i;
                 while (is_alnum(line[i]) && !is_special(line[i]))
                 {
                     if(!is_alnum(line[i + 1]))
@@ -169,7 +149,7 @@ int processline(char *line, t_token **list)
                     i++;
                 }
                 end = i - start;
-                lst_add_back(list, lst_new(ft_substr(line, start, end+1),VAR));
+                lst_add_back(list, lst_new(ft_substr(line, start, end + 1),VAR));
                 i++;
             }
         }
@@ -214,6 +194,29 @@ void f()
 {
     system("leaks minishell");
 }
+void print_env(t_env *envi, t_token *list) // --------------------> SEGV !!!
+{
+    char str[] = "env";
+    t_env *tmp = envi;
+    t_token *tmp2 = list;
+    int size = 0;
+    
+    size = ft_lstsize(tmp);
+    if (tmp2 && !ft_strncmp(tmp2->key, str, 3))
+    {
+        while (tmp && size - 1)
+        {
+            write(1, tmp->key, ft_strlen(tmp->key));
+            write(1, "=", 1);
+            write(1, tmp->value, ft_strlen(tmp->value));
+            write(1, "\n", 1);
+            tmp = tmp->next;
+            size--;
+        }
+        puts("****");
+    }
+}
+
 int main(int ac, char **av, char **env)//$home.c
 {
     atexit(f);
@@ -227,9 +230,9 @@ int main(int ac, char **av, char **env)//$home.c
     t_token *list;
     list = NULL;
     
-    initenv(env, &envi);
     while (1)
     { 
+        initenv(env, &envi);
         line =  readline("Minishell> "); 
         if (ft_strlen(line) != 0)
             add_history(line);
@@ -239,15 +242,17 @@ int main(int ac, char **av, char **env)//$home.c
         processline(line , &list);
         if(catch_errors(&list) == 1)
             continue;
+        print_env(envi, list);
+        find_node(envi, list);
+
         printf("\n-----------\n");
         print_list(list);
-
         free(line);
         ft_lstclear(&list);
-        // ft_lstclear_env(&envi);
+        ft_lstclear_env(&envi);
     }
     
-}// ???????????????????????
+}// ???????????????????????NANI
 
 
 /*

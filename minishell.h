@@ -57,20 +57,32 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putendl_fd(char *s, int fd);
 void print_error(char *str);
 
+//finders
+
+int is_space(char c);
+int is_special(char c);
+int find_char(char *str, char c);
+int is_alnum(char c);
+
+//tokenazing
+
+void pipe_redirection(char *line, t_token **list, int *i);
+void dollar_sign(char *line, t_token **list, int *i, int start, int end);
 // parsing
 
 int catch_errors(t_token **arg);
 
 //lst_tools.c
-
+int ft_strncmp(const char *s1, const char *s2, size_t n);
 void    lst_add_back(t_token **head, t_token *new);
 t_token   *lst_new(char *key, t_type value);
+int ft_lstsize(t_env *lst);
 
 void    lst_add_back_env(t_env **head, t_env *new);
 t_env   *lst_new_env(char *key, char *value);
 void	ft_lstclear(t_token **lst);
 void	ft_lstclear_env(t_env **lst);
-
+void find_node(t_env *envi, t_token *list);
 
 #endif
 
