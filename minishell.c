@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/20 20:38:14 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/05/30 21:44:21 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,15 @@ int processline(char *line, t_token **list)
             if(line[i] == '$')
                 i++;
             if (line[i + 1] == '\"')
-                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_Q));
-            else if(line[i] == '\"' && line[i + 1] == '$')
-            {
-                if((end = find_char(line + i + 1, '\"')))
-                    lst_add_back(list, lst_new(ft_substr(line, i + 2, end - 1), VAR));
-                else
-                    print_error("Error: missing double quote\n");
-                i += end + 1;
-            }
+                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
+            // else if(line[i] == '\"' && line[i + 1] == '$')
+            // {
+            //     if((end = find_char(line + i + 1, '\"')))
+            //         lst_add_back(list, lst_new(ft_substr(line, i + 2, end - 1), VAR));
+            //     else
+            //         print_error("Error: missing double quote\n");
+            //     i += end + 1;
+            // }
             else
             {
                 end = find_char(line + i + 1, '\"');
@@ -202,7 +202,7 @@ void print_env(t_env *envi, t_token *list) // --------------------> SEGV !!!
     int size = 0;
     
     size = ft_lstsize(tmp);
-    if (tmp2 && !ft_strncmp(tmp2->key, str, 3))
+    if (tmp2 && !ft_strcmp(tmp2->key, str))
     {
         while (tmp && size - 1)
         {

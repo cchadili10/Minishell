@@ -73,7 +73,7 @@ void dollar_sign(char *line, t_token **list, int *i, int start, int end);
 int catch_errors(t_token **arg);
 
 //lst_tools.c
-int ft_strncmp(const char *s1, const char *s2, size_t n);
+int ft_strcmp(const char *s1, const char *s2);
 void    lst_add_back(t_token **head, t_token *new);
 t_token   *lst_new(char *key, t_type value);
 int ft_lstsize(t_env *lst);
