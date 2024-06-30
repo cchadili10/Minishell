@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finders.c                                          :+:      :+:    :+:   */
+/*   ft_srtjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 18:47:34 by yessemna          #+#    #+#             */
-/*   Updated: 2024/06/30 15:13:46 by yessemna         ###   ########.fr       */
+/*   Created: 2024/06/26 22:38:59 by yessemna          #+#    #+#             */
+/*   Updated: 2024/06/27 04:07:18 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// ft_srtjoin.c
+
 #include "../minishell.h"
 
-int is_space(char c)
+char *ft_srtjoin(char *s1, char *s2)
 {
-    return (c == ' ' || (c >= 9 && c <= 13));
-}
+    char *out;
+    int i;
+    int j;
 
-int is_special(char c)
-{
-    return (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"' || c == '$' || is_space(c));
-}
-int find_char(char *str, char c)
-{
-    int i = 0;
-    while (str[i] != '\0')
+    i = 0;
+    j = 0;
+    out = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    while (s1[i])
     {
-        if (str[i] == c)
-            return (i);
+        out[i] = s1[i];
         i++;
     }
-    return (0);
-}
-int is_alnum(char c)
-{
-    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
+    while (s2[j])
+    {
+        out[i] = s2[j];
+        i++;
+        j++;
+    }
+    out[i] = '\0';
+    return (out);
 }

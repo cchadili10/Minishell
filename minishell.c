@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/30 21:44:21 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/06/30 01:32:47 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,7 @@ int processline(char *line, t_token **list)
             if(line[i] == '$')
                 i++;
             if (line[i + 1] == '\"')
-                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
-            // else if(line[i] == '\"' && line[i + 1] == '$')
-            // {
-            //     if((end = find_char(line + i + 1, '\"')))
-            //         lst_add_back(list, lst_new(ft_substr(line, i + 2, end - 1), VAR));
-            //     else
-            //         print_error("Error: missing double quote\n");
-            //     i += end + 1;
-            // }
+                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));// -------------->
             else
             {
                 end = find_char(line + i + 1, '\"');
@@ -220,16 +212,15 @@ void print_env(t_env *envi, t_token *list) // --------------------> SEGV !!!
 int main(int ac, char **av, char **env)//$home.c
 {
     atexit(f);
-    (void)ac;
-    (void)av;
     t_env *envi;
-    envi = NULL;
-    (void)env;
     char *line;
-    // // int execFlag = 0;
     t_token *list;
+    (void)av;
+    envi = NULL;
     list = NULL;
     
+    if (ac > 1)
+        print_error("no argument needed");
     while (1)
     { 
         initenv(env, &envi);
