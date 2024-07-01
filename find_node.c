@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/06/30 22:11:50 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:09:22 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ char *cpy_part(char *src , int start , int end)
     char *out = malloc(lenght + 2);
     while (++i <= lenght)
         out[i] = src[i];
-        // printf("- %c\n", src[i]);
     out[i] = '\0';
-    // printf("size --> %d\n", lenght);
-    printf("$$$$ --> %s\n", src);
-    printf("$$$$ --> %s\n", out);
     return(out);
 }
 
@@ -75,43 +71,44 @@ void find_node(t_env *envi, t_token *list)
         else if(tmp->value == DBL_Q)
         {
             tmp_env = envi;
-            char **line = ft_split(tmp->key, ' ');  // echo "hello $USR you are at $HOME" -> ["echo", "hello", "$USR", "you", "are", "at", "$HOME"]
-            // char **ret = malloc(count_word(tmp->value));
-            int i = 0;
-            while (line[i])
+            int x = 0;
+            char *line = "";
+            while (tmp->key[x])
             {
-                while (tmp_env)
+                if(tmp->key[x] != '$')
                 {
-                    if (ft_strcmp(line[i], tmp_env->key) == 0)//PATH PA
-                    {
-                        line[i] = ft_strcpy(line[i], tmp_env->value);// line[i] = tmp_env->value;
-                        printf(" ###--> %s\n", line[i]);
-                        printf(" ->>>>> %s\n", tmp_env->value);
-                        tmp_env = envi;
-                        found = 1;
-                        break ;
-                    }
-                    tmp_env = tmp_env->next;
+                    line = join_char(line, tmp->key[x]);
+                    x++;
                 }
-                i++;
-                tmp_env = envi;
+                else
+                {
+                    x++;
+                    int start = x;
+                    while (tmp->key[x] && is_alnum(tmp->key[x]))
+                        x++;
+                    int end = x - 1;
+                    char *var;
+                    var = cpy_part(tmp->key + start ,start , end);
+                    //printf("----> %s\n", var);
+                    while (tmp_env)
+                    {
+                        if (ft_strcmp(var, tmp_env->key) == 0)//PATH PA
+                        {
+                            int i = 0;
+                            while (tmp_env->value[i])
+                                line = join_char(line, tmp_env->value[i++]);
+
+                            found = 1;
+                            break ;
+                        }
+                        tmp_env = tmp_env->next;
+                    }
+                    tmp_env = envi;
+                }
             }
-            char *ret = "";
-            i = 0;
-            printf(">>>>>\n");
-            int j  =6;
-            while (j--)
-            {
-                ret = ft_srtjoin(ret, line[i]);
-                if (j)
-                    ret = ft_srtjoin(ret, " ");
-                i++;
-            }
-            tmp->key = ret;
+            tmp->key = line;
         }
-    
-    
-    tmp = tmp->next;
+    tmp = tmp->next; // echo $HOME+$HOME       -----<  nani
     }
 }
 
@@ -122,48 +119,5 @@ void find_node(t_env *envi, t_token *list)
 cmd -> file -> option
 
 vars in dbl_q
-
-*/
-
-
-
-/*
-
-
-int i = 0;
-            char *var;
-            char *line = NULL;
-            
-            while (tmp->key[i])
-            {
-                if (tmp->key[i] == '\'' && tmp->key[i + 1] == '$')
-                {
-                    start = i += 2;
-                    while (tmp->key[i])
-                    {
-                        if (is_special(tmp->key[i]))
-                            break;
-                        i++;
-                    }
-                    end = i - 1;
-                    var = cpy_part(tmp->key + start ,start , end);
-                    while (tmp_env)
-                    {
-                        if (ft_strcmp(var, tmp_env->key) == 0)//PATH PA
-                        {
-                            line = malloc(sizeof(char *) * ft_strlen(tmp_env->value));
-                            line = ft_srtjoin(line, tmp_env->value);
-                            found = 1;
-                            break ;
-                        }
-                        tmp_env = tmp_env->next;
-                    }
-                    ft_strcpy(tmp->key , line);
-                    i = i + ft_strlen(line);
-                    printf("var ---> %s", line);
-                }
-                else
-                    i++;
-
 
 */
