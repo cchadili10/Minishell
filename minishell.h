@@ -91,6 +91,7 @@ void	ft_lstclear(t_token **lst);
 void	ft_lstclear_env(t_env **lst);
 void find_node(t_env *envi, t_token *list);
 int count_word(char *str);
+char *join_char(char *str, char c);
 
 
 #endif
