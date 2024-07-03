@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/06/30 22:15:36 by yessemna         ###   ########.fr        #
+#    Updated: 2024/07/02 23:12:10 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC = minishell.c \
 OBJ = $(SRC:.c=.o)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) -o $(NAME) $(RDFLAGS)
+	@$(CC) $(OBJ) -g -o $(NAME) $(RDFLAGS) -fsanitize=address 
 
 all: $(NAME)
 
