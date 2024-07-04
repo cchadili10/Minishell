@@ -31,11 +31,6 @@ typedef enum e_type
     DBL_VAR,
 }	t_type;
 
-typedef struct s_line
-{
-    char	*key;
-    struct s_line	*next;
-}	t_line;
 
 typedef struct s_token
 {
@@ -50,6 +45,20 @@ typedef struct s_env
     char	*value;
     struct s_env    *next;
 }	t_env;
+
+typedef struct s_redir
+{
+    char *file_name;
+    t_type type;
+    struct s_redir    *next;
+}t_redir;
+
+typedef struct s_cmd
+{
+    char	**cmds;
+    t_redir *redir;
+    struct s_cmd    *next;
+}	t_cmd;
 
 char *ft_strcpy(char *dest, const char *src);
 int ft_strlen(const char *str);

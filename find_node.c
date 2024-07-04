@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/01 20:09:22 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/02 23:17:24 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,15 @@ void find_node(t_env *envi, t_token *list)
                             int i = 0;
                             while (tmp_env->value[i])
                                 line = join_char(line, tmp_env->value[i++]);
-
                             found = 1;
                             break ;
                         }
                         tmp_env = tmp_env->next;
+                    }
+                    if (!found)
+                    {
+                        line = NULL;
+                        tmp_env = envi;
                     }
                     tmp_env = envi;
                 }

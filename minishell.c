@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/06/30 01:32:47 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/02 23:14:29 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,12 +217,12 @@ int main(int ac, char **av, char **env)//$home.c
     t_token *list;
     (void)av;
     envi = NULL;
-    list = NULL;
     
     if (ac > 1)
         print_error("no argument needed");
     while (1)
     { 
+    list = NULL;
         initenv(env, &envi);
         line =  readline("Minishell> "); 
         if (ft_strlen(line) != 0)
@@ -238,9 +238,9 @@ int main(int ac, char **av, char **env)//$home.c
 
         printf("\n-----------\n");
         print_list(list);
-        free(line);
-        ft_lstclear(&list);
-        ft_lstclear_env(&envi);
+        // free(line);
+        // ft_lstclear(&list);
+        // ft_lstclear_env(&envi);
     }
     
 }// ???????????????????????NANI
