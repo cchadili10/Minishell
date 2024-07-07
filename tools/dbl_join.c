@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   dbl_join.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/07 11:05:25 by yessemna         ###   ########.fr       */
+/*   Created: 2024/07/07 08:21:52 by yessemna          #+#    #+#             */
+/*   Updated: 2024/07/07 10:24:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_echo(char *s, int a)
+int ft_strlen_2d(char **str)
 {
-	int	i;
+    int i = 0;
+    while (str && str[i])
+        i++;
+    return (i);
+}
 
-	i = 0;
-	if (i)
-	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-		write(1,"\n",1);
-	}
-	else
-	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-	}
+char **dbl_join(char **s1, char *s2)
+{
+    int i = 0;
+    // int j = 0;
+    char **out = malloc(sizeof(char *) * (ft_strlen_2d(s1) + 2));
+    while (s1 && s1[i])
+    {
+        out[i] = ft_strdup(s1[i]);
+        i++;
+    }
+    out[i] = ft_strdup(s2);
+    i++;
+    out[i] = NULL;
+    return (out);
 }

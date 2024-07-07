@@ -43,9 +43,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 1702.3428937946546,
-			"y": 2540.583304809788,
-			"lastActivityTimestamp": 1719852352564,
+			"x": 915.0204084167995,
+			"y": 3526.127252855319,
+			"lastActivityTimestamp": 1720331318392,
 			"meta": {}
 		},
 		{
@@ -68,7 +68,7 @@
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
-				"type": "move",
+				"type": "default",
 				"rotation": 0
 			},
 			"isFocusMode": false,
@@ -78,8 +78,8 @@
 			"screenBounds": {
 				"x": 0,
 				"y": 0,
-				"w": 2342,
-				"h": 931
+				"w": 1785,
+				"h": 698.3333129882812
 			},
 			"insets": [
 				false,
@@ -107,10 +107,10 @@
 			"typeName": "instance"
 		},
 		{
-			"editingShapeId": null,
+			"editingShapeId": "shape:bF_Qxjn0vgJJQfyZSncmo",
 			"croppingShapeId": null,
 			"selectedShapeIds": [
-				"shape:NAX8Hc9kNKuMY_dZYWXD-"
+				"shape:bF_Qxjn0vgJJQfyZSncmo"
 			],
 			"hoveredShapeId": null,
 			"erasingShapeIds": [],
@@ -122,8 +122,8 @@
 			"typeName": "instance_page_state"
 		},
 		{
-			"x": 372.86804370534537,
-			"y": -1242.083304809788,
+			"x": 221.64621755976304,
+			"y": -2263.419000902194,
 			"z": 0.5,
 			"meta": {},
 			"id": "camera:page:page",
@@ -71449,6 +71449,29 @@
 			},
 			"parentId": "page:page",
 			"index": "b3i",
+			"typeName": "shape"
+		},
+		{
+			"x": 618.6922834167995,
+			"y": 3312.3903143787566,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:bF_Qxjn0vgJJQfyZSncmo",
+			"type": "text",
+			"props": {
+				"color": "black",
+				"size": "s",
+				"w": 1502.204345703125,
+				"text": "To fix that issue no need to use the spilit function we gonna face some probleps in the futur if we use that method ...\n\ninstead of that we must use a join function that returns two d array (char **) , we loop over our list\n\n- while the node value diffrent to PIPE keep passing that node to the join function , after we calculat> the space that we need to allocate\n- if we fine any type of redirection we skipe it if use the file name to open that file . that's it till now ",
+				"font": "mono",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1
+			},
+			"parentId": "page:page",
+			"index": "b3j",
 			"typeName": "shape"
 		}
 	]

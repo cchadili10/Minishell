@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/02 23:14:29 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:46:08 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int processline(char *line, t_token **list)
             if(line[i] == '$')
                 i++;
             if (line[i + 1] == '\"')
-                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));// -------------->
+                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
             else
             {
                 end = find_char(line + i + 1, '\"');
@@ -205,16 +205,44 @@ void print_env(t_env *envi, t_token *list) // --------------------> SEGV !!!
             tmp = tmp->next;
             size--;
         }
-        puts("****");
     }
 }
 
+// void print_cmd(t_cmd *cmd)
+// {
+//     t_cmd *tmp = cmd;
+//     printf("cmd: %s\n", tmp->cmds[0]);
+//     printf("cmd: %s\n", tmp->cmds[1]);
+//     printf("cmd: %s\n", tmp->cmds[2]);
+//     printf("cmd: %s\n", tmp->cmds[3]);
+//     printf("cmd: %s\n", tmp->cmds[4]);
+// }
+void print_cmd(t_cmd **cmd)
+{
+    t_cmd *tmp = *cmd;
+    int i = 0;
+    printf("\n-----------\n");
+    while (tmp)
+    {
+        i = 0;
+        while (tmp->cmds && tmp->cmds[i])
+        {
+            printf("cmd[%d] : %s\n",i, tmp->cmds[i]);
+            i++;
+        }
+        printf("redir_in: %d\n", tmp->redir_in);
+        printf("redir_out: %d\n", tmp->redir_out);
+        tmp = tmp->next;
+    }
+    printf("\n-----------\n");
+}
 int main(int ac, char **av, char **env)//$home.c
 {
     atexit(f);
     t_env *envi;
     char *line;
     t_token *list;
+    t_cmd *cmd; 
     (void)av;
     envi = NULL;
     
@@ -223,27 +251,37 @@ int main(int ac, char **av, char **env)//$home.c
     while (1)
     { 
     list = NULL;
+    cmd = NULL;
         initenv(env, &envi);
-        line =  readline("Minishell> "); 
-        if (ft_strlen(line) != 0)
+        line =  readline("Minishell 🤬 > ");
+        if (!line)
+            break;
+        if (line && ft_strlen(line) != 0)
             add_history(line);
-        // if (takeInput(line))
-        //     continue;
 
-        processline(line , &list);
-        if(catch_errors(&list) == 1)
+        processline(line , &list);     //<--- to handle the line prepare the list
+        if(catch_errors(&list) == 1)  // <--- to catch errors
             continue;
         print_env(envi, list);
-        find_node(envi, list);
+        find_node(envi, list); // <--- to expand the variables
+        
+        // <--------------- join
+        
+        prepare_cmd(list, &cmd); // <--- to prepare the command
 
         printf("\n-----------\n");
         print_list(list);
+        
+            // print cmd list
+        print_cmd(&cmd);
+        // print_cmd(cmd);
         // free(line);
         // ft_lstclear(&list);
         // ft_lstclear_env(&envi);
+        
     }
-    
-}// ???????????????????????NANI
+}
+
 
 
 /*

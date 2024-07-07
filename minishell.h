@@ -46,22 +46,17 @@ typedef struct s_env
     struct s_env    *next;
 }	t_env;
 
-typedef struct s_redir
-{
-    char *file_name;
-    t_type type;
-    struct s_redir    *next;
-}t_redir;
-
 typedef struct s_cmd
 {
+    int     redir_in;
+    int     redir_out;
     char	**cmds;
-    t_redir *redir;
     struct s_cmd    *next;
 }	t_cmd;
 
 char *ft_strcpy(char *dest, const char *src);
 int ft_strlen(const char *str);
+int ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
@@ -70,6 +65,9 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putendl_fd(char *s, int fd);
 void print_error(char *str);
+
+char **dbl_join(char **s1, char *s2);
+char *ft_strdup(const char *s);
 
 //finders
 
@@ -84,6 +82,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int len);
 
 void pipe_redirection(char *line, t_token **list, int *i);
 void dollar_sign(char *line, t_token **list, int *i, int start, int end);
+void prepare_cmd(t_token *list, t_cmd **cmd);
 // parsing
 
 int catch_errors(t_token **arg);
@@ -101,7 +100,6 @@ void	ft_lstclear_env(t_env **lst);
 void find_node(t_env *envi, t_token *list);
 int count_word(char *str);
 char *join_char(char *str, char c);
-
 
 #endif
 

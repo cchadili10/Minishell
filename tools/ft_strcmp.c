@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/07 11:05:25 by yessemna         ###   ########.fr       */
+/*   Created: 2024/07/03 03:21:46 by yessemna          #+#    #+#             */
+/*   Updated: 2024/07/03 03:22:47 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_echo(char *s, int a)
+int ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+    unsigned char *str1;
+    unsigned char *str2;
 
-	i = 0;
-	if (i)
-	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-		write(1,"\n",1);
-	}
-	else
-	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-	}
+    str1 = (unsigned char *)s1;
+    str2 = (unsigned char *)s2;
+    if(*str1 == '$')
+        str1++;
+    while (*str1 && *str2 && *str1 == *str2)
+    {
+        str1++;
+        str2++;
+    }
+    return (*str1 - *str2);
 }

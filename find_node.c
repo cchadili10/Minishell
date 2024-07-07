@@ -6,12 +6,13 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/02 23:17:24 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:42:16 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-char *cpy_part(char *src , int start , int end)
+
+char *cpy_part(char *src, int start, int end)
 {
     int lenght = (end - start);
     int i = -1;
@@ -19,24 +20,7 @@ char *cpy_part(char *src , int start , int end)
     while (++i <= lenght)
         out[i] = src[i];
     out[i] = '\0';
-    return(out);
-}
-
-int ft_strcmp(const char *s1, const char *s2)
-{
-    unsigned char *str1;
-    unsigned char *str2;
-
-    str1 = (unsigned char *)s1;
-    str2 = (unsigned char *)s2;
-    if(*str1 == '$')
-        str1++;
-    while (*str1 && *str2 && *str1 == *str2)
-    {
-        str1++;
-        str2++;
-    }
-    return (*str1 - *str2);
+    return (out);
 }
 
 void find_node(t_env *envi, t_token *list)
@@ -44,8 +28,7 @@ void find_node(t_env *envi, t_token *list)
     int found = 0;
     t_token *tmp = list;
     t_env *tmp_env = envi;
-    // int start = 0;
-    // int end = 0;
+
     while (tmp)
     {
         found = 0;
@@ -53,12 +36,12 @@ void find_node(t_env *envi, t_token *list)
         {
             while (tmp_env)
             {
-                if (ft_strcmp(tmp->key, tmp_env->key) == 0)//PATH PA
+                if (ft_strcmp(tmp->key, tmp_env->key) == 0)
                 {
                     tmp->key = tmp_env->value;
                     tmp_env = envi;
                     found = 1;
-                    break ;
+                    break;
                 }
                 tmp_env = tmp_env->next;
             }
@@ -68,18 +51,20 @@ void find_node(t_env *envi, t_token *list)
                 tmp_env = envi;
             }
         }
-        else if(tmp->value == DBL_Q)
+        else if (tmp->value == DBL_Q)
         {
             tmp_env = envi;
             int x = 0;
             char *line = "";
             while (tmp->key[x])
             {
-                if(tmp->key[x] != '$')
+                if (tmp->key[x] != '$' || (tmp->key[x] == '$' && tmp->key[x + 1] == '\'') || (tmp->key[x] == '$' && tmp->key[x + 1] == '\0'))
                 {
                     line = join_char(line, tmp->key[x]);
                     x++;
                 }
+                else if (tmp->key[x] == '$' && tmp->key[x + 1] == '$')
+                    x = x + 2;
                 else
                 {
                     x++;
@@ -88,17 +73,16 @@ void find_node(t_env *envi, t_token *list)
                         x++;
                     int end = x - 1;
                     char *var;
-                    var = cpy_part(tmp->key + start ,start , end);
-                    //printf("----> %s\n", var);
+                    var = cpy_part(tmp->key + start, start, end);
                     while (tmp_env)
                     {
-                        if (ft_strcmp(var, tmp_env->key) == 0)//PATH PA
+                        if (ft_strcmp(var, tmp_env->key) == 0)
                         {
                             int i = 0;
                             while (tmp_env->value[i])
                                 line = join_char(line, tmp_env->value[i++]);
                             found = 1;
-                            break ;
+                            break;
                         }
                         tmp_env = tmp_env->next;
                     }
@@ -112,16 +96,125 @@ void find_node(t_env *envi, t_token *list)
             }
             tmp->key = line;
         }
-    tmp = tmp->next; // echo $HOME+$HOME       -----<  nani
+        tmp = tmp->next;
+    }
+}
+// ------> THIS code like SHIT <------
+int count(t_token *list)
+{
+    int i = 0;
+
+    while (list)
+    {
+        if (list->value == CMD)
+            i++;
+        list = list->next;
+    }
+    return (i);
+}
+t_cmd   *lst_new_cmd(char **line, int in, int out)
+{
+    t_cmd *new;
+    int i;
+
+    i = 0;
+    if (!line)
+        return (NULL);
+    new = (t_cmd *)malloc(sizeof(t_cmd));
+    if (!new)
+        return (NULL);
+    
+    new->cmds = line;
+    new->redir_in = in;
+    new->redir_out = out;
+    new->next = NULL;
+    return (new);
+}
+void    lst_add_back_cmd(t_cmd **head, t_cmd *new)
+{
+    t_cmd *tmp = *head;
+
+    if(!head || !new)
+        return ;
+    
+    if(!*head)
+        *head = new;
+    else
+    {
+        while(tmp->next)
+            tmp = tmp->next;
+        tmp->next = new;
+    }
+}
+void prepare_cmd(t_token *list, t_cmd **cmd)
+{
+    t_token *tmp = list;
+    char **cmd_strs;
+    (void)cmd;
+    int red_in;
+    int red_out;
+
+    while (tmp)
+    {
+        cmd_strs = NULL;
+        red_in = 0;
+        red_out = 1;
+        while (tmp && tmp->value != PIPE)
+        {
+            if (tmp && tmp->value == SPACE)
+                tmp = tmp->next;
+            if (tmp && tmp->value == PIPE)
+                continue ;
+            if (tmp && tmp->value == IN)
+            {
+                tmp = tmp->next;
+                if (tmp && tmp->value == SPACE)
+                    tmp = tmp->next;
+                red_in = open(tmp->key, O_RDONLY);
+                tmp = tmp->next;
+            }else if(tmp && tmp->value == OUT)
+            {
+                tmp = tmp->next;
+                if (tmp && tmp->value == SPACE)
+                    tmp = tmp->next;
+                red_out = open(tmp->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                tmp = tmp->next;
+                continue ;
+            }else if(tmp && tmp->value == APPEND)
+            {
+                tmp = tmp->next;
+                if (tmp && tmp->value == SPACE)
+                    tmp = tmp->next;
+                red_out = open(tmp->key, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                tmp = tmp->next;
+                continue ;
+            }
+            
+            cmd_strs = dbl_join(cmd_strs, tmp->key);
+            tmp = tmp->next;
+        }
+        if (cmd_strs)
+            lst_add_back_cmd(cmd, lst_new_cmd(cmd_strs, red_in, red_out));
+        if (tmp)
+            tmp = tmp->next;
     }
 }
 
+
+
+/*
+----- to do -----
+
+"'$HOME'"               -> done
+
+cmd -> file -> option   -> done
+
+vars in dbl_q           -> done
+*/
+
+
 /*
 
-"'$HOME'"
 
-cmd -> file -> option
-
-vars in dbl_q
 
 */

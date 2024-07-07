@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/07 11:05:25 by yessemna         ###   ########.fr       */
+/*   Created: 2024/07/07 10:15:54 by yessemna          #+#    #+#             */
+/*   Updated: 2024/07/07 10:16:05 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_echo(char *s, int a)
+char *ft_strdup(const char *s)
 {
-	int	i;
-
-	i = 0;
-	if (i)
-	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-		write(1,"\n",1);
-	}
-	else
-	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-	}
+    int i = 0;
+    char *out = malloc(ft_strlen(s) + 1);
+    while (s[i])
+    {
+        out[i] = s[i];
+        i++;
+    }
+    out[i] = '\0';
+    return (out);
 }
