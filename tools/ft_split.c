@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 00:46:19 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 13:32:02 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:38:27 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@ static size_t	ft_countword(char const *s, char c)
 			i++;
 	}
 	return (count);
-}
-
-char	**free_tab(char **lst, int i)
-{
-	while (i--)
-		free(lst[i]);
-	free(lst);
-	return (NULL);
 }
 
 size_t	set_world_len(const char *s, char c)
@@ -70,8 +62,32 @@ char	**ft_split(char const *s, char c)
 		if (*s)
 		{
 			lst[i] = ft_substr(s, 0, set_world_len(s, c));
-			if (!lst[i])
-				return (free_tab(lst, i));
+			s += set_world_len(s, c);
+			i++;
+		}
+	}
+	lst[i] = NULL;
+	return (lst);
+}
+
+char	**ft_split_env(char const *s, char c)
+{
+	char	**lst;
+	int		i;
+
+	if (!s)
+		return (0);
+	lst = (char **)g_malloc_env((ft_countword(s, c) + 1) * sizeof(char *), MALLOC);
+	if (!lst)
+		return (0);
+	i = 0;
+	while (*s)
+	{
+		while (*s == c && *s)
+			s++;
+		if (*s)
+		{
+			lst[i] = ft_substr_env(s, 0, set_world_len(s, c));
 			s += set_world_len(s, c);
 			i++;
 		}
