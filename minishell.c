@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 14:34:19 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:50:39 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,23 +174,30 @@ void initenv(char **env, t_env **envi)
 {
     (void)env;
     (void)envi;
-    char **str;
+
     int i;
+    char *key;
+    char *value;
+    
+    int index = 0;
     i = 0;
-    // printf("%lu", strlen(*env));
+    
     while (env[i])
     {
-        str = ft_split(env[i], '=');
-        lst_add_back_env(envi, lst_new_env(str[0], str[1]));
+        index = find_char(env[i], '=');
+        key = ft_substr_env(env[i], 0, index);
+        value = ft_substr_env(env[i], index + 1, ft_strlen(env[i]) - index);
+        lst_add_back_env(envi, lst_new_env(key, value));
         i++;
     }
 }
 
-void print_env(t_env *envi, t_token *list)
+int print_env(t_env *envi, t_token *list)
 {
     char str[] = "env";
     t_env *tmp = envi;
     t_token *tmp2 = list;
+    int flag = 0;
     int size = 0;
 
     size = ft_lstsize(tmp);
@@ -205,7 +212,9 @@ void print_env(t_env *envi, t_token *list)
             tmp = tmp->next;
             size--;
         }
+        flag = 1;
     }
+    return (flag);
 }
 
 
@@ -265,7 +274,8 @@ int main(int ac, char **av, char **env) //$home.c
         list = NULL;
         cmd = NULL;
         (void)env;
-        // initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
+        
+         initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
         line = readline("Minishell 🤬 > ");
         // char  *save_line = line;
         if (line && ft_strlen(line) != 0)
@@ -280,7 +290,11 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         } 
-        print_env(envi, list);
+        if(print_env(envi, list))    // <--- to print the env
+        {
+            continue;
+        }
+
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
         
@@ -297,6 +311,7 @@ int main(int ac, char **av, char **env) //$home.c
         free((void*)line);
         g_malloc(0, FREE);
     }
+        // g_malloc_env(0, FREE);
 }
 
 /*
@@ -304,7 +319,7 @@ int main(int ac, char **av, char **env) //$home.c
 --> "$HOME"
 --> print env
 --> env: r: No such file or directory
-
+sw
 
 
 ??

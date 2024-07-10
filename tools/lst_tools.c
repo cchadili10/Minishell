@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 13:33:42 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:21:22 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_env   *lst_new_env(char *key, char *value)
 
     if (!key)
         return (NULL);
-    new = (t_env *)g_malloc(sizeof(t_env), MALLOC);
+    new = (t_env *)g_malloc_env(sizeof(t_env), MALLOC);
     if (!new)
         return (NULL);
     new->key = key;
