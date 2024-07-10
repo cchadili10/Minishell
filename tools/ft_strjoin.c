@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:00:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/01 18:43:38 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:32:56 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int len)
 	if (len == 0)
 		len = ft_strlen(s2);
 	totallen = slen + len;
-	res = malloc(sizeof(char) * (totallen + 1));
+	res = g_malloc(sizeof(char) * (totallen + 1), MALLOC);
 	if (!res)
 		return (free((char *)s1), NULL);
 	while (s1 && s1[i])

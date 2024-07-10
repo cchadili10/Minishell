@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/07 11:46:08 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:34:19 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,27 @@ void print_list(t_token *list)
     while (tmp)
     {
         printf(" (%s)  ->  ", tmp->key);
-        if(tmp->value == PIPE)
+        if (tmp->value == PIPE)
             printf("PIPE\n");
-        else if(tmp->value == SPACE)
+        else if (tmp->value == SPACE)
             printf("SPACE\n");
-        else if(tmp->value == IN)
+        else if (tmp->value == IN)
             printf("IN\n");
-        else if(tmp->value == HEREDOC)
+        else if (tmp->value == HEREDOC)
             printf("HEREDOC\n");
-        else if(tmp->value == OUT)
+        else if (tmp->value == OUT)
             printf("OUT\n");
-        else if(tmp->value == APPEND)
+        else if (tmp->value == APPEND)
             printf("APPEND\n");
-        else if(tmp->value == SNGL_Q)
+        else if (tmp->value == SNGL_Q)
             printf("Sgl_q\n");
-        else if(tmp->value == DBL_Q)
+        else if (tmp->value == DBL_Q)
             printf("Dbl_q\n");
-        else if(tmp->value == VAR)
+        else if (tmp->value == VAR)
             printf("VAR\n");
-        else if(tmp->value == CMD)
+        else if (tmp->value == CMD)
             printf("CMD\n");
-        else if(tmp->value == DBL_VAR)
+        else if (tmp->value == DBL_VAR)
             printf("DBL_VAR\n");
         tmp = tmp->next;
     }
@@ -51,7 +51,7 @@ int processline(char *line, t_token **list)
     int i;
     int start;
     int end;
-    
+
     start = 0;
     end = 0;
     i = 0;
@@ -85,44 +85,50 @@ int processline(char *line, t_token **list)
         }
         else if (line[i] == '\'' || (line[i] == '$' && line[i + 1] == '\''))
         {
-            if(line[i] == '$')
+            if (line[i] == '$')
                 i++;
             if (line[i + 1] == '\'')
-                lst_add_back(list, lst_new(ft_substr(line, i++, 2), SNGL_Q));
+            {
+                lst_add_back(list, lst_new("", SNGL_Q));
+                i++;
+            }
             else
             {
                 end = find_char(line + i + 1, '\'');
-                if(end)
-                    lst_add_back(list, lst_new(ft_substr(line, i + 1, end), SNGL_Q));
+                if (end)
+                    lst_add_back(list, lst_new(ft_substr(line, i++, end), SNGL_Q));
                 else
-                    print_error("Error: missing single quote\n");
+                    return(print_error("Error: missing single quote\n"), 0);
                 i += end + 1;
             }
             i++;
         }
         else if (line[i] == '\"' || (line[i] == '$' && line[i + 1] == '\"'))
         {
-            if(line[i] == '$')
+            if (line[i] == '$')
                 i++;
             if (line[i + 1] == '\"')
-                lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
+            {
+                lst_add_back(list, lst_new("", DBL_Q));
+                i++;
+            }
             else
             {
                 end = find_char(line + i + 1, '\"');
-                if(end)
+                if (end)
                     lst_add_back(list, lst_new(ft_substr(line, i + 1, end), DBL_Q));
                 else
-                    print_error("Error: missing double quote\n");
+                    return(print_error("Error: missing double quote\n"), 0);
                 i += end + 1;
             }
             i++;
         }
-        else if(line[i] == '$' && (line[i + 1] >= '0' && line[i + 1] <= '9'))
+        else if (line[i] == '$' && (line[i + 1] >= '0' && line[i + 1] <= '9'))
         {
             lst_add_back(list, lst_new(ft_substr(line, i++, 2), VAR));
             i++;
         }
-        else if(line[i] == '$' && line[i + 1] == '$')
+        else if (line[i] == '$' && line[i + 1] == '$')
         {
             lst_add_back(list, lst_new(ft_substr(line, i++, 2), DBL_VAR));
             i++;
@@ -136,12 +142,12 @@ int processline(char *line, t_token **list)
                 start = ++i;
                 while (is_alnum(line[i]) && !is_special(line[i]))
                 {
-                    if(!is_alnum(line[i + 1]))
+                    if (!is_alnum(line[i + 1]))
                         break;
                     i++;
                 }
                 end = i - start;
-                lst_add_back(list, lst_new(ft_substr(line, start, end + 1),VAR));
+                lst_add_back(list, lst_new(ft_substr(line, start, end + 1), VAR));
                 i++;
             }
         }
@@ -150,7 +156,7 @@ int processline(char *line, t_token **list)
             start = i;
             while (line[i] && !is_special(line[i]))
             {
-                if(is_special(line[i + 1]))
+                if (is_special(line[i + 1]))
                     break;
                 i++;
             }
@@ -159,12 +165,12 @@ int processline(char *line, t_token **list)
             i++;
         }
     }
-    return (0);
+    return (1);
 }
 // Main function
-    #include "libc.h"
+#include "libc.h"
 
-void    initenv(char **env, t_env **envi)
+void initenv(char **env, t_env **envi)
 {
     (void)env;
     (void)envi;
@@ -177,22 +183,16 @@ void    initenv(char **env, t_env **envi)
         str = ft_split(env[i], '=');
         lst_add_back_env(envi, lst_new_env(str[0], str[1]));
         i++;
-        free(str);
     }
 }
 
-// find leaks
-void f()
-{
-    system("leaks minishell");
-}
-void print_env(t_env *envi, t_token *list) // --------------------> SEGV !!!
+void print_env(t_env *envi, t_token *list)
 {
     char str[] = "env";
     t_env *tmp = envi;
     t_token *tmp2 = list;
     int size = 0;
-    
+
     size = ft_lstsize(tmp);
     if (tmp2 && !ft_strcmp(tmp2->key, str))
     {
@@ -208,15 +208,7 @@ void print_env(t_env *envi, t_token *list) // --------------------> SEGV !!!
     }
 }
 
-// void print_cmd(t_cmd *cmd)
-// {
-//     t_cmd *tmp = cmd;
-//     printf("cmd: %s\n", tmp->cmds[0]);
-//     printf("cmd: %s\n", tmp->cmds[1]);
-//     printf("cmd: %s\n", tmp->cmds[2]);
-//     printf("cmd: %s\n", tmp->cmds[3]);
-//     printf("cmd: %s\n", tmp->cmds[4]);
-// }
+
 void print_cmd(t_cmd **cmd)
 {
     t_cmd *tmp = *cmd;
@@ -227,7 +219,7 @@ void print_cmd(t_cmd **cmd)
         i = 0;
         while (tmp->cmds && tmp->cmds[i])
         {
-            printf("cmd[%d] : %s\n",i, tmp->cmds[i]);
+            printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
             i++;
         }
         printf("redir_in: %d\n", tmp->redir_in);
@@ -236,57 +228,80 @@ void print_cmd(t_cmd **cmd)
     }
     printf("\n-----------\n");
 }
-int main(int ac, char **av, char **env)//$home.c
+void join_nodes(t_token **list)
 {
-    atexit(f);
-    t_env *envi;
-    char *line;
-    t_token *list;
-    t_cmd *cmd; 
-    (void)av;
-    envi = NULL;
-    
-    if (ac > 1)
-        print_error("no argument needed");
-    while (1)
-    { 
-    list = NULL;
-    cmd = NULL;
-        initenv(env, &envi);
-        line =  readline("Minishell 🤬 > ");
-        if (!line)
-            break;
-        if (line && ft_strlen(line) != 0)
-            add_history(line);
-
-        processline(line , &list);     //<--- to handle the line prepare the list
-        if(catch_errors(&list) == 1)  // <--- to catch errors
-            continue;
-        print_env(envi, list);
-        find_node(envi, list); // <--- to expand the variables
-        
-        // <--------------- join
-        
-        prepare_cmd(list, &cmd); // <--- to prepare the command
-
-        printf("\n-----------\n");
-        print_list(list);
-        
-            // print cmd list
-        print_cmd(&cmd);
-        // print_cmd(cmd);
-        // free(line);
-        // ft_lstclear(&list);
-        // ft_lstclear_env(&envi);
-        
+    t_token *tmp = *list;
+    t_token *tmp2;
+    while (tmp)
+    {
+        if (tmp->next && (tmp->value == DBL_Q || tmp->value == SNGL_Q || tmp->value == VAR
+            || tmp->value == DBL_VAR || tmp->value == CMD) && (tmp->next->value == DBL_Q
+            || tmp->next->value == SNGL_Q || tmp->next->value == VAR || tmp->next->value == DBL_VAR
+            || tmp->next->value == CMD))
+        {
+            tmp2 = tmp->next->next;
+            tmp->key = ft_srtjoin(tmp->key, tmp->next->key);
+            free(tmp->next);
+            tmp->next = tmp2;
+        }
+        else
+            tmp = tmp->next;
     }
 }
 
+int main(int ac, char **av, char **env) //$home.c
+{
+    t_env *envi;
+    char *line;
+    t_token *list;
+    t_cmd *cmd;
+    (void)av;
+    envi = NULL;
 
+    if (ac > 1)
+        print_error("no argument needed");
+    while (1)
+    {
+        list = NULL;
+        cmd = NULL;
+        (void)env;
+        // initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
+        line = readline("Minishell 🤬 > ");
+        // char  *save_line = line;
+        if (line && ft_strlen(line) != 0)
+            add_history(line);
+        if(!processline(line, &list))//<--- to handle the line prepare the list
+        {
+            free((void*)line);
+            continue;
+        }    
+        if (!catch_errors(&list))    // <--- to catch errors
+        {
+            free((void*)line);
+            continue;
+        } 
+        print_env(envi, list);
+        find_node(envi, list);   // <--- to expand the variables
+        join_nodes(&list);      // <--------------- join
+        
+        if (!prepare_cmd(list, &cmd))// <--- to prepare the command
+        {
+            free((void*)line);
+            continue;
+        } 
+
+        printf("\n-----------\n");
+        print_list(list);      // print cmd list
+
+        print_cmd(&cmd);
+        free((void*)line);
+        g_malloc(0, FREE);
+    }
+}
 
 /*
 
---> "$HOME" 
+--> "$HOME"
 --> print env
 --> env: r: No such file or directory
 
@@ -296,7 +311,7 @@ int main(int ac, char **av, char **env)//$home.c
 --> export
 --> unset
 
-
---> 
+-----> garbage collector   <-----
+-->
 
 */

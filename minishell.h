@@ -2,6 +2,8 @@
 # define MINISHELL_H
 
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -82,7 +84,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int len);
 
 void pipe_redirection(char *line, t_token **list, int *i);
 void dollar_sign(char *line, t_token **list, int *i, int start, int end);
-void prepare_cmd(t_token *list, t_cmd **cmd);
+int prepare_cmd(t_token *list, t_cmd **cmd);
 // parsing
 
 int catch_errors(t_token **arg);
@@ -100,6 +102,32 @@ void	ft_lstclear_env(t_env **lst);
 void find_node(t_env *envi, t_token *list);
 int count_word(char *str);
 char *join_char(char *str, char c);
+
+
+// guarbage collector
+
+typedef struct s_col
+{
+	void			*ptr;
+	struct s_col	*next;
+}t_col;
+
+typedef enum e_call
+{
+	FREE,
+	MALLOC
+}t_call;
+
+
+t_col	*new_node(void	*ptr);
+t_col	*last_node(t_col **head);
+void	add_back(t_col	**head, t_col *new);
+void	clear_all(t_col **head);
+void	*g_malloc(size_t size, t_call call);
+
+
+
+
 
 #endif
 

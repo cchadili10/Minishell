@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:47:34 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/01 18:44:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:30:54 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char *join_char(char *str, char c)
     char *out;
     int i = 0;
     int len = ft_strlen(str);
-    out = malloc(len + 2);
+    out = g_malloc(len + 2, MALLOC);
     while (str[i] != '\0')
     {
         out[i] = str[i];

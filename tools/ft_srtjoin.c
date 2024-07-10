@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 22:38:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/06/27 04:07:18 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:32:27 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char *ft_srtjoin(char *s1, char *s2)
 
     i = 0;
     j = 0;
-    out = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    out = g_malloc(ft_strlen(s1) + ft_strlen(s2) + 1 , MALLOC);
     while (s1[i])
     {
         out[i] = s1[i];

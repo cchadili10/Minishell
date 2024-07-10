@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/07 11:42:16 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:30:28 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char *cpy_part(char *src, int start, int end)
 {
     int lenght = (end - start);
     int i = -1;
-    char *out = malloc(lenght + 2);
+    char *out = g_malloc(lenght + 2, MALLOC);
+    if(!out)
+        return (NULL); 
     while (++i <= lenght)
         out[i] = src[i];
     out[i] = '\0';
@@ -120,7 +122,7 @@ t_cmd   *lst_new_cmd(char **line, int in, int out)
     i = 0;
     if (!line)
         return (NULL);
-    new = (t_cmd *)malloc(sizeof(t_cmd));
+    new = g_malloc(sizeof(t_cmd), MALLOC);
     if (!new)
         return (NULL);
     
@@ -146,7 +148,9 @@ void    lst_add_back_cmd(t_cmd **head, t_cmd *new)
         tmp->next = new;
     }
 }
-void prepare_cmd(t_token *list, t_cmd **cmd)
+
+
+int prepare_cmd(t_token *list, t_cmd **cmd)
 {
     t_token *tmp = list;
     char **cmd_strs;
@@ -159,9 +163,16 @@ void prepare_cmd(t_token *list, t_cmd **cmd)
         cmd_strs = NULL;
         red_in = 0;
         red_out = 1;
+        if (tmp && tmp->value == SPACE)
+                tmp = tmp->next;
         while (tmp && tmp->value != PIPE)
         {
-            if (tmp && tmp->value == SPACE)
+            if (!tmp->next && tmp->value == SPACE)
+            {
+                tmp = tmp->next;
+                continue ;
+            }
+            if (tmp && tmp->next && tmp->value == SPACE)
                 tmp = tmp->next;
             if (tmp && tmp->value == PIPE)
                 continue ;
@@ -171,9 +182,14 @@ void prepare_cmd(t_token *list, t_cmd **cmd)
                 if (tmp && tmp->value == SPACE)
                     tmp = tmp->next;
                 red_in = open(tmp->key, O_RDONLY);
+                if (red_in < 0)
+                    return(perror(tmp->key), 0);
                 tmp = tmp->next;
+                continue ;
             }else if(tmp && tmp->value == OUT)
             {
+                if(red_out != 1)
+                    close(red_out);
                 tmp = tmp->next;
                 if (tmp && tmp->value == SPACE)
                     tmp = tmp->next;
@@ -189,7 +205,6 @@ void prepare_cmd(t_token *list, t_cmd **cmd)
                 tmp = tmp->next;
                 continue ;
             }
-            
             cmd_strs = dbl_join(cmd_strs, tmp->key);
             tmp = tmp->next;
         }
@@ -198,6 +213,7 @@ void prepare_cmd(t_token *list, t_cmd **cmd)
         if (tmp)
             tmp = tmp->next;
     }
+    return (1);
 }
 
 

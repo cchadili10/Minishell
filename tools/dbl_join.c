@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 08:21:52 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/07 10:24:45 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:31:13 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 int ft_strlen_2d(char **str)
 {
-    int i = 0;
+    int i;
+
+    i = 0;
+    if (!str)
+        return (0);
     while (str && str[i])
         i++;
     return (i);
@@ -22,9 +26,13 @@ int ft_strlen_2d(char **str)
 
 char **dbl_join(char **s1, char *s2)
 {
-    int i = 0;
-    // int j = 0;
-    char **out = malloc(sizeof(char *) * (ft_strlen_2d(s1) + 2));
+    int i;
+
+    i = 0;
+
+    char **out = g_malloc(sizeof(char *) * (ft_strlen_2d(s1) + 2), MALLOC);
+    if (!out)
+        return (NULL);
     while (s1 && s1[i])
     {
         out[i] = ft_strdup(s1[i]);
