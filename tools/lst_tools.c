@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/17 16:29:50 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:33:42 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token   *lst_new(char *key, t_type value)
     
     if (!key)
         return (NULL);
-    new = (t_token *)malloc(sizeof(t_token));
+    new = (t_token *)g_malloc(sizeof(t_token), MALLOC);
     if (!new)
         return (NULL);
     new->key = key;
@@ -64,7 +64,7 @@ t_env   *lst_new_env(char *key, char *value)
 
     if (!key)
         return (NULL);
-    new = (t_env *)malloc(sizeof(t_env));
+    new = (t_env *)g_malloc(sizeof(t_env), MALLOC);
     if (!new)
         return (NULL);
     new->key = key;

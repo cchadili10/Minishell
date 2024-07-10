@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 19:32:21 by yessemna          #+#    #+#             */
-/*   Updated: 2024/04/14 19:32:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/07 23:46:19 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ int ft_strlen(const char *str)
     int i;
 
     i = 0;
-    while (str[i])
+    while (str && str[i])
         i++;
     return (i);
 }
