@@ -57,8 +57,8 @@ typedef struct s_cmd
 }	t_cmd;
 
 char *ft_strcpy(char *dest, const char *src);
-int ft_strlen(const char *str);
-int ft_strcmp(const char *s1, const char *s2);
+int     ft_strlen(const char *str);
+int     ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
@@ -90,7 +90,6 @@ int prepare_cmd(t_token *list, t_cmd **cmd);
 int catch_errors(t_token **arg);
 
 //lst_tools.c
-int ft_strcmp(const char *s1, const char *s2);
 void    lst_add_back(t_token **head, t_token *new);
 t_token   *lst_new(char *key, t_type value);
 int ft_lstsize(t_env *lst);

@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 22:50:39 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/12 00:12:12 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int processline(char *line, t_token **list)
             if (line[i + 1] == '\"')
             {
                 lst_add_back(list, lst_new("", DBL_Q));
-                i++;
+                i += 2;
             }
             else
             {
@@ -139,7 +139,8 @@ int processline(char *line, t_token **list)
                 lst_add_back(list, lst_new(ft_substr(line, i++, 1), CMD));
             else
             {
-                start = ++i;
+                start = i;
+                i++;
                 while (is_alnum(line[i]) && !is_special(line[i]))
                 {
                     if (!is_alnum(line[i + 1]))
@@ -250,12 +251,56 @@ void join_nodes(t_token **list)
         {
             tmp2 = tmp->next->next;
             tmp->key = ft_srtjoin(tmp->key, tmp->next->key);
-            free(tmp->next);
             tmp->next = tmp2;
         }
         else
             tmp = tmp->next;
     }
+}
+void putin_fd(int fd, char *line)
+{
+    int i;
+
+    i = 0;
+    while (line && line[i])
+    {
+        write(fd,&line[i],1);
+        i++;
+    }
+    write(fd, "\n", 1);
+}
+void ft_here_doc(char *dlm)
+{
+    char *line;
+    int fd_write;
+    // int fd_read;
+    fd_write = open("dog",O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    while (1)
+    {
+        line = readline("> ");
+        if (!line || !ft_strcmp(line, dlm))
+        {
+            free(line);
+            break ;
+        }
+        putin_fd(fd_write, line);
+        free(line);
+    }
+    close(fd_write);
+}
+int heredoc(t_token *list)
+{
+    t_token *tmp = list;
+
+    if (tmp && tmp-> value == HEREDOC)
+    {
+        tmp = tmp->next;
+        if (tmp && tmp->value == SPACE)
+            tmp = tmp->next;
+        ft_here_doc(tmp->key);
+        return (0);
+    }
+    return (1);
 }
 
 int main(int ac, char **av, char **env) //$home.c
@@ -276,7 +321,7 @@ int main(int ac, char **av, char **env) //$home.c
         (void)env;
         
          initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
-        line = readline("Minishell 🤬 > ");
+        line = readline("Minishell 🔴🔵 ");
         // char  *save_line = line;
         if (line && ft_strlen(line) != 0)
             add_history(line);
@@ -290,11 +335,13 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         } 
-        if(print_env(envi, list))    // <--- to print the env
-        {
-            continue;
-        }
-
+        // if(print_env(envi, list))    // <--- to print the env
+        // {
+        //     free((void*)line);
+        //     continue;
+        // }
+        if(!heredoc(list))             // <--- to handle the heredoc
+            continue ;
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
         
@@ -316,8 +363,8 @@ int main(int ac, char **av, char **env) //$home.c
 
 /*
 
---> "$HOME"
---> print env
+--> "$HOME"                               ->DONE
+--> print env                             ->DONE 
 --> env: r: No such file or directory
 sw
 
@@ -326,7 +373,7 @@ sw
 --> export
 --> unset
 
------> garbage collector   <-----
+-----> garbage collector   <-----        -->DONE
 -->
 
 */

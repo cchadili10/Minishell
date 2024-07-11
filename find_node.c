@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 20:42:53 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/12 00:06:59 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void find_node(t_env *envi, t_token *list)
         {
             while (tmp_env)
             {
-                if (ft_strcmp(tmp->key, tmp_env->key) == 0)
+                if (ft_strcmp(tmp->key + 1, tmp_env->key) == 0)
                 {
                     tmp->key = tmp_env->value;
-                    tmp_env = envi;
                     found = 1;
                     break;
                 }
@@ -149,7 +148,6 @@ void    lst_add_back_cmd(t_cmd **head, t_cmd *new)
     }
 }
 
-
 int prepare_cmd(t_token *list, t_cmd **cmd)
 {
     t_token *tmp = list;
@@ -194,6 +192,8 @@ int prepare_cmd(t_token *list, t_cmd **cmd)
                 if (tmp && tmp->value == SPACE)
                     tmp = tmp->next;
                 red_out = open(tmp->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (red_out < 0)
+                    return(perror(tmp->key), 0);
                 tmp = tmp->next;
                 continue ;
             }else if(tmp && tmp->value == APPEND)
@@ -202,6 +202,8 @@ int prepare_cmd(t_token *list, t_cmd **cmd)
                 if (tmp && tmp->value == SPACE)
                     tmp = tmp->next;
                 red_out = open(tmp->key, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                if (red_out < 0)
+                    return(perror(tmp->key), 0);
                 tmp = tmp->next;
                 continue ;
             }
