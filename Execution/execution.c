@@ -1,0 +1,142 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
+/*   Updated: 2024/07/13 00:07:46 by hchadili         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
+{
+	// char *phath[] = {"/bin/ls", "/usr/bin/grep", "/usr/bin/grep", "/usr/bin/wc", NULL};
+	(void)num_cmnd;
+	int x = 0;
+	char **arr_phat = ft_split(path, ':');
+	char *arr_join_one;
+	char *arr_join;
+	t_cmd *tmp = *cmnds;
+	while (arr_phat[x])
+	{
+		
+		arr_join_one = ft_srtjoin(arr_phat[x],"/");
+		arr_join = ft_srtjoin(arr_join_one,tmp->cmds[0]);
+		int res = access(arr_join, F_OK | X_OK);
+		if (res == 0)
+			break;
+		else if (res == -1  && !arr_phat[x+1])
+		{
+			perror("zsh: command not found");
+			return ;
+		}
+		x++;
+	}
+	// printf("this  --> %s \n", arr_join);
+	
+	int p[2];
+	int first = num_cmnd;
+	int id;
+	int std_d;
+	while (num_cmnd!=0)
+	{
+		if (first == num_cmnd || first != 1)
+		{
+			pipe(p);
+			id = fork();
+		
+			if (id == 0)
+			{
+				dup2(p[1], STDOUT_FILENO);
+				close(p[0]);
+				close(p[1]);
+				execve(arr_join, tmp->cmds, NULL);
+				
+			}
+			tmp =  tmp->next;
+			close(p[1]);
+		}
+		else if (num_cmnd != 1)
+		{
+			std_d = p[0];
+			pipe(p);
+			id = fork();
+			if (id == 0)
+			{
+				dup2(std_d, STDIN_FILENO);
+				dup2(p[1], STDOUT_FILENO);
+				close(std_d);
+				close(p[0]);
+				close(p[1]);
+				execve(arr_join, tmp->cmds, NULL);
+			}
+			close(p[1]);
+			tmp =  tmp->next;
+		}
+		else if (num_cmnd == 1)
+		{
+			id = fork();
+			if (id == 0)
+			{
+				dup2(p[1], STDOUT_FILENO);
+				close(p[0]);
+				close(p[1]);
+				execve(arr_join, tmp->cmds, NULL);
+			}
+		}
+		num_cmnd--;
+	}
+	close(std_d);
+	// close(p[0]);
+	// close(p[1]);
+	while (first)
+	{
+		wait(NULL);
+		first--;
+	}
+	return ;
+}
+
+
+void	ft_execution (t_cmd **cmnds, t_env **env)
+{
+
+	(void)env;
+	t_cmd *tmp = *cmnds; 
+	int count_cmnd;
+
+	count_cmnd = 0;
+	while (tmp)
+	{
+		count_cmnd++;
+		tmp = tmp->next;
+	}
+	t_env *tmp2 = *env; 
+	printf("%d\n\n",count_cmnd);
+	
+	(void)cmnds;
+	while (tmp2)
+	{
+		// while(tmp->cmds[i])
+		// {
+			
+		// 	i++;
+		// }
+		if(ft_strcmp(tmp2->key,"PATH") == 0)
+			break;
+		// printf("\n");
+		tmp2 = tmp2->next;
+	}
+	// printf("%s  --> %s \n",tmp2->key, tmp2->value);
+	ft_excute(cmnds,tmp2->value, count_cmnd);
+	// while (env[i])
+	// {
+	// 	printf("%s\n",);
+	// 	i++;
+	// }
+	
+}

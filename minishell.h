@@ -124,13 +124,15 @@ void	add_back(t_col	**head, t_col *new);
 void	clear_all(t_col **head);
 void	*g_malloc(size_t size, t_call call);
 
+
 void	*g_malloc_env(size_t size, t_call call);
 
 char *ft_strdup_env(const char *s);
 char	**ft_split_env(char const *s, char c);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
 
-
+//exection
+void	ft_execution (t_cmd **cmnds, t_env **env);
 
 #endif
 

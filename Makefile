@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
+#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/12 00:09:38 by yessemna         ###   ########.fr        #
+#    Updated: 2024/07/12 22:44:51 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC = minishell.c \
 		parsing/errors.c \
 		parsing/tokenazing.c \
 		parsing/finders.c \
+		Execution/execution.c \
 		
 
 OBJ = $(SRC:.c=.o)
