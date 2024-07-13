@@ -130,7 +130,7 @@ char *ft_strdup_env(const char *s);
 char	**ft_split_env(char const *s, char c);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
 
-
+char  *heredoc_expand(char *line, t_env *envi);
 
 #endif
 

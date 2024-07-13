@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/12 00:12:12 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/13 10:58:52 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int processline(char *line, t_token **list)
             {
                 end = find_char(line + i + 1, '\'');
                 if (end)
-                    lst_add_back(list, lst_new(ft_substr(line, i++, end), SNGL_Q));
+                    lst_add_back(list, lst_new(ft_substr(line, i + 1, end), SNGL_Q));
                 else
                     return(print_error("Error: missing single quote\n"), 0);
                 i += end + 1;
@@ -110,7 +110,7 @@ int processline(char *line, t_token **list)
             if (line[i + 1] == '\"')
             {
                 lst_add_back(list, lst_new("", DBL_Q));
-                i += 2;
+                i += 1;
             }
             else
             {
@@ -251,6 +251,8 @@ void join_nodes(t_token **list)
         {
             tmp2 = tmp->next->next;
             tmp->key = ft_srtjoin(tmp->key, tmp->next->key);
+            if (tmp->next->value == DBL_Q || tmp->next->value == SNGL_Q)
+                tmp->value = tmp->next->value;
             tmp->next = tmp2;
         }
         else
@@ -269,26 +271,35 @@ void putin_fd(int fd, char *line)
     }
     write(fd, "\n", 1);
 }
-void ft_here_doc(char *dlm)
+void ft_here_doc(t_token *cmd, t_env *envi)
 {
     char *line;
     int fd_write;
+    t_token *tmp = cmd;
     // int fd_read;
     fd_write = open("dog",O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1)
     {
         line = readline("> ");
-        if (!line || !ft_strcmp(line, dlm))
+        if (!line || !ft_strcmp(line, tmp->key))
         {
-            free(line);
+            // free(line);
             break ;
         }
+        
+        // check if delimeter contain sgl or dbl quotes
+        // if (find_char(dlm, '\'') || find_char(dlm, '\"'))
+        //
+        if(!(tmp->value == SNGL_Q || tmp->value == DBL_Q) && find_char(line, '$'))
+        {
+            line = heredoc_expand(line, envi);
+        }
         putin_fd(fd_write, line);
-        free(line);
     }
     close(fd_write);
+    free(line);
 }
-int heredoc(t_token *list)
+int heredoc(t_token *list, t_env *envi)
 {
     t_token *tmp = list;
 
@@ -297,7 +308,7 @@ int heredoc(t_token *list)
         tmp = tmp->next;
         if (tmp && tmp->value == SPACE)
             tmp = tmp->next;
-        ft_here_doc(tmp->key);
+        ft_here_doc(tmp, envi);
         return (0);
     }
     return (1);
@@ -340,11 +351,10 @@ int main(int ac, char **av, char **env) //$home.c
         //     free((void*)line);
         //     continue;
         // }
-        if(!heredoc(list))             // <--- to handle the heredoc
-            continue ;
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
-        
+        if(!heredoc(list, envi))             // <--- to handle the heredoc
+            continue ;
         if (!prepare_cmd(list, &cmd))// <--- to prepare the command
         {
             free((void*)line);
@@ -357,6 +367,7 @@ int main(int ac, char **av, char **env) //$home.c
         print_cmd(&cmd);
         free((void*)line);
         g_malloc(0, FREE);
+        
     }
         // g_malloc_env(0, FREE);
 }

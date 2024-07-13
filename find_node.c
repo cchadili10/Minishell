@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/12 00:06:59 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/13 08:45:34 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,57 +31,18 @@ void find_node(t_env *envi, t_token *list)
     t_token *tmp = list;
     t_env *tmp_env = envi;
 
-    while (tmp)
+    if(tmp->value != HEREDOC)
     {
-        found = 0;
-        if (tmp->value == VAR)
+        while (tmp)
         {
-            while (tmp_env)
-            {
-                if (ft_strcmp(tmp->key + 1, tmp_env->key) == 0)
+            found = 0;
+                if (tmp->value == VAR)
                 {
-                    tmp->key = tmp_env->value;
-                    found = 1;
-                    break;
-                }
-                tmp_env = tmp_env->next;
-            }
-            if (!found)
-            {
-                tmp->key = NULL;
-                tmp_env = envi;
-            }
-        }
-        else if (tmp->value == DBL_Q)
-        {
-            tmp_env = envi;
-            int x = 0;
-            char *line = "";
-            while (tmp->key[x])
-            {
-                if (tmp->key[x] != '$' || (tmp->key[x] == '$' && tmp->key[x + 1] == '\'') || (tmp->key[x] == '$' && tmp->key[x + 1] == '\0'))
-                {
-                    line = join_char(line, tmp->key[x]);
-                    x++;
-                }
-                else if (tmp->key[x] == '$' && tmp->key[x + 1] == '$')
-                    x = x + 2;
-                else
-                {
-                    x++;
-                    int start = x;
-                    while (tmp->key[x] && is_alnum(tmp->key[x]))
-                        x++;
-                    int end = x - 1;
-                    char *var;
-                    var = cpy_part(tmp->key + start, start, end);
                     while (tmp_env)
                     {
-                        if (ft_strcmp(var, tmp_env->key) == 0)
+                        if (ft_strcmp(tmp->key + 1, tmp_env->key) == 0)
                         {
-                            int i = 0;
-                            while (tmp_env->value[i])
-                                line = join_char(line, tmp_env->value[i++]);
+                            tmp->key = tmp_env->value;
                             found = 1;
                             break;
                         }
@@ -89,15 +50,57 @@ void find_node(t_env *envi, t_token *list)
                     }
                     if (!found)
                     {
-                        line = NULL;
+                        tmp->key = NULL;
                         tmp_env = envi;
                     }
-                    tmp_env = envi;
                 }
+                else if (tmp->value == DBL_Q)
+            {
+                tmp_env = envi;
+                int x = 0;
+                char *line = "";
+                while (tmp->key[x])
+                {
+                    if (tmp->key[x] != '$' || (tmp->key[x] == '$' && tmp->key[x + 1] == '\'') || (tmp->key[x] == '$' && tmp->key[x + 1] == '\0'))
+                    {
+                        line = join_char(line, tmp->key[x]);
+                        x++;
+                    }
+                    else if (tmp->key[x] == '$' && tmp->key[x + 1] == '$')
+                        x = x + 2;
+                    else
+                    {
+                        x++;
+                        int start = x;
+                        while (tmp->key[x] && is_alnum(tmp->key[x]))
+                            x++;
+                        int end = x - 1;
+                        char *var;
+                        var = cpy_part(tmp->key + start, start, end);
+                        while (tmp_env)
+                        {
+                            if (ft_strcmp(var, tmp_env->key) == 0)
+                            {
+                                int i = 0;
+                                while (tmp_env->value[i])
+                                    line = join_char(line, tmp_env->value[i++]);
+                                found = 1;
+                                break;
+                            }
+                            tmp_env = tmp_env->next;
+                        }
+                        if (!found)
+                        {
+                            line = NULL;
+                            tmp_env = envi;
+                        }
+                        tmp_env = envi;
+                    }
+                }
+                tmp->key = line;
             }
-            tmp->key = line;
+            tmp = tmp->next;
         }
-        tmp = tmp->next;
     }
 }
 // ------> THIS code like SHIT <------

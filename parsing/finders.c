@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:47:34 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 13:30:54 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/13 10:24:07 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ int is_alnum(char c)
 char *join_char(char *str, char c)
 {
     char *out;
-    int i = 0;
-    int len = ft_strlen(str);
+    int i;
+    int len;
+
+    i = 0;
+    if(!str)
+        str = ft_strdup("");
+    len = ft_strlen(str);
     out = g_malloc(len + 2, MALLOC);
     while (str[i] != '\0')
     {
