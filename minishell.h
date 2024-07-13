@@ -124,13 +124,19 @@ void	add_back(t_col	**head, t_col *new);
 void	clear_all(t_col **head);
 void	*g_malloc(size_t size, t_call call);
 
+
 void	*g_malloc_env(size_t size, t_call call);
 
 char *ft_strdup_env(const char *s);
 char	**ft_split_env(char const *s, char c);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
 
+<<<<<<< HEAD
 char  *heredoc_expand(char *line, t_env *envi);
+=======
+//exection
+void	ft_execution (t_cmd **cmnds, t_env **env);
+>>>>>>> b9c3b618bd4c986bbf0f8704eb270262af73f9cf
 
 #endif
 

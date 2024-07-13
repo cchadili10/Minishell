@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
+#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/07/13 05:53:14 by yessemna         ###   ########.fr        #
+=======
+#    Updated: 2024/07/12 22:44:51 by hchadili         ###   ########.fr        #
+>>>>>>> b9c3b618bd4c986bbf0f8704eb270262af73f9cf
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +44,11 @@ SRC = minishell.c \
 		parsing/errors.c \
 		parsing/tokenazing.c \
 		parsing/finders.c \
+<<<<<<< HEAD
 		parsing/heredoc_expand.c \
+=======
+		Execution/execution.c \
+>>>>>>> b9c3b618bd4c986bbf0f8704eb270262af73f9cf
 		
 
 OBJ = $(SRC:.c=.o)

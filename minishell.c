@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/13 10:58:52 by yessemna         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/13 20:17:21 by hchadili         ###   ########.fr       */
+>>>>>>> b9c3b618bd4c986bbf0f8704eb270262af73f9cf
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,10 +365,11 @@ int main(int ac, char **av, char **env) //$home.c
             continue;
         } 
 
-        printf("\n-----------\n");
-        print_list(list);      // print cmd list
+        // printf("\n-----------\n");
+        // print_list(list);      // print cmd list
 
-        print_cmd(&cmd);
+        // print_cmd(&cmd);
+		ft_execution(&cmd, &envi);
         free((void*)line);
         g_malloc(0, FREE);
         
