@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/13 04:51:06 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:17:46 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 	int first = num_cmnd;
 	int id;
 	int std_d;
-	while (num_cmnd)
+	while (tmp && num_cmnd)
 	{
-		printf("%s\n",tmp->cmds[0]);
 		arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
-		// printf("%s\n",arr_join);
 		if (first == num_cmnd)
 		{
 			pipe(p);
@@ -80,7 +78,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 				execve(arr_join, tmp->cmds, NULL);
 			
 			}
-			tmp =  tmp->next;
+			// tmp =  tmp->next;
 			close(p[1]);
 		}
 		else if (num_cmnd != 1)
@@ -98,7 +96,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 				execve(arr_join, tmp->cmds, NULL);
 			}
 			close(p[1]);
-			tmp =  tmp->next;
+			// tmp =  tmp->next;
 		}
 		else if (num_cmnd == 1)
 		{
@@ -114,8 +112,6 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 		}
 		num_cmnd--;
 		tmp = tmp->next;
-		printf("fdfg\n");
-		printf("%s\n",tmp->cmds[0]);
 	}
 	close(std_d);
 	// close(p[0]);
@@ -143,7 +139,7 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 		tmp = tmp->next;
 	}
 	t_env *tmp2 = *env; 
-	printf("%d\n\n",count_cmnd);
+	// printf("%d\n\n",count_cmnd);
 	
 	(void)cmnds;
 	while (tmp2)

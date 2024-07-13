@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/12 22:51:23 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:17:21 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,10 +351,10 @@ int main(int ac, char **av, char **env) //$home.c
             continue;
         } 
 
-        printf("\n-----------\n");
-        print_list(list);      // print cmd list
+        // printf("\n-----------\n");
+        // print_list(list);      // print cmd list
 
-        print_cmd(&cmd);
+        // print_cmd(&cmd);
 		ft_execution(&cmd, &envi);
         free((void*)line);
         g_malloc(0, FREE);
