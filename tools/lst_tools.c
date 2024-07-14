@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 20:21:22 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:54:26 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void    lst_add_back_env(t_env **head, t_env *new)
             tmp = tmp->next;
         tmp->next = new;
     }
+    // printf("key -> %s\n", tmp->key);
+    // printf("value -> %s\n", tmp->value);
 }
 t_env   *lst_new_env(char *key, char *value)
 {
