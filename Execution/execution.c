@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/14 03:28:01 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/14 05:07:19 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -188,6 +189,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 		wait(NULL);
 		first--;
 	}
+	
 	// return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/13 08:45:34 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 04:07:54 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void find_node(t_env *envi, t_token *list)
                         }
                         if (!found)
                         {
-                            line = NULL;
+                            line = "";
                             tmp_env = envi;
                         }
                         tmp_env = envi;
@@ -151,7 +151,7 @@ void    lst_add_back_cmd(t_cmd **head, t_cmd *new)
     }
 }
 
-int prepare_cmd(t_token *list, t_cmd **cmd)
+int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
 {
     t_token *tmp = list;
     char **cmd_strs;
@@ -168,14 +168,14 @@ int prepare_cmd(t_token *list, t_cmd **cmd)
                 tmp = tmp->next;
         while (tmp && tmp->value != PIPE)
         {
-            if (!tmp->next && tmp->value == SPACE)
+            if ((!tmp->next && tmp->value == SPACE) || tmp->key == NULL)
             {
                 tmp = tmp->next;
                 continue ;
             }
-            if (tmp && tmp->next && tmp->value == SPACE)
+            if ((tmp && tmp->next && tmp->value == SPACE) || tmp->key == NULL)
                 tmp = tmp->next;
-            if (tmp && tmp->value == PIPE)
+            if ((tmp && tmp->value == PIPE) || tmp->key == NULL)
                 continue ;
             if (tmp && tmp->value == IN)
             {
@@ -207,6 +207,14 @@ int prepare_cmd(t_token *list, t_cmd **cmd)
                 red_out = open(tmp->key, O_WRONLY | O_CREAT | O_APPEND, 0644);
                 if (red_out < 0)
                     return(perror(tmp->key), 0);
+                tmp = tmp->next;
+                continue ;
+            }else if (tmp && tmp-> value == HEREDOC)
+            {
+                tmp = tmp->next;
+                if (tmp && tmp->value == SPACE)
+                    tmp = tmp->next;
+                ft_here_doc(tmp, envi);
                 tmp = tmp->next;
                 continue ;
             }

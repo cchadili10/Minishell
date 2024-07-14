@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/13 10:58:52 by yessemna         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/13 20:17:21 by hchadili         ###   ########.fr       */
->>>>>>> b9c3b618bd4c986bbf0f8704eb270262af73f9cf
+/*   Updated: 2024/07/14 04:47:03 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -263,60 +260,7 @@ void join_nodes(t_token **list)
             tmp = tmp->next;
     }
 }
-void putin_fd(int fd, char *line)
-{
-    int i;
 
-    i = 0;
-    while (line && line[i])
-    {
-        write(fd,&line[i],1);
-        i++;
-    }
-    write(fd, "\n", 1);
-}
-void ft_here_doc(t_token *cmd, t_env *envi)
-{
-    char *line;
-    int fd_write;
-    t_token *tmp = cmd;
-    // int fd_read;
-    fd_write = open("dog",O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    while (1)
-    {
-        line = readline("> ");
-        if (!line || !ft_strcmp(line, tmp->key))
-        {
-            // free(line);
-            break ;
-        }
-        
-        // check if delimeter contain sgl or dbl quotes
-        // if (find_char(dlm, '\'') || find_char(dlm, '\"'))
-        //
-        if(!(tmp->value == SNGL_Q || tmp->value == DBL_Q) && find_char(line, '$'))
-        {
-            line = heredoc_expand(line, envi);
-        }
-        putin_fd(fd_write, line);
-    }
-    close(fd_write);
-    free(line);
-}
-int heredoc(t_token *list, t_env *envi)
-{
-    t_token *tmp = list;
-
-    if (tmp && tmp-> value == HEREDOC)
-    {
-        tmp = tmp->next;
-        if (tmp && tmp->value == SPACE)
-            tmp = tmp->next;
-        ft_here_doc(tmp, envi);
-        return (0);
-    }
-    return (1);
-}
 
 int main(int ac, char **av, char **env) //$home.c
 {
@@ -357,9 +301,7 @@ int main(int ac, char **av, char **env) //$home.c
         // }
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
-        if(!heredoc(list, envi))             // <--- to handle the heredoc
-            continue ;
-        if (!prepare_cmd(list, &cmd))// <--- to prepare the command
+        if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
         {
             free((void*)line);
             continue;
@@ -369,10 +311,11 @@ int main(int ac, char **av, char **env) //$home.c
         // print_list(list);      // print cmd list
 
         // print_cmd(&cmd);
+        // if(!heredoc(list, envi))            // <--- to handle the heredoc
+        //     continue ;
 		ft_execution(&cmd, &envi);
         free((void*)line);
         g_malloc(0, FREE);
-        
     }
         // g_malloc_env(0, FREE);
 }
