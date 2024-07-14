@@ -6,11 +6,25 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/14 04:44:10 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 07:23:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int ft_findchar(char *str, char c)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == c)
+            return (1);
+        i++;
+    }
+    return (0);
+}
 
 void putin_fd(int fd, char *line)
 {
@@ -45,9 +59,10 @@ void ft_here_doc(t_token *cmd, t_env *envi)
         // check if delimeter contain sgl or dbl quotes
         // if (find_char(dlm, '\'') || find_char(dlm, '\"'))
         //
-        if(!(tmp->value == SNGL_Q || tmp->value == DBL_Q ||tmp->value == CMD))
+        if(!(tmp->value == SNGL_Q || tmp->value == DBL_Q))
         {
-            line = heredoc_expand(line, envi);
+            if (line[0] == '$')
+                line = heredoc_expand(line, envi);
             // putin_fd(fd_write, line);
         }
         // printf("line = %s\n", line);
