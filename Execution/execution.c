@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/14 03:28:01 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:29:50 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void ft_excute_one(t_cmd **cmnds, char *path)
 	{
 		if (tmp->redir_out != 1)
 		{
-			dup2(tmp->redir_out, 1);
+			dup2(tmp->redir_out , 1);
 			// close(tmp->redir_out);
 		}
 		execve(arr_join, tmp->cmds, NULL);
@@ -117,10 +117,10 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 			{
 				// if (tmp->redir_out != 1)
 					
-				dup2(p[1], tmp->redir_out);
+				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, 1);
+					dup2(tmp->redir_out, 0);
 					close(tmp->redir_out);
 				}
 				close(p[0]);
@@ -139,10 +139,10 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 			if (id == 0)
 			{
 				dup2(std_d, tmp->redir_in);
-				dup2(p[1], tmp->redir_out);
+				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, 1);
+					dup2(tmp->redir_out, STDOUT_FILENO);
 					close(tmp->redir_out);
 				}
 				close(std_d);
@@ -155,20 +155,19 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 			// tmp =  tmp->next;
 		}
 		else if (num_cmnd == 1)
-		{
+		{ 
 			id = fork();
 			if (id == 0)
 			{
-				dup2(p[0], tmp->redir_in);
+				dup2(p[0], STDIN_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, 1);
+					dup2(tmp->redir_out, STDOUT_FILENO);
 					close(tmp->redir_out);
 				}
 				close(p[0]);
 				close(p[1]);
 				execve(arr_join, tmp->cmds, NULL);
-				
 			}
 		}
 		num_cmnd--;
@@ -176,7 +175,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 	}
 	// if (tmp->redir_out != 1)
 	// {
-		printf("yryjghjghj\n");	
+		// printf("yryjghjghj\n");	
 		// printf("%d\n",tmp->redir_out);	
 	// }
 		// close(tmp->redir_out);
