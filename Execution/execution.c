@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/14 05:07:19 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 07:19:22 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 	}
 	// if (tmp->redir_out != 1)
 	// {
-		printf("yryjghjghj\n");	
+		// printf("yryjghjghj\n");	
 		// printf("%d\n",tmp->redir_out);	
 	// }
 		// close(tmp->redir_out);
