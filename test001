@@ -1,0 +1,14 @@
+Execution
+Makefile
+builtins
+find_node.c
+find_node.o
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing
+script_fd.sh
+script_leaks.sh
+test001
+tools
