@@ -84,7 +84,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int len);
 
 void pipe_redirection(char *line, t_token **list, int *i);
 void dollar_sign(char *line, t_token **list, int *i, int start, int end);
-int prepare_cmd(t_token *list, t_cmd **cmd);
+int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi);
 // parsing
 
 int catch_errors(t_token **arg);
@@ -131,12 +131,11 @@ char *ft_strdup_env(const char *s);
 char	**ft_split_env(char const *s, char c);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
 
-<<<<<<< HEAD
 char  *heredoc_expand(char *line, t_env *envi);
-=======
+
 //exection
 void	ft_execution (t_cmd **cmnds, t_env **env);
->>>>>>> b9c3b618bd4c986bbf0f8704eb270262af73f9cf
+void ft_here_doc(t_token *cmd, t_env *envi);
 
 #endif
 

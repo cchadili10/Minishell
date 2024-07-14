@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/13 20:17:46 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/14 04:48:37 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,14 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 		tmp = tmp->next;
 	}
 	close(std_d);
-	// close(p[0]);
-	// close(p[1]);
+	close(p[0]);
+	close(p[1]);
 	while (first)
 	{
 		wait(NULL);
 		first--;
 	}
+	
 	// return ;
 }
 
