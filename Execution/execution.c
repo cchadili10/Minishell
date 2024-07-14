@@ -6,11 +6,38 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/14 04:48:37 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 05:07:19 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
+
+void	ft_check_cmnd(t_cmd **cmnd)
+{
+	t_cmd *tmp = *cmnd;
+	
+	if (ft_strcmp(tmp->cmds[0], "cd"))
+	{
+		
+	}
+	if (ft_strcmp(tmp->cmds[0], "pwd"))
+	{
+		
+	}
+	if (ft_strcmp(tmp->cmds[0], "echo"))
+	{
+		
+	}
+	if (ft_strcmp(tmp->cmds[0], "export"))
+	{
+		
+	}
+	if (ft_strcmp(tmp->cmds[0], "unset")){}
+	if (ft_strcmp(tmp->cmds[0], "exit")){}
+	if (ft_strcmp(tmp->cmds[0], "env")){}
+}
+
 char	*ft_get_path(char **arr_phat, char *first_cmnd)
 {
 	char *arr_join_one;
@@ -26,7 +53,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 			break;
 		else if (res == -1  && !arr_phat[x+1])
 		{
-			perror("zsh: command not found");
+			perror("minishell");
 			return NULL;
 		}
 		x++;
@@ -39,14 +66,25 @@ void ft_excute_one(t_cmd **cmnds, char *path)
 	t_cmd *tmp = *cmnds;
 	char **arr_phat = ft_split(path, ':');
 	char *arr_join = ft_get_path(arr_phat, tmp->cmds[0]);
+	if(!arr_join)
+	{
+		if ( tmp->redir_out != 1)
+			close(tmp->redir_out);
+		return;	
+	}
 	int id = fork();
 	if (id == 0)
 	{
+		if (tmp->redir_out != 1)
+		{
+			dup2(tmp->redir_out, 1);
+			// close(tmp->redir_out);
+		}
 		execve(arr_join, tmp->cmds, NULL);
-		
+		printf("fdfdf\n");
 	}
 	wait(NULL);
-}
+}  
 
 void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 {
@@ -65,6 +103,12 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 	while (tmp && num_cmnd)
 	{
 		arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
+		if(!arr_join)
+		{
+			close(p[0]);
+			close(p[1]);
+			return ;		
+		}
 		if (first == num_cmnd)
 		{
 			pipe(p);
@@ -72,7 +116,14 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 		
 			if (id == 0)
 			{
-				dup2(p[1], STDOUT_FILENO);
+				// if (tmp->redir_out != 1)
+					
+				dup2(p[1], tmp->redir_out);
+				if (tmp->redir_out != 1)
+				{
+					dup2(tmp->redir_out, 1);
+					close(tmp->redir_out);
+				}
 				close(p[0]);
 				close(p[1]);
 				execve(arr_join, tmp->cmds, NULL);
@@ -88,14 +139,20 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 			id = fork();
 			if (id == 0)
 			{
-				dup2(std_d, STDIN_FILENO);
-				dup2(p[1], STDOUT_FILENO);
+				dup2(std_d, tmp->redir_in);
+				dup2(p[1], tmp->redir_out);
+				if (tmp->redir_out != 1)
+				{
+					dup2(tmp->redir_out, 1);
+					close(tmp->redir_out);
+				}
 				close(std_d);
 				close(p[0]);
 				close(p[1]);
 				execve(arr_join, tmp->cmds, NULL);
 			}
 			close(p[1]);
+			close(std_d);
 			// tmp =  tmp->next;
 		}
 		else if (num_cmnd == 1)
@@ -103,7 +160,12 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 			id = fork();
 			if (id == 0)
 			{
-				dup2(p[0], STDIN_FILENO);
+				dup2(p[0], tmp->redir_in);
+				if (tmp->redir_out != 1)
+				{
+					dup2(tmp->redir_out, 1);
+					close(tmp->redir_out);
+				}
 				close(p[0]);
 				close(p[1]);
 				execve(arr_join, tmp->cmds, NULL);
@@ -113,6 +175,12 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 		num_cmnd--;
 		tmp = tmp->next;
 	}
+	// if (tmp->redir_out != 1)
+	// {
+		printf("yryjghjghj\n");	
+		// printf("%d\n",tmp->redir_out);	
+	// }
+		// close(tmp->redir_out);
 	close(std_d);
 	close(p[0]);
 	close(p[1]);
