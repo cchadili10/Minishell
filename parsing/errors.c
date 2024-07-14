@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 11:19:00 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 01:18:49 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int is_redirection(t_type type)
 
 int print_err(char *str, t_token **arg)
 {
+    (void)arg;
     if(str == NULL)
         ft_putendl_fd("syntax error", 2);
     else
         ft_putendl_fd(str, 2);
-    ft_lstclear(arg);
     return (1);
 }
 

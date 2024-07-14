@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 05:45:42 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/13 10:51:29 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/14 04:37:54 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char  *heredoc_expand(char *line, t_env *envi)
         }
         // printf("line = %s\n", var);
         // line = ft_substr(line, 0, len);
-    }if(*line == '$')
+    }else if(*line == '$')
     {
         line++;
         var = ft_strdup(line);
@@ -55,5 +55,6 @@ char  *heredoc_expand(char *line, t_env *envi)
         ret = "";
         tmp_env = envi;
     }
+    // printf("ret = %s\n", ret);
     return (ret);
 }

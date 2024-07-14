@@ -6,9 +6,11 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/14 23:29:50 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:04:45 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../minishell.h"
 
@@ -120,7 +122,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, 0);
+					dup2(tmp->redir_out, STDIN_FILENO);
 					close(tmp->redir_out);
 				}
 				close(p[0]);
@@ -187,6 +189,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 		wait(NULL);
 		first--;
 	}
+	
 	// return ;
 }
 
