@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/15 00:04:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/15 05:26:09 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 	return arr_join;
 }
 
-void ft_excute_one(t_cmd **cmnds, char *path)
+void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 {
 	t_cmd *tmp = *cmnds;
 	char **arr_phat = ft_split(path, ':');
@@ -81,13 +81,13 @@ void ft_excute_one(t_cmd **cmnds, char *path)
 			dup2(tmp->redir_out , 1);
 			// close(tmp->redir_out);
 		}
-		execve(arr_join, tmp->cmds, NULL);
+		execve(arr_join, tmp->cmds, env);
 		printf("fdfdf\n");
 	}
 	wait(NULL);
 }  
 
-void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
+void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 {
 	// char *phath[] = {"/bin/ls", "/usr/bin/grep", "/usr/bin/grep", "/usr/bin/wc", NULL};
 	t_cmd *tmp = *cmnds;
@@ -127,7 +127,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 				}
 				close(p[0]);
 				close(p[1]);
-				execve(arr_join, tmp->cmds, NULL);
+				execve(arr_join, tmp->cmds, env);
 			
 			}
 			// tmp =  tmp->next;
@@ -150,7 +150,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 				close(std_d);
 				close(p[0]);
 				close(p[1]);
-				execve(arr_join, tmp->cmds, NULL);
+				execve(arr_join, tmp->cmds, env);
 			}
 			close(p[1]);
 			close(std_d);
@@ -169,7 +169,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 				}
 				close(p[0]);
 				close(p[1]);
-				execve(arr_join, tmp->cmds, NULL);
+				execve(arr_join, tmp->cmds, env);
 			}
 		}
 		num_cmnd--;
@@ -193,45 +193,69 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd)
 	// return ;
 }
 
+char **ft_get_charenv(t_env **env)
+{
+	t_env *tmp;
+	int x;
+	int y;
+	char *arr_joined;
+	char **arr;
 
+	x = 0;
+	y = 0;
+	tmp = *env;
+	while (tmp)
+	{
+		x++;
+		tmp = tmp->next;
+	}
+	tmp = *env;
+	arr = (char **) malloc((x + 1) * sizeof(char *));
+	if (!arr)
+		return NULL;
+	while (y < x && tmp)
+	{
+		arr_joined = ft_srtjoin(tmp->key, "=");
+		arr[y] = ft_srtjoin(arr_joined, tmp->value);
+		y++;
+		tmp = tmp->next;
+	}
+	arr[y] = NULL;
+	return (arr);
+}
 void	ft_execution (t_cmd **cmnds, t_env **env)
 {
 
 	(void)env;
 	t_cmd *tmp = *cmnds; 
 	int count_cmnd;
-
+	char **arr_env;
 	count_cmnd = 0;
+	// int x = 0;
+	
+	arr_env = ft_get_charenv(env);
+	// while (arr_env[x])
+	// {
+	// 	printf("%s\n",arr_env[x]);
+	// 	x++;
+	// }
+	
 	while (tmp)
 	{
 		count_cmnd++;
 		tmp = tmp->next;
 	}
 	t_env *tmp2 = *env; 
-	// printf("%d\n\n",count_cmnd);
 	
 	(void)cmnds;
 	while (tmp2)
 	{
-		// while(tmp->cmds[i])
-		// {
-			
-		// 	i++;
-		// }
 		if(ft_strcmp(tmp2->key,"PATH") == 0)
 			break;
-		// printf("\n");
 		tmp2 = tmp2->next;
 	}
-	// printf("%s  --> %s \n",tmp2->key, tmp2->value);
 	if(count_cmnd == 1)
-		ft_excute_one(cmnds,tmp2->value);
+		ft_excute_one(cmnds, tmp2->value, arr_env);
 	else
-		ft_excute(cmnds,tmp2->value, count_cmnd);
-	// while (env[i])
-	// {
-	// 	printf("%s\n",);
-	// 	i++;
-	// }
-	
+		ft_excute(cmnds,tmp2->value, count_cmnd, arr_env);
 }
