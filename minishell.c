@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/14 04:47:03 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:22:53 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,54 @@ int processline(char *line, t_token **list)
 }
 // Main function
 #include "libc.h"
+int ft_atoi(const char *str)
+{
+    int i;
+    int sign;
+    int res;
+
+    i = 0;
+    sign = 1;
+    res = 0;
+    while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+        i++;
+    if (str[i] == '-' || str[i] == '+')
+    {
+        if (str[i] == '-')
+            sign = -1;
+        i++;
+    }
+    while (str[i] >= '0' && str[i] <= '9')
+    {
+        res = res * 10 + str[i] - '0';
+        i++;
+    }
+    return (res * sign);
+}
+char *ft_itoi(int nbr)
+{
+    char *str;
+    int i;
+    int n;
+
+    i = 0;
+    n = nbr;
+    while (n)
+    {
+        n /= 10;
+        i++;
+    }
+    str = (char *)malloc(i + 1);
+    if (!str)
+        return (NULL);
+    str[i] = '\0';
+    while (i--)
+    {
+        str[i] = nbr % 10 + '0';
+        nbr /= 10;
+    }
+    return (str);
+}
 
 void initenv(char **env, t_env **envi)
 {
@@ -182,15 +230,19 @@ void initenv(char **env, t_env **envi)
     char *value;
     
     int index = 0;
-    i = 0;
+    i = -1;
     
-    while (env[i])
+    while (env && env[++i])
     {
         index = find_char(env[i], '=');
         key = ft_substr_env(env[i], 0, index);
         value = ft_substr_env(env[i], index + 1, ft_strlen(env[i]) - index);
+        if(ft_strcmp(key, "SHLVL") == 0)
+            value = ft_itoi(ft_atoi(value) + 1);
+        else if(ft_strcmp(key, "_") == 0)
+            value = "/usr/bin/env";
+
         lst_add_back_env(envi, lst_new_env(key, value));
-        i++;
     }
 }
 
@@ -205,7 +257,7 @@ int print_env(t_env *envi, t_token *list)
     size = ft_lstsize(tmp);
     if (tmp2 && !ft_strcmp(tmp2->key, str))
     {
-        while (tmp && size - 1)
+        while (tmp && size)
         {
             write(1, tmp->key, ft_strlen(tmp->key));
             write(1, "=", 1);
@@ -294,11 +346,11 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         } 
-        // if(print_env(envi, list))    // <--- to print the env
-        // {
-        //     free((void*)line);
-        //     continue;
-        // }
+        if(print_env(envi, list))    // <--- to print the env
+        {
+            free((void*)line);
+            continue;
+        }
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
         if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
@@ -313,6 +365,16 @@ int main(int ac, char **av, char **env) //$home.c
         // print_cmd(&cmd);
         // if(!heredoc(list, envi))            // <--- to handle the heredoc
         //     continue ;
+        
+        // printf("\n-----------*****\n");
+        // int i = 0;
+        // while (env && env[i])
+        // {
+        //     printf("%s\n", env[i]);
+        //     i++;
+        // }
+        
+
 		ft_execution(&cmd, &envi);
         free((void*)line);
         g_malloc(0, FREE);
