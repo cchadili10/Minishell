@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/14 04:07:54 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/15 07:05:31 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void find_node(t_env *envi, t_token *list)
     t_token *tmp = list;
     t_env *tmp_env = envi;
 
-    if(tmp->value != HEREDOC)
+    if(tmp && tmp->value != HEREDOC)
     {
         while (tmp)
         {
@@ -43,6 +43,7 @@ void find_node(t_env *envi, t_token *list)
                         if (ft_strcmp(tmp->key + 1, tmp_env->key) == 0)
                         {
                             tmp->key = tmp_env->value;
+                            tmp->value = CMD;
                             found = 1;
                             break;
                         }
@@ -61,13 +62,12 @@ void find_node(t_env *envi, t_token *list)
                 char *line = "";
                 while (tmp->key[x])
                 {
-                    if (tmp->key[x] != '$' || (tmp->key[x] == '$' && tmp->key[x + 1] == '\'') || (tmp->key[x] == '$' && tmp->key[x + 1] == '\0'))
+                    if (tmp->key[x] != '$' || (tmp->key[x] == '$' && tmp->key[x + 1] == '\'')
+                        || (tmp->key[x] == '$' && tmp->key[x + 1] == '\0') || (tmp->key[x] == '$' && tmp->key[x + 1] == '$'))
                     {
                         line = join_char(line, tmp->key[x]);
                         x++;
                     }
-                    else if (tmp->key[x] == '$' && tmp->key[x + 1] == '$')
-                        x = x + 2;
                     else
                     {
                         x++;
@@ -129,6 +129,8 @@ t_cmd   *lst_new_cmd(char **line, int in, int out)
         return (NULL);
     
     new->cmds = line;
+    // if (out != 1)
+    //     printf("1 kayn\n");
     new->redir_in = in;
     new->redir_out = out;
     new->next = NULL;
@@ -214,7 +216,7 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                 tmp = tmp->next;
                 if (tmp && tmp->value == SPACE)
                     tmp = tmp->next;
-                ft_here_doc(tmp, envi);
+                ft_here_doc(tmp, envi, &red_out);
                 tmp = tmp->next;
                 continue ;
             }

@@ -135,7 +135,7 @@ char  *heredoc_expand(char *line, t_env *envi);
 
 //exection
 void	ft_execution (t_cmd **cmnds, t_env **env);
-void ft_here_doc(t_token *cmd, t_env *envi);
+void ft_here_doc(t_token *cmd, t_env *envi, int *red_out);
 
 #endif
 

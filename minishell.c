@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/15 00:22:53 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/15 06:41:12 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ int ft_atoi(const char *str)
 }
 char *ft_itoi(int nbr)
 {
+    
     char *str;
     int i;
     int n;
@@ -218,7 +219,7 @@ char *ft_itoi(int nbr)
         nbr /= 10;
     }
     return (str);
-}
+    }
 
 void initenv(char **env, t_env **envi)
 {
@@ -331,8 +332,10 @@ int main(int ac, char **av, char **env) //$home.c
         cmd = NULL;
         (void)env;
         
-         initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
+        initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
         line = readline("Minishell 🔴🔵 ");
+        if (!line)
+            break ;
         // char  *save_line = line;
         if (line && ft_strlen(line) != 0)
             add_history(line);
@@ -341,16 +344,16 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         }    
-        if (!catch_errors(&list))    // <--- to catch errors
-        {
-            free((void*)line);
-            continue;
-        } 
-        if(print_env(envi, list))    // <--- to print the env
-        {
-            free((void*)line);
-            continue;
-        }
+        // if (!catch_errors(&list))    // <--- to catch errors
+        // {
+        //     free((void*)line);
+        //     continue;
+        // } 
+        // if(print_env(envi, list))    // <--- to print the env
+        // {
+        //     free((void*)line);
+        //     continue;
+        // }
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
         if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
