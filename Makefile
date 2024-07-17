@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
+#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/14 04:10:48 by yessemna         ###   ########.fr        #
+#    Updated: 2024/07/17 03:19:25 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ SRC = minishell.c \
 		parsing/heredoc_expand.c \
 		parsing/heredoc.c \
 		Execution/execution.c \
+		builtins/env.c \
+		builtins/ft_putstr.c \
 		
 
 OBJ = $(SRC:.c=.o)
