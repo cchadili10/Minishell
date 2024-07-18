@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/18 13:51:27 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:17:21 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 	return arr_join;
 }
 
-void ft_buitin_cmnd(t_cmd **cmnds, char **env, int place)
+void ft_buitin_cmnd(t_cmd *cmnds, char **env, int place)
 {
 	// static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
 	if (place == 0)
 		ft_env(env, cmnds);
-	if (place == 1){}
-	if (place == 2){}
+	if (place == 1)
+		ft_pwd();
+	if (place == 2)
+		ft_cd(cmnds);
 	if (place == 3){}
 	if (place == 4){}
 	if (place == 5){}
@@ -100,7 +102,7 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 			dup2(tmp->redir_out , 1);
 			close(tmp->redir_out);
 		}
-		ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+		ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
 		// if (tmp->redir_out != 1)
 		dup2(saved_stdout, 1);
 		dup2(saved_stdout_, 0);
@@ -154,7 +156,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 			}
 			else
@@ -191,7 +193,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
@@ -232,7 +234,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}

@@ -6,18 +6,23 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:40:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/04 16:30:07 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:22:05 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_cd(char *path)
+void ft_cd(t_cmd *cmnd)
 {
-	if(chdir(path))
-	{
-		perror("chdir erorr");
+	if(!cmnd->cmds[2])
+	{	
+		if(chdir(cmnd->cmds[1]))
+		{
+			perror("chdir erorr");
+		}
 	}
+	else
+		perror("chdir erorr");
 	
 }
 // int main() 

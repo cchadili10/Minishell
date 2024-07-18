@@ -11,6 +11,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/param.h>
+#include <limits.h>
 
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -20,40 +21,40 @@
 
 typedef enum e_type
 {
-    CMD,
-    PIPE,
-    SPACE,
-    IN,
-    HEREDOC,
-    OUT,
-    APPEND,
-    SNGL_Q,
-    DBL_Q,
-    VAR,
-    DBL_VAR,
+	CMD,
+	PIPE,
+	SPACE,
+	IN,
+	HEREDOC,
+	OUT,
+	APPEND,
+	SNGL_Q,
+	DBL_Q,
+	VAR,
+	DBL_VAR,
 }	t_type;
 
 
 typedef struct s_token
 {
-    char	*key;
-    t_type	value;
-    struct s_token	*next;
+	char	*key;
+	t_type	value;
+	struct s_token	*next;
 }	t_token;
 
 typedef struct s_env
 {
-    char	*key;
-    char	*value;
-    struct s_env    *next;
+	char	*key;
+	char	*value;
+	struct s_env    *next;
 }	t_env;
 
 typedef struct s_cmd
 {
-    int     redir_in;
-    int     redir_out;
-    char	**cmds;
-    struct s_cmd    *next;
+	int     redir_in;
+	int     redir_out;
+	char	**cmds;
+	struct s_cmd    *next;
 }	t_cmd;
 
 char *ft_strcpy(char *dest, const char *src);
@@ -140,8 +141,10 @@ void	ft_execution (t_cmd **cmnds, t_env **env);
 void ft_here_doc(t_token *cmd, t_env *envi, int *red_out);
 
 //builtsin
-void	ft_env(char **env, t_cmd **cmnds);
+void	ft_env(char **env, t_cmd *cmnds);
 void	ft_putstr_fd(char *s, int fd);
+void	ft_cd(t_cmd *cmnd);
+void	ft_pwd(void);
 
 #endif
 
