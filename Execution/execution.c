@@ -6,21 +6,22 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/17 06:04:30 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:51:27 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
 #include "../minishell.h"
+#include <limits.h>
 
-int	ft_check_cmnd(t_cmd **cmnd)
+int	ft_check_cmnd(t_cmd *cmnd)
 {
 	static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
 	int x = 0;
 	t_cmd *tmp;
 
-	tmp = *cmnd;	
+	tmp = cmnd;	
 	while (builts[x])
 	{
 		if(strcmp(builts[x],tmp->cmds[0]) == 0)
@@ -89,22 +90,20 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 			close(tmp->redir_out);
 		return;	
 	}
-	if (ft_check_cmnd(cmnds) != -1)
+	if (ft_check_cmnd(tmp) != -1)
 	{
-		int saved_stdout;
+		int saved_stdout = dup(1);
+		int saved_stdout_ = dup(0);
 		if (tmp->redir_out != 1)
 		{
-			saved_stdout = dup(1);
+			// saved_stdout = dup(1);
 			dup2(tmp->redir_out , 1);
-			// close(tmp->redir_out);
-		}
-		ft_buitin_cmnd(cmnds, env, ft_check_cmnd(cmnds));
-		if (tmp->redir_out != 1)
-		{
-			dup2(saved_stdout, 1);
 			close(tmp->redir_out);
 		}
-		// close(tmp->redir_out);
+		ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+		// if (tmp->redir_out != 1)
+		dup2(saved_stdout, 1);
+		dup2(saved_stdout_, 0);
 	}
 	else
 	{
@@ -120,12 +119,8 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 		}
 		wait(NULL);
 		if (tmp->redir_out != 1)
-		{
-			dup2(tmp->redir_out , 1);
 			close(tmp->redir_out);
-		}
 	}
-	
 }  
 
 void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
@@ -137,7 +132,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 	int p[2];
 	int first = num_cmnd;
 	int id;
-	int std_d;
+	int std_d = -1;
 	while (tmp && num_cmnd)
 	{
 		arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
@@ -145,76 +140,126 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 		{
 			close(p[0]);
 			close(p[1]);
-			return ;		
+			return ;
 		}
-		if (first == num_cmnd)
+		if (first == num_cmnd) // first cmnd
 		{
 			pipe(p);
-			id = fork();
-		
-			if (id == 0)
+			if (ft_check_cmnd(tmp) != -1)
 			{
+				int saved_stdout = dup(1);
 				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, STDIN_FILENO);
+					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				close(p[0]);
-				close(p[1]);
-				execve(arr_join, tmp->cmds, env);
-			
+				ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+				dup2(saved_stdout, 1);
+			}
+			else
+			{
+				id = fork();
+				if (id == 0)
+				{
+					dup2(p[1], STDOUT_FILENO);
+					if (tmp->redir_out != 1)
+					{
+						dup2(tmp->redir_out, STDIN_FILENO);
+						close(tmp->redir_out);
+					}
+					close(p[0]);
+					close(p[1]);
+					execve(arr_join, tmp->cmds, env);
+				
+				}
 			}
 			close(p[1]);
 		}
-		else if (num_cmnd != 1)
+		else if (num_cmnd != 1) // mid cmnd
 		{
 			std_d = p[0];
 			pipe(p);
-			id = fork();
-			if (id == 0)
+			if (ft_check_cmnd(tmp) != -1)
 			{
-				dup2(std_d, tmp->redir_in);
+				int saved_stdout = dup(1);
+				int saved_stdout_ = dup(0);
+				dup2(std_d, STDIN_FILENO);
 				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, STDOUT_FILENO);
+					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				close(std_d);
-				close(p[0]);
-				close(p[1]);
-				execve(arr_join, tmp->cmds, env);
+				ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+				dup2(saved_stdout, 1);
+				dup2(saved_stdout_, 0);
+			}
+			else
+			{
+				id = fork();
+				if (id == 0)
+				{
+					dup2(std_d, STDIN_FILENO);
+					dup2(p[1], STDOUT_FILENO);
+					if (tmp->redir_out != 1)
+					{
+						dup2(tmp->redir_out, STDOUT_FILENO);
+						close(tmp->redir_out);
+					}
+					close(std_d);
+					close(p[0]);
+					close(p[1]);
+					execve(arr_join, tmp->cmds, env);
+				}
 			}
 			close(p[1]);
 			close(std_d);
 			// tmp =  tmp->next;
 		}
-		else if (num_cmnd == 1)
+		else if (num_cmnd == 1) // last cmnd
 		{ 
-			id = fork();
-			if (id == 0)
+			// printf("ahfsyhvbfsdk\n\n");
+			// printf(" test ------------> %d\n", ft_check_cmnd(tmp));
+			if (ft_check_cmnd(tmp) != -1)
 			{
-				dup2(p[0], STDIN_FILENO);
+				// printf(" loloch %d\n",tmp->redir_out);
+				int saved_stdout = dup(1);
+				int saved_stdout_ = dup(0);
+				dup2(p[0], 0);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, STDOUT_FILENO);
+					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				close(p[0]);
-				close(p[1]);
-				execve(arr_join, tmp->cmds, env);
+				ft_buitin_cmnd(cmnds, env, ft_check_cmnd(tmp));
+				dup2(saved_stdout, 1);
+				dup2(saved_stdout_, 0);
+			}
+			else
+			{
+				id = fork();
+				if (id == 0)
+				{
+					dup2(p[0], STDIN_FILENO);
+					if (tmp->redir_out != 1)
+					{
+						dup2(tmp->redir_out, STDOUT_FILENO);
+						close(tmp->redir_out);
+					}
+					close(p[0]);
+					close(p[1]);
+					execve(arr_join, tmp->cmds, env);
+				}
 			}
 		}
 		num_cmnd--;
+		if (tmp->redir_out != 1)
+		{
+			close(tmp->redir_out);
+		}
 		tmp = tmp->next;
 	}
-	// if (tmp->redir_out != 1)
-	// {
-		// printf("yryjghjghj\n");	
-		// printf("%d\n",tmp->redir_out);	
-	// }
-		// close(tmp->redir_out);
 	close(std_d);
 	close(p[0]);
 	close(p[1]);
@@ -224,7 +269,6 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 		first--;
 	}
 	
-	// return ;
 }
 
 char **ft_get_charenv(t_env **env)
@@ -262,7 +306,6 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 	if (!cmnds || !*cmnds || !env || !*env)
 		return;
 	t_cmd *tmp = *cmnds; 
-	
 	int count_cmnd;
 	char **arr_env = NULL;
 	count_cmnd = 0;
@@ -287,5 +330,11 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 		ft_excute(cmnds,tmp2->value, count_cmnd, arr_env);
 	free(arr_env);
 	arr_env = NULL;
-	
+	for (int i = 3; i < OPEN_MAX ; i++)
+	{
+		close(i);
+	}
+	// write(0,"0 shj\n",7);
+	// write(1,"1 shj\n",7);
+	// write(2,"2 shj\n",7);
 }
