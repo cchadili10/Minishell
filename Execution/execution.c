@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/18 15:17:21 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:49:32 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 #include "../minishell.h"
 #include <limits.h>
 
+int ft_count_cmnds(t_cmd **cmnds)
+{
+	int x;
+	t_cmd *tmp;
+
+	x = 0;
+	tmp = *cmnds;
+	while (tmp)
+	{
+		x++;
+		tmp = tmp->next;
+	}
+	return x;
+}
+
 int	ft_check_cmnd(t_cmd *cmnd)
 {
 	static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
@@ -22,13 +37,15 @@ int	ft_check_cmnd(t_cmd *cmnd)
 	t_cmd *tmp;
 
 	tmp = cmnd;	
+	// printf("%s\n",tmp->cmds[0]);
 	while (builts[x])
 	{
 		if(strcmp(builts[x],tmp->cmds[0]) == 0)
 			break;
 		x++;
 	}
-	if (x >= 6)
+	// printf("%d\n",x);
+	if (x >= 7)
 		return -1;
 	return (x);
 }
@@ -44,7 +61,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 		res = access(first_cmnd, F_OK | X_OK);
 		if(res == 0)
 		{
-			printf("%s\n",first_cmnd);
+			// printf("%s\n",first_cmnd);
 			return first_cmnd;
 		}
 		else 
@@ -56,8 +73,8 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 				break;
 			else if (res == -1  && !arr_phat[x+1])
 			{
-				perror("minishell");
-				return NULL;
+				// perror("minishell");
+				return first_cmnd;
 			}
 		}
 		x++;
@@ -65,7 +82,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 	return arr_join;
 }
 
-void ft_buitin_cmnd(t_cmd *cmnds, char **env, int place)
+void ft_buitin_cmnd(t_cmd *cmnds, t_env **env, int place)
 {
 	// static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
 	if (place == 0)
@@ -73,15 +90,16 @@ void ft_buitin_cmnd(t_cmd *cmnds, char **env, int place)
 	if (place == 1)
 		ft_pwd();
 	if (place == 2)
-		ft_cd(cmnds);
+		ft_cd(cmnds, env);
 	if (place == 3){}
 	if (place == 4){}
 	if (place == 5){}
-	if (place == 6){}
+	if (place == 6)
+		exit(0);
 	
 }
 
-void ft_excute_one(t_cmd **cmnds, char *path, char **env)
+void ft_excute_one(t_cmd **cmnds, char *path, char **env, t_env **node_env)
 {
 	t_cmd *tmp = *cmnds;
 	char **arr_phat = ft_split(path, ':');
@@ -92,6 +110,7 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 			close(tmp->redir_out);
 		return;	
 	}
+	// printf("%s\n",tmp->cmds[0]);
 	if (ft_check_cmnd(tmp) != -1)
 	{
 		int saved_stdout = dup(1);
@@ -102,7 +121,7 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 			dup2(tmp->redir_out , 1);
 			close(tmp->redir_out);
 		}
-		ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+		ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
 		// if (tmp->redir_out != 1)
 		dup2(saved_stdout, 1);
 		dup2(saved_stdout_, 0);
@@ -125,16 +144,16 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 	}
 }  
 
-void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
+void ft_excute(t_cmd **cmnds, char *path ,t_env **node_env, char **env)
 {
 	t_cmd *tmp = *cmnds;
-	(void)num_cmnd;
 	char **arr_phat = ft_split(path, ':');
 	char *arr_join = NULL;
 	int p[2];
-	int first = num_cmnd;
+	int num_cmnd = ft_count_cmnds(cmnds);
 	int id;
 	int std_d = -1;
+	// printf("%s\n",tmp->cmds[0]);
 	while (tmp && num_cmnd)
 	{
 		arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
@@ -144,7 +163,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 			close(p[1]);
 			return ;
 		}
-		if (first == num_cmnd) // first cmnd
+		if (num_cmnd == ft_count_cmnds(cmnds)) // first cmnd
 		{
 			pipe(p);
 			if (ft_check_cmnd(tmp) != -1)
@@ -156,7 +175,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 			}
 			else
@@ -193,7 +212,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
@@ -221,11 +240,8 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 		}
 		else if (num_cmnd == 1) // last cmnd
 		{ 
-			// printf("ahfsyhvbfsdk\n\n");
-			// printf(" test ------------> %d\n", ft_check_cmnd(tmp));
 			if (ft_check_cmnd(tmp) != -1)
 			{
-				// printf(" loloch %d\n",tmp->redir_out);
 				int saved_stdout = dup(1);
 				int saved_stdout_ = dup(0);
 				dup2(p[0], 0);
@@ -234,7 +250,7 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
@@ -265,10 +281,11 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 	close(std_d);
 	close(p[0]);
 	close(p[1]);
-	while (first)
+	num_cmnd = ft_count_cmnds(cmnds);
+	while (num_cmnd)
 	{
 		wait(NULL);
-		first--;
+		num_cmnd--;
 	}
 	
 }
@@ -307,29 +324,23 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 {
 	if (!cmnds || !*cmnds || !env || !*env)
 		return;
-	t_cmd *tmp = *cmnds; 
+		
 	int count_cmnd;
 	char **arr_env = NULL;
 	count_cmnd = 0;
 	arr_env = ft_get_charenv(env);
-	while (tmp)
-	{
-		count_cmnd++;
-		tmp = tmp->next;
-	}
-	t_env *tmp2 = *env; 
 	
-	// (void)cmnds;
+	t_env *tmp2 = *env; 
 	while (tmp2)
 	{
 		if(ft_strcmp(tmp2->key,"PATH") == 0)
 			break;
 		tmp2 = tmp2->next;
 	}
-	if(count_cmnd == 1)
-		ft_excute_one(cmnds, tmp2->value, arr_env);
+	if(ft_count_cmnds(cmnds) == 1)
+		ft_excute_one(cmnds, tmp2->value, arr_env, env);
 	else
-		ft_excute(cmnds,tmp2->value, count_cmnd, arr_env);
+		ft_excute(cmnds, tmp2->value, env, arr_env);
 	free(arr_env);
 	arr_env = NULL;
 	for (int i = 3; i < OPEN_MAX ; i++)
