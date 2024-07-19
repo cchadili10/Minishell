@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/15 06:41:12 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:31:00 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,13 +326,13 @@ int main(int ac, char **av, char **env) //$home.c
 
     if (ac > 1)
         print_error("no argument needed");
+    initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
     while (1)
     {
         list = NULL;
         cmd = NULL;
         (void)env;
         
-        initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
         line = readline("Minishell 🔴🔵 ");
         if (!line)
             break ;
@@ -344,11 +344,6 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         }    
-        // if (!catch_errors(&list))    // <--- to catch errors
-        // {
-        //     free((void*)line);
-        //     continue;
-        // } 
         // if(print_env(envi, list))    // <--- to print the env
         // {
         //     free((void*)line);
@@ -360,12 +355,17 @@ int main(int ac, char **av, char **env) //$home.c
         {
             free((void*)line);
             continue;
-        } 
+        }
+        if (!catch_errors(&list))    // <--- to catch errors
+        {
+            free((void*)line);
+            continue;
+        }
 
         // printf("\n-----------\n");
         // print_list(list);      // print cmd list
 
-        // print_cmd(&cmd);
+        print_cmd(&cmd);
         // if(!heredoc(list, envi))            // <--- to handle the heredoc
         //     continue ;
         
@@ -390,14 +390,21 @@ int main(int ac, char **av, char **env) //$home.c
 --> "$HOME"                               ->DONE
 --> print env                             ->DONE 
 --> env: r: No such file or directory
+-----> garbage collector   <-----        -->DONE
+1 -- env -i ./minishell   --> done
 sw
 
 
 ??
 --> export
 --> unset
+--> fix echo
+--> exit status
+--> env -i ./minishell should keep a secure path , some commands still work
+--> split when there is a space in the value of the env variable
 
------> garbage collector   <-----        -->DONE
--->
+--> change (PWD && oldPWD ) when we use cd
+
+-
 
 */

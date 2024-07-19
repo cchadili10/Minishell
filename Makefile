@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
+#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/18 14:54:48 by hchadili         ###   ########.fr        #
+#    Updated: 2024/07/19 11:28:54 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC = minishell.c \
 		tools/count_word.c \
 		tools/ft_putendl_fd.c \
 		tools/ft_lstclear.c \
+		tools/get_next_line.c \
 		parsing/errors.c \
 		parsing/tokenazing.c \
 		parsing/finders.c \

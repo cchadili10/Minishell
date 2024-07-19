@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 10:15:54 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/10 20:32:17 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:08:25 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 char *ft_strdup(const char *s)
 {
-    int i = 0;
+    int i;
+    
+    i = 0;
     char *out = g_malloc(ft_strlen(s) + 1, MALLOC);
     while (s && s[i])
     {

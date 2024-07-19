@@ -6,71 +6,72 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/14 23:54:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:05:46 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token   *lst_new(char *key, t_type value)
+t_token	*lst_new(char *key, t_type value)
 {
-    t_token *new;
-    
-    if (!key)
-        return (NULL);
-    new = (t_token *)g_malloc(sizeof(t_token), MALLOC);
-    if (!new)
-        return (NULL);
-    new->key = key;
-    new->value = value;
-    new->next = NULL;
-    return (new);
-}
-void    lst_add_back(t_token **head, t_token *new)
-{
-    t_token *tmp = *head;
+	t_token	*new;
 
-    if(!head || !new)
-        return ;
-    
-    if(!*head)
-        *head = new;
-    else
-    {
-        while(tmp->next)
-            tmp = tmp->next;
-        tmp->next = new;
-    }
+	if (!key)
+		return (NULL);
+	new = (t_token *)g_malloc(sizeof(t_token), MALLOC);
+	if (!new)
+		return (NULL);
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	return (new);
 }
-void    lst_add_back_env(t_env **head, t_env *new)
-{
-    t_env *tmp = *head;
 
-    if(!head || !new)
-        return ;
-    
-    if(!*head)
-        *head = new;
-    else
-    {
-        while(tmp->next)
-            tmp = tmp->next;
-        tmp->next = new;
-    }
-    // printf("key -> %s\n", tmp->key);
-    // printf("value -> %s\n", tmp->value);
+void	lst_add_back(t_token **head, t_token *new)
+{
+	t_token	*tmp;
+
+	tmp = *head;
+	if (!head || !new)
+		return ;
+	if (!*head)
+		*head = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
-t_env   *lst_new_env(char *key, char *value)
-{
-    t_env *new;
 
-    if (!key)
-        return (NULL);
-    new = (t_env *)g_malloc_env(sizeof(t_env), MALLOC);
-    if (!new)
-        return (NULL);
-    new->key = key;
-    new->value = value;
-    new->next = NULL;
-    return (new);
+void	lst_add_back_env(t_env **head, t_env *new)
+{
+	t_env	*tmp;
+
+	tmp = *head;
+	if (!head || !new)
+		return ;
+	if (!*head)
+		*head = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+t_env	*lst_new_env(char *key, char *value)
+{
+	t_env	*new;
+
+	if (!key)
+		return (NULL);
+	new = (t_env *)g_malloc_env(sizeof(t_env), MALLOC);
+	if (!new)
+		return (NULL);
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	return (new);
 }

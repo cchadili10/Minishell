@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/15 07:05:31 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:35:58 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                 tmp = tmp->next;
             if ((tmp && tmp->value == PIPE) || tmp->key == NULL)
                 continue ;
-            if (tmp && tmp->value == IN)
+            if (tmp->next && tmp->value == IN)
             {
                 tmp = tmp->next;
                 if (tmp && tmp->value == SPACE)
@@ -189,7 +189,7 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                     return(perror(tmp->key), 0);
                 tmp = tmp->next;
                 continue ;
-            }else if(tmp && tmp->value == OUT)
+            }else if(tmp->next && tmp->value == OUT)
             {
                 if(red_out != 1)
                     close(red_out);
@@ -201,7 +201,7 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                     return(perror(tmp->key), 0);
                 tmp = tmp->next;
                 continue ;
-            }else if(tmp && tmp->value == APPEND)
+            }else if(tmp->next && tmp->value == APPEND)
             {
                 tmp = tmp->next;
                 if (tmp && tmp->value == SPACE)
@@ -211,12 +211,18 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                     return(perror(tmp->key), 0);
                 tmp = tmp->next;
                 continue ;
-            }else if (tmp && tmp-> value == HEREDOC)
+            }else if (tmp->next && tmp-> value == HEREDOC)
             {
                 tmp = tmp->next;
                 if (tmp && tmp->value == SPACE)
                     tmp = tmp->next;
-                ft_here_doc(tmp, envi, &red_out);
+                ft_here_doc(tmp, envi, &red_in);
+                close(red_in);
+                red_in = open("/tmp/dog", O_RDONLY);
+                if (red_in < 0)
+                    return(perror(tmp->key), 0);
+                // printf("fd = %d\n", red_out);
+                // printf("-------> line = %s\n", get_next_line(red_out));
                 tmp = tmp->next;
                 continue ;
             }
