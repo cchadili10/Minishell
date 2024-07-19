@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/19 18:49:32 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:14:50 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void ft_buitin_cmnd(t_cmd *cmnds, t_env **env, int place)
 		ft_pwd();
 	if (place == 2)
 		ft_cd(cmnds, env);
-	if (place == 3){}
+	if (place == 3)
+		ft_echo(cmnds);
 	if (place == 4){}
 	if (place == 5){}
 	if (place == 6)
@@ -307,7 +308,7 @@ char **ft_get_charenv(t_env **env)
 		tmp = tmp->next;
 	}
 	tmp = *env;
-	arr = (char **) malloc((x + 1) * sizeof(char *));
+	arr = g_malloc(((x+1) * sizeof(char *)) , MALLOC );
 	if (!arr)
 		return NULL;
 	while (y < x && tmp)
@@ -341,8 +342,6 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 		ft_excute_one(cmnds, tmp2->value, arr_env, env);
 	else
 		ft_excute(cmnds, tmp2->value, env, arr_env);
-	free(arr_env);
-	arr_env = NULL;
 	for (int i = 3; i < OPEN_MAX ; i++)
 	{
 		close(i);

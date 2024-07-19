@@ -3,35 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/10 08:22:54 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:46:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_echo(char *s, int a)
+int	ft_look_for_n(char *str)
 {
-	int	i;
-
-	i = 0;
-	if (i)
+	int x = 0;
+	while (str[x])
 	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
-		write(1,"\n",1);
+		if(str[0] != '-')
+			break ;
+		x++;
 	}
+	
+	
+}
+
+void ft_echo(t_cmd *cmnd)
+{
+	int	i = 0;
+	t_cmd *tmp = cmnd; 
+	
+	while (tmp->cmds[i])
+		i++;
+	if (i == 1)
+		printf("\n");
 	else
 	{
-		while (s[i])
-		{
-			write(1,&s[i],1);
-			i++;
-		}
+		if (ft_look_for_n(tmp->cmds[1]))
 	}
+	
 }

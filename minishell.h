@@ -144,6 +144,7 @@ void ft_here_doc(t_token *cmd, t_env *envi, int *red_out);
 void 	ft_env(t_env **env, t_cmd *cmnds);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_cd(t_cmd *cmnd, t_env **env);
+void	ft_echo(t_cmd *cmnd);
 void	ft_pwd(void);
 
 #endif
