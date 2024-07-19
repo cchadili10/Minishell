@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/17 05:42:20 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:56:05 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,59 +324,59 @@ int main(int ac, char **av, char **env) //$home.c
 	(void)av;
 	envi = NULL;
 
-		initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
-	if (ac > 1)
-		print_error("no argument needed");
-	while (1)
-	{
-		list = NULL;
-		cmd = NULL;
-		(void)env;
-		
-		line = readline("Minishell 🔴🔵 ");
-		if (!line)
-			break ;
-		// char  *save_line = line;
-		if (line && ft_strlen(line) != 0)
-			add_history(line);
-		if(!processline(line, &list))//<--- to handle the line prepare the list
-		{
-			free((void*)line);
-			continue;
-		}    
-		// if (!catch_errors(&list))    // <--- to catch errors
-		// {
-		//     free((void*)line);
-		//     continue;
-		// } 
-		// if(print_env(envi, list))    // <--- to print the env
-		// {
-		//     free((void*)line);
-		//     continue;
-		// }
-		find_node(envi, list);   // <--- to expand the variables
-		join_nodes(&list);      // <--------------- join
-		if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
-		{
-			free((void*)line);
-			continue;
-		} 
+    if (ac > 1)
+        print_error("no argument needed");
+    while (1)
+    {
+        list = NULL;
+        cmd = NULL;
+        (void)env;
+        
+        initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
+        line = readline("Minishell 🔴🔵 ");
+        if (!line)
+            break ;
+        // char  *save_line = line;
+        if (line && ft_strlen(line) != 0)
+            add_history(line);
+        if(!processline(line, &list))//<--- to handle the line prepare the list
+        {
+            free((void*)line);
+            continue;
+        }    
+        // if (!catch_errors(&list))    // <--- to catch errors
+        // {
+        //     free((void*)line);
+        //     continue;
+        // } 
+        // if(print_env(envi, list))    // <--- to print the env
+        // {
+        //     free((void*)line);
+        //     continue;
+        // }
+        find_node(envi, list);   // <--- to expand the variables
+        join_nodes(&list);      // <--------------- join
+        if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
+        {
+            free((void*)line);
+            continue;
+        } 
 
 		// printf("\n-----------\n");
 		// print_list(list);      // print cmd list
 
-		// print_cmd(&cmd);
-		// if(!heredoc(list, envi))            // <--- to handle the heredoc
-		//     continue ;
-		
-		// printf("\n-----------*****\n");
-		// int i = 0;
-		// while (env && env[i])
-		// {
-		//     printf("%s\n", env[i]);
-		//     i++;
-		// }
-		
+        // print_cmd(&cmd);
+        // if(!heredoc(list, envi))            // <--- to handle the heredoc
+        //     continue ;
+        
+        // printf("\n-----------*****\n");
+        // int i = 0;
+        // while (env && env[i])
+        // {
+        //     printf("%s\n", env[i]);
+        //     i++;
+        // }
+        
 
 		ft_execution(&cmd, &envi);
 		free((void*)line);
@@ -390,14 +390,21 @@ int main(int ac, char **av, char **env) //$home.c
 --> "$HOME"                               ->DONE
 --> print env                             ->DONE 
 --> env: r: No such file or directory
+-----> garbage collector   <-----        -->DONE
+1 -- env -i ./minishell   --> done
 sw
 
 
 ??
 --> export
 --> unset
+--> fix echo
+--> exit status
+--> env -i ./minishell should keep a secure path , some commands still work
+--> split when there is a space in the value of the env variable
 
------> garbage collector   <-----        -->DONE
--->
+--> change (PWD && oldPWD ) when we use cd
+
+-
 
 */
