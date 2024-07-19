@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/14 19:32:21 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/19 07:07:58 by yessemna         ###   ########.fr       */
+/*   Created: 2024/07/17 01:53:59 by hchadili          #+#    #+#             */
+/*   Updated: 2024/07/18 14:08:18 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *str)
-{
-	int	i;
+# include "../minishell.h"
 
-	i = 0;
-	while (str && str[i])
-		i++;
-	return (i);
+void ft_env(char **env, t_cmd *cmnds)
+{
+	// t_cmd *tmp = *cmnds;
+	(void)cmnds;
+	int x;
+	x = 0;
+	while (env[x])
+	{
+		printf("%s\n",env[x]);
+		x++;
+	}
 }

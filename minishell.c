@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/19 00:09:13 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:31:00 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,12 +351,12 @@ int main(int ac, char **av, char **env) //$home.c
         // }
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
-        if (!catch_errors(&list))    // <--- to catch errors
+        if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
         {
             free((void*)line);
             continue;
         }
-        if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
+        if (!catch_errors(&list))    // <--- to catch errors
         {
             free((void*)line);
             continue;
@@ -365,7 +365,7 @@ int main(int ac, char **av, char **env) //$home.c
         // printf("\n-----------\n");
         // print_list(list);      // print cmd list
 
-        // print_cmd(&cmd);
+        print_cmd(&cmd);
         // if(!heredoc(list, envi))            // <--- to handle the heredoc
         //     continue ;
         
@@ -390,18 +390,21 @@ int main(int ac, char **av, char **env) //$home.c
 --> "$HOME"                               ->DONE
 --> print env                             ->DONE 
 --> env: r: No such file or directory
+-----> garbage collector   <-----        -->DONE
+1 -- env -i ./minishell   --> done
 sw
 
 
 ??
 --> export
 --> unset
-
------> garbage collector   <-----        -->DONE
-
-
+--> fix echo
+--> exit status
+--> env -i ./minishell should keep a secure path , some commands still work
 --> split when there is a space in the value of the env variable
 
-1 -- env -i ./minishell
+--> change (PWD && oldPWD ) when we use cd
+
+-
 
 */

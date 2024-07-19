@@ -6,37 +6,31 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/15 05:26:09 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:17:21 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
 #include "../minishell.h"
+#include <limits.h>
 
-void	ft_check_cmnd(t_cmd **cmnd)
+int	ft_check_cmnd(t_cmd *cmnd)
 {
-	t_cmd *tmp = *cmnd;
-	
-	if (ft_strcmp(tmp->cmds[0], "cd"))
+	static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
+	int x = 0;
+	t_cmd *tmp;
+
+	tmp = cmnd;	
+	while (builts[x])
 	{
-		
+		if(strcmp(builts[x],tmp->cmds[0]) == 0)
+			break;
+		x++;
 	}
-	if (ft_strcmp(tmp->cmds[0], "pwd"))
-	{
-		
-	}
-	if (ft_strcmp(tmp->cmds[0], "echo"))
-	{
-		
-	}
-	if (ft_strcmp(tmp->cmds[0], "export"))
-	{
-		
-	}
-	if (ft_strcmp(tmp->cmds[0], "unset")){}
-	if (ft_strcmp(tmp->cmds[0], "exit")){}
-	if (ft_strcmp(tmp->cmds[0], "env")){}
+	if (x >= 6)
+		return -1;
+	return (x);
 }
 
 char	*ft_get_path(char **arr_phat, char *first_cmnd)
@@ -44,22 +38,47 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 	char *arr_join_one;
 	char *arr_join;
 	int x = 0;
+	int res;
 	while (arr_phat[x])
 	{
-		
-		arr_join_one = ft_srtjoin(arr_phat[x],"/");
-		arr_join = ft_srtjoin(arr_join_one,first_cmnd);
-		int res = access(arr_join, F_OK | X_OK);
-		if (res == 0)
-			break;
-		else if (res == -1  && !arr_phat[x+1])
+		res = access(first_cmnd, F_OK | X_OK);
+		if(res == 0)
 		{
-			perror("minishell");
-			return NULL;
+			printf("%s\n",first_cmnd);
+			return first_cmnd;
+		}
+		else 
+		{
+			arr_join_one = ft_srtjoin(arr_phat[x],"/");
+			arr_join = ft_srtjoin(arr_join_one,first_cmnd);
+			res = access(arr_join, F_OK | X_OK);
+			if (res == 0)
+				break;
+			else if (res == -1  && !arr_phat[x+1])
+			{
+				perror("minishell");
+				return NULL;
+			}
 		}
 		x++;
 	}
 	return arr_join;
+}
+
+void ft_buitin_cmnd(t_cmd *cmnds, char **env, int place)
+{
+	// static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
+	if (place == 0)
+		ft_env(env, cmnds);
+	if (place == 1)
+		ft_pwd();
+	if (place == 2)
+		ft_cd(cmnds);
+	if (place == 3){}
+	if (place == 4){}
+	if (place == 5){}
+	if (place == 6){}
+	
 }
 
 void ft_excute_one(t_cmd **cmnds, char *path, char **env)
@@ -67,40 +86,55 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env)
 	t_cmd *tmp = *cmnds;
 	char **arr_phat = ft_split(path, ':');
 	char *arr_join = ft_get_path(arr_phat, tmp->cmds[0]);
-	if(!arr_join)
+	if (!arr_join)
 	{
 		if ( tmp->redir_out != 1)
 			close(tmp->redir_out);
 		return;	
 	}
-	int id = fork();
-	if (id == 0)
+	if (ft_check_cmnd(tmp) != -1)
 	{
+		int saved_stdout = dup(1);
+		int saved_stdout_ = dup(0);
 		if (tmp->redir_out != 1)
 		{
+			// saved_stdout = dup(1);
 			dup2(tmp->redir_out , 1);
-			// close(tmp->redir_out);
+			close(tmp->redir_out);
 		}
-		execve(arr_join, tmp->cmds, env);
-		printf("fdfdf\n");
+		ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+		// if (tmp->redir_out != 1)
+		dup2(saved_stdout, 1);
+		dup2(saved_stdout_, 0);
 	}
-	wait(NULL);
+	else
+	{
+		int id = fork();
+		if (id == 0)
+		{
+			if (tmp->redir_out != 1)
+			{
+				dup2(tmp->redir_out , 1);
+				close(tmp->redir_out);
+			}
+				execve(arr_join, tmp->cmds, env);
+		}
+		wait(NULL);
+		if (tmp->redir_out != 1)
+			close(tmp->redir_out);
+	}
 }  
 
 void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 {
-	// char *phath[] = {"/bin/ls", "/usr/bin/grep", "/usr/bin/grep", "/usr/bin/wc", NULL};
 	t_cmd *tmp = *cmnds;
 	(void)num_cmnd;
 	char **arr_phat = ft_split(path, ':');
-	char *arr_join =NULL;
-	
-	// printf("this  --> %s \n", arr_join);
-	
+	char *arr_join = NULL;
 	int p[2];
 	int first = num_cmnd;
 	int id;
-	int std_d;
+	int std_d = -1;
 	while (tmp && num_cmnd)
 	{
 		arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
@@ -108,79 +142,126 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 		{
 			close(p[0]);
 			close(p[1]);
-			return ;		
+			return ;
 		}
-		if (first == num_cmnd)
+		if (first == num_cmnd) // first cmnd
 		{
 			pipe(p);
-			id = fork();
-		
-			if (id == 0)
+			if (ft_check_cmnd(tmp) != -1)
 			{
-				// if (tmp->redir_out != 1)
-					
+				int saved_stdout = dup(1);
 				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, STDIN_FILENO);
+					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				close(p[0]);
-				close(p[1]);
-				execve(arr_join, tmp->cmds, env);
-			
+				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+				dup2(saved_stdout, 1);
 			}
-			// tmp =  tmp->next;
+			else
+			{
+				id = fork();
+				if (id == 0)
+				{
+					dup2(p[1], STDOUT_FILENO);
+					if (tmp->redir_out != 1)
+					{
+						dup2(tmp->redir_out, STDIN_FILENO);
+						close(tmp->redir_out);
+					}
+					close(p[0]);
+					close(p[1]);
+					execve(arr_join, tmp->cmds, env);
+				
+				}
+			}
 			close(p[1]);
 		}
-		else if (num_cmnd != 1)
+		else if (num_cmnd != 1) // mid cmnd
 		{
 			std_d = p[0];
 			pipe(p);
-			id = fork();
-			if (id == 0)
+			if (ft_check_cmnd(tmp) != -1)
 			{
-				dup2(std_d, tmp->redir_in);
+				int saved_stdout = dup(1);
+				int saved_stdout_ = dup(0);
+				dup2(std_d, STDIN_FILENO);
 				dup2(p[1], STDOUT_FILENO);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, STDOUT_FILENO);
+					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				close(std_d);
-				close(p[0]);
-				close(p[1]);
-				execve(arr_join, tmp->cmds, env);
+				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+				dup2(saved_stdout, 1);
+				dup2(saved_stdout_, 0);
+			}
+			else
+			{
+				id = fork();
+				if (id == 0)
+				{
+					dup2(std_d, STDIN_FILENO);
+					dup2(p[1], STDOUT_FILENO);
+					if (tmp->redir_out != 1)
+					{
+						dup2(tmp->redir_out, STDOUT_FILENO);
+						close(tmp->redir_out);
+					}
+					close(std_d);
+					close(p[0]);
+					close(p[1]);
+					execve(arr_join, tmp->cmds, env);
+				}
 			}
 			close(p[1]);
 			close(std_d);
 			// tmp =  tmp->next;
 		}
-		else if (num_cmnd == 1)
+		else if (num_cmnd == 1) // last cmnd
 		{ 
-			id = fork();
-			if (id == 0)
+			// printf("ahfsyhvbfsdk\n\n");
+			// printf(" test ------------> %d\n", ft_check_cmnd(tmp));
+			if (ft_check_cmnd(tmp) != -1)
 			{
-				dup2(p[0], STDIN_FILENO);
+				// printf(" loloch %d\n",tmp->redir_out);
+				int saved_stdout = dup(1);
+				int saved_stdout_ = dup(0);
+				dup2(p[0], 0);
 				if (tmp->redir_out != 1)
 				{
-					dup2(tmp->redir_out, STDOUT_FILENO);
+					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				close(p[0]);
-				close(p[1]);
-				execve(arr_join, tmp->cmds, env);
+				ft_buitin_cmnd(tmp, env, ft_check_cmnd(tmp));
+				dup2(saved_stdout, 1);
+				dup2(saved_stdout_, 0);
+			}
+			else
+			{
+				id = fork();
+				if (id == 0)
+				{
+					dup2(p[0], STDIN_FILENO);
+					if (tmp->redir_out != 1)
+					{
+						dup2(tmp->redir_out, STDOUT_FILENO);
+						close(tmp->redir_out);
+					}
+					close(p[0]);
+					close(p[1]);
+					execve(arr_join, tmp->cmds, env);
+				}
 			}
 		}
 		num_cmnd--;
+		if (tmp->redir_out != 1)
+		{
+			close(tmp->redir_out);
+		}
 		tmp = tmp->next;
 	}
-	// if (tmp->redir_out != 1)
-	// {
-		// printf("yryjghjghj\n");	
-		// printf("%d\n",tmp->redir_out);	
-	// }
-		// close(tmp->redir_out);
 	close(std_d);
 	close(p[0]);
 	close(p[1]);
@@ -190,7 +271,6 @@ void ft_excute(t_cmd **cmnds, char *path ,int num_cmnd, char **env)
 		first--;
 	}
 	
-	// return ;
 }
 
 char **ft_get_charenv(t_env **env)
@@ -225,21 +305,13 @@ char **ft_get_charenv(t_env **env)
 }
 void	ft_execution (t_cmd **cmnds, t_env **env)
 {
-
-	(void)env;
+	if (!cmnds || !*cmnds || !env || !*env)
+		return;
 	t_cmd *tmp = *cmnds; 
 	int count_cmnd;
-	char **arr_env;
+	char **arr_env = NULL;
 	count_cmnd = 0;
-	// int x = 0;
-	
 	arr_env = ft_get_charenv(env);
-	// while (arr_env[x])
-	// {
-	// 	printf("%s\n",arr_env[x]);
-	// 	x++;
-	// }
-	
 	while (tmp)
 	{
 		count_cmnd++;
@@ -247,7 +319,7 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 	}
 	t_env *tmp2 = *env; 
 	
-	(void)cmnds;
+	// (void)cmnds;
 	while (tmp2)
 	{
 		if(ft_strcmp(tmp2->key,"PATH") == 0)
@@ -258,4 +330,13 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 		ft_excute_one(cmnds, tmp2->value, arr_env);
 	else
 		ft_excute(cmnds,tmp2->value, count_cmnd, arr_env);
+	free(arr_env);
+	arr_env = NULL;
+	for (int i = 3; i < OPEN_MAX ; i++)
+	{
+		close(i);
+	}
+	// write(0,"0 shj\n",7);
+	// write(1,"1 shj\n",7);
+	// write(2,"2 shj\n",7);
 }

@@ -11,6 +11,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/param.h>
+#include <limits.h>
+
 
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -18,44 +20,51 @@
 # define MAXCMD 1024
 # define MAXLIST 100
 
+// get_next_line
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 100
+#endif
+
 typedef enum e_type
 {
-    CMD,
-    PIPE,
-    SPACE,
-    IN,
-    HEREDOC,
-    OUT,
-    APPEND,
-    SNGL_Q,
-    DBL_Q,
-    VAR,
-    DBL_VAR,
+	CMD,
+	PIPE,
+	SPACE,
+	IN,
+	HEREDOC,
+	OUT,
+	APPEND,
+	SNGL_Q,
+	DBL_Q,
+	VAR,
+	DBL_VAR,
 }	t_type;
 
 
 typedef struct s_token
 {
-    char	*key;
-    t_type	value;
-    struct s_token	*next;
+	char	*key;
+	t_type	value;
+	struct s_token	*next;
 }	t_token;
 
 typedef struct s_env
 {
-    char	*key;
-    char	*value;
-    struct s_env    *next;
+	char	*key;
+	char	*value;
+	struct s_env    *next;
 }	t_env;
 
 typedef struct s_cmd
 {
-    int     redir_in;
-    int     redir_out;
-    char	**cmds;
-    struct s_cmd    *next;
+	int     redir_in;
+	int     redir_out;
+	char	**cmds;
+	struct s_cmd    *next;
 }	t_cmd;
 
+// tools
 char *ft_strcpy(char *dest, const char *src);
 int     ft_strlen(const char *str);
 int     ft_strcmp(const char *s1, const char *s2);
@@ -67,10 +76,9 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putendl_fd(char *s, int fd);
 void print_error(char *str);
-
 char **dbl_join(char **s1, char *s2);
 char *ft_strdup(const char *s);
-
+char *get_next_line(int fd);
 //finders
 
 int is_space(char c);
@@ -139,12 +147,18 @@ char  *heredoc_expand(char *line, t_env *envi);
 
 //exection
 void	ft_execution (t_cmd **cmnds, t_env **env);
-void ft_here_doc(t_token *cmd, t_env *envi, int *red_out);
+
+
+void ft_here_doc(t_token *cmd, t_env *envi, int *red_in);
+
+//builtsin
+void	ft_env(char **env, t_cmd *cmnds);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_cd(t_cmd *cmnd);
+void	ft_pwd(void);
 
 #endif
 
 // Structure for the command line
-
-
 
 
