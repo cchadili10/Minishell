@@ -77,10 +77,14 @@ int is_space(char c);
 int is_special(char c);
 int find_char(char *str, char c);
 int is_alnum(char c);
+char *cpy_part(char *src, int start, int end);
 
 //tokenazing
 char *ft_srtjoin(char *s1, char *s2);
 char	*ft_strjoin(char const *s1, char const *s2, int len);
+int processline(char *line, t_token **list);
+void print_list(t_token *list);
+void join_nodes(t_token **list);
 
 void pipe_redirection(char *line, t_token **list, int *i);
 void dollar_sign(char *line, t_token **list, int *i, int start, int end);
