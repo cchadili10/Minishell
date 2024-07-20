@@ -64,6 +64,13 @@ typedef struct s_cmd
 	struct s_cmd    *next;
 }	t_cmd;
 
+typedef struct s_export
+{
+	char *key;
+	char *value;
+	struct s_export	*next;	
+}	t_export;
+
 // tools
 char *ft_strcpy(char *dest, const char *src);
 int     ft_strlen(const char *str);
@@ -157,6 +164,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_cd(t_cmd *cmnd, t_env **env);
 void	ft_echo(t_cmd *cmnd);
 void	ft_pwd(void);
+void	ft_export(t_cmd *cmnd, t_env **env);
 
 #endif
 

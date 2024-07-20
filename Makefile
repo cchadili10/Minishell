@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/19 23:56:14 by hchadili         ###   ########.fr        #
+#    Updated: 2024/07/20 17:53:08 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC = minishell.c \
 		builtins/ft_cd.c \
 		builtins/echo.c \
 		builtins/ft_pwd.c \
+		builtins/export.c \
 		builtins/ft_putstr.c \
 		
 

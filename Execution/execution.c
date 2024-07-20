@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/19 23:14:50 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/20 22:18:46 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void ft_buitin_cmnd(t_cmd *cmnds, t_env **env, int place)
 		ft_cd(cmnds, env);
 	if (place == 3)
 		ft_echo(cmnds);
-	if (place == 4){}
+	if (place == 4)
+		ft_export(cmnds, env);
 	if (place == 5){}
 	if (place == 6)
 		exit(0);
@@ -137,7 +138,7 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env, t_env **node_env)
 				dup2(tmp->redir_out , 1);
 				close(tmp->redir_out);
 			}
-				execve(arr_join, tmp->cmds, env);
+			execve(arr_join, tmp->cmds, env);
 		}
 		wait(NULL);
 		if (tmp->redir_out != 1)
