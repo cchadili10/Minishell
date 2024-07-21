@@ -164,7 +164,9 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_cd(t_cmd *cmnd, t_env **env);
 void	ft_echo(t_cmd *cmnd);
 void	ft_pwd(void);
-void	ft_export(t_cmd *cmnd, t_env **env);
+void	ft_export(t_cmd *cmnd, t_env **env, t_export **export);
+void		insert_end(t_export **head, char *key, char *value);
+t_export	*create_node(char *key, char *value);
 
 #endif
 

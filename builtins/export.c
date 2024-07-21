@@ -6,12 +6,12 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/20 22:54:09 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:40:26 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minishell.h"
-int ft_count_eq(char *str, int chek)
+int ft_count_eq(char *str, int chek, int *append)
 {
 	int x = 0;
 	if (chek)
@@ -29,7 +29,18 @@ int ft_count_eq(char *str, int chek)
 		while (str[x])
 		{
 			if (str[x] == '+' || str[x] == '=')
-				return x;
+			{
+				if(str[x] == '+')
+				{
+					if(str[x+1] == '=')
+					{
+						*append = 1;
+						return x - 1;
+					}
+				}
+				else
+					return x;
+			}
 			x++;
 		}
 		return x;
@@ -44,32 +55,35 @@ int ft_check_key(char *key)
 		x++;
 		while (key[x])
 		{
-			if ((key[x] <= 96 || key[x] > 122) || (key[x] < 65 || key[x] > 90) || key[x] == 95 || (key[x] >= 48 && key[x] <= 57))
+			if ((key[x] >= 'a' && key[x] <= 'z') || (key[x] >= 'A' && key[x] <= 'Z') || (key[x] >= '0' && key[x] <= '9') || (key[x] == '_'))
+				x++;
+			else
+				return 0;
 		}
-		
+		return 1;
 	}
-	return 1;
+	return 0;
 }
 
-void ft_export(t_cmd *cmnd, t_env **env)
+void ft_export(t_cmd *cmnd, t_env **env, t_export **export)
 {
+	(void)export;
 	(void)env;
 	int x = 0;
-	t_env *tmp = *env;
+	// t_env *tmp = *env;
+	t_export *tmp1 = *export;
 	int start ;
 	char *key;
 	char *value;
+	int append = 0;
 	while (cmnd->cmds[x])
-	{
-		// printf("%s\n",cmnd->cmds[x]);
 		x++;
-	}
 	if (x == 1)
 	{
-		while (tmp)
+		while (tmp1)
 		{
-			printf("declare -x %s=\"%s\"\n",tmp->key, tmp->value);
-			tmp = tmp->next;
+			printf("declare -x %s=\"%s\"\n",tmp1->key, tmp1->value);
+			tmp1 = tmp1->next;
 		}
 		
 	}
@@ -78,16 +92,22 @@ void ft_export(t_cmd *cmnd, t_env **env)
 		x = 1;
 		while (cmnd->cmds[x])
 		{
-			// printf("%d\n",ft_count_eq(cmnd->cmds[x]));
-			start = ft_count_eq(cmnd->cmds[x], 1) + 1;
-			key = ft_substr_env(cmnd->cmds[x], 0, (ft_count_eq(cmnd->cmds[x], 0)));
+			start = ft_count_eq(cmnd->cmds[x], 1, &append) + 1;
+			key = ft_substr_env(cmnd->cmds[x], 0, (ft_count_eq(cmnd->cmds[x], 0, &append)));
 			value = ft_substr_env(cmnd->cmds[x], start, (ft_strlen(cmnd->cmds[x]) - start));
-			printf("%s\n",key);
-			printf("%s\n",value);
-			// if (ft_check_key(key))
-			// {
-				
-			// }
+			if (ft_check_key(key) == 0)
+			{
+				print_error("export: not valid in this context:");
+				return ;
+			}
+			printf("%d\n", append);
+			if(value[0])
+			{
+				lst_add_back_env(env,lst_new_env(key, value));
+				insert_end(export,key,value);
+			}
+			else
+				insert_end(export, key, value);
 			x++;
 		}
 		
@@ -95,3 +115,4 @@ void ft_export(t_cmd *cmnd, t_env **env)
 	
 }
 // lst_add_back_env(envi, lst_new_env(key, value));
+// if ((key[x] < 'a' || key[x] > 'z') && key[x] != '_' && (key[x] < 'A' || key[x] > 'Z') && (key[x] < '0' && key[x] > '9'))

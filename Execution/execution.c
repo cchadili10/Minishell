@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/20 22:18:46 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:40:52 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 #include "../minishell.h"
 #include <limits.h>
+
+void ft_fill_export(t_export **export, t_env **env)
+{
+	t_env *tmp = *env;
+
+	while (tmp)
+	{
+		insert_end(export,tmp->key,tmp->value);
+		tmp = tmp->next;
+	}
+}
 
 int ft_count_cmnds(t_cmd **cmnds)
 {
@@ -82,7 +93,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 	return arr_join;
 }
 
-void ft_buitin_cmnd(t_cmd *cmnds, t_env **env, int place)
+void ft_buitin_cmnd(t_cmd *cmnds, t_env **env,t_export **export, int place)
 {
 	// static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
 	if (place == 0)
@@ -94,17 +105,29 @@ void ft_buitin_cmnd(t_cmd *cmnds, t_env **env, int place)
 	if (place == 3)
 		ft_echo(cmnds);
 	if (place == 4)
-		ft_export(cmnds, env);
+		ft_export(cmnds, env, export);
 	if (place == 5){}
 	if (place == 6)
 		exit(0);
 	
 }
 
-void ft_excute_one(t_cmd **cmnds, char *path, char **env, t_env **node_env)
+char *ft_look_for_paht(t_env **env)
+{
+	t_env *tmp2 = *env; 
+	while (tmp2)
+	{
+		if(ft_strcmp(tmp2->key,"PATH") == 0)
+			break;
+		tmp2 = tmp2->next;
+	}
+	return tmp2->value;
+}
+
+void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_env)
 {
 	t_cmd *tmp = *cmnds;
-	char **arr_phat = ft_split(path, ':');
+	char **arr_phat = ft_split(ft_look_for_paht(node_env), ':');
 	char *arr_join = ft_get_path(arr_phat, tmp->cmds[0]);
 	if (!arr_join)
 	{
@@ -123,7 +146,7 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env, t_env **node_env)
 			dup2(tmp->redir_out , 1);
 			close(tmp->redir_out);
 		}
-		ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
+		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 		// if (tmp->redir_out != 1)
 		dup2(saved_stdout, 1);
 		dup2(saved_stdout_, 0);
@@ -146,10 +169,12 @@ void ft_excute_one(t_cmd **cmnds, char *path, char **env, t_env **node_env)
 	}
 }  
 
-void ft_excute(t_cmd **cmnds, char *path ,t_env **node_env, char **env)
+
+
+void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 {
 	t_cmd *tmp = *cmnds;
-	char **arr_phat = ft_split(path, ':');
+	char **arr_phat = ft_split(ft_look_for_paht(node_env), ':');
 	char *arr_join = NULL;
 	int p[2];
 	int num_cmnd = ft_count_cmnds(cmnds);
@@ -177,7 +202,7 @@ void ft_excute(t_cmd **cmnds, char *path ,t_env **node_env, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 			}
 			else
@@ -214,7 +239,7 @@ void ft_excute(t_cmd **cmnds, char *path ,t_env **node_env, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp,node_env, export ,ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
@@ -252,7 +277,7 @@ void ft_excute(t_cmd **cmnds, char *path ,t_env **node_env, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, node_env, ft_check_cmnd(tmp));
+				ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
@@ -326,23 +351,17 @@ void	ft_execution (t_cmd **cmnds, t_env **env)
 {
 	if (!cmnds || !*cmnds || !env || !*env)
 		return;
-		
 	int count_cmnd;
 	char **arr_env = NULL;
+	static t_export *export=NULL;
 	count_cmnd = 0;
 	arr_env = ft_get_charenv(env);
-	
-	t_env *tmp2 = *env; 
-	while (tmp2)
-	{
-		if(ft_strcmp(tmp2->key,"PATH") == 0)
-			break;
-		tmp2 = tmp2->next;
-	}
+	if (!export)
+		ft_fill_export(&export, env);
 	if(ft_count_cmnds(cmnds) == 1)
-		ft_excute_one(cmnds, tmp2->value, arr_env, env);
+		ft_excute_one(cmnds, &export, arr_env, env);
 	else
-		ft_excute(cmnds, tmp2->value, env, arr_env);
+		ft_excute(cmnds, &export, env, arr_env);
 	for (int i = 3; i < OPEN_MAX ; i++)
 	{
 		close(i);
