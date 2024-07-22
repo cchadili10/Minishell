@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/21 21:40:26 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/22 05:50:55 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ int ft_check_key(char *key)
 		x++;
 		while (key[x])
 		{
-			if ((key[x] >= 'a' && key[x] <= 'z') || (key[x] >= 'A' && key[x] <= 'Z') || (key[x] >= '0' && key[x] <= '9') || (key[x] == '_'))
-				x++;
-			else
-				return 0;
+			if ((key[x] <= 96 || key[x] > 122) || (key[x] < 65 || key[x] > 90) || key[x] == 95 || (key[x] >= 48 && key[x] <= 57))
 		}
 		return 1;
 	}
