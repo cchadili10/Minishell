@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/19 23:56:05 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:45:36 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,14 +326,14 @@ int main(int ac, char **av, char **env) //$home.c
 
     if (ac > 1)
         print_error("no argument needed");
+    initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
     while (1)
     {
         list = NULL;
         cmd = NULL;
         (void)env;
         
-        initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
-        line = readline("Minishell 🔴🔵 ");
+        line = readline(COLOR_ORANGE"Minishell🐚⤳ "COLOR_WHITE);
         if (!line)
             break ;
         // char  *save_line = line;

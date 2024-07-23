@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/22 22:16:38 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:42:21 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void ft_buitin_cmnd(t_cmd *cmnds, t_env **env,t_export **export, int place)
 		ft_echo(cmnds);
 	if (place == 4)
 		ft_export(cmnds, env, export);
-	if (place == 5){}
+	if (place == 5)
+		ft_unset(cmnds, export, env);
 	if (place == 6)
 		exit(0);
 	
@@ -135,19 +136,16 @@ void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_en
 			close(tmp->redir_out);
 		return;	
 	}
-	// printf("%s\n",tmp->cmds[0]);
 	if (ft_check_cmnd(tmp) != -1)
 	{
 		int saved_stdout = dup(1);
 		int saved_stdout_ = dup(0);
 		if (tmp->redir_out != 1)
 		{
-			// saved_stdout = dup(1);
 			dup2(tmp->redir_out , 1);
 			close(tmp->redir_out);
 		}
 		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-		// if (tmp->redir_out != 1)
 		dup2(saved_stdout, 1);
 		dup2(saved_stdout_, 0);
 	}

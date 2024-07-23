@@ -16,7 +16,10 @@
 
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
-# define RESET "\033[0m"
+// # define RESET "\033[0m"
+# define CYELLOW "\001\e[0;31m\002"
+#define COLOR_WHITE "\033[37m" 
+#define COLOR_ORANGE "\033[38;5;214m" 
 # define MAXCMD 1024
 # define MAXLIST 100
 
@@ -167,6 +170,9 @@ void	ft_pwd(void);
 void	ft_export(t_cmd *cmnd, t_env **env, t_export **export);
 void		insert_end(t_export **head, char *key, char *value);
 t_export	*create_node(char *key, char *value);
+void ft_unset(t_cmd *cmnd, t_export **export, t_env **env);
+int ft_check_key(char *key);// in file
+int ft_find_key(t_export **export, char *key);// in file
 
 #endif
 
