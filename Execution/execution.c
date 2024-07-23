@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/23 14:42:21 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:12:41 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_en
 				close(tmp->redir_out);
 			}
 			execve(arr_join, tmp->cmds, env);
+			exit(1);
 		}
 		wait(NULL);
 		if (tmp->redir_out != 1)
@@ -217,6 +218,7 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					close(p[0]);
 					close(p[1]);
 					execve(arr_join, tmp->cmds, env);
+					exit(1);
 				
 				}
 			}
@@ -257,6 +259,7 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					close(p[0]);
 					close(p[1]);
 					execve(arr_join, tmp->cmds, env);
+					exit(1);
 				}
 			}
 			close(p[1]);
@@ -293,6 +296,7 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					close(p[0]);
 					close(p[1]);
 					execve(arr_join, tmp->cmds, env);
+					exit(1);
 				}
 			}
 		}
