@@ -85,10 +85,10 @@ void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putendl_fd(char *s, int fd);
-void print_error(char *str);
-char **dbl_join(char **s1, char *s2);
-char *ft_strdup(const char *s);
-char *get_next_line(int fd);
+void 	print_error(char *str);
+char 	**dbl_join(char **s1, char *s2);
+char	*ft_strdup(const char *s);
+char	*get_next_line(int fd);
 //finders
 
 int is_space(char c);
@@ -167,12 +167,13 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_cd(t_cmd *cmnd, t_env **env);
 void	ft_echo(t_cmd *cmnd);
 void	ft_pwd(void);
+void	ft_exit(t_cmd *cmnd);
 void	ft_export(t_cmd *cmnd, t_env **env, t_export **export);
 void		insert_end(t_export **head, char *key, char *value);
 t_export	*create_node(char *key, char *value);
-void ft_unset(t_cmd *cmnd, t_export **export, t_env **env);
-int ft_check_key(char *key);// in file
-int ft_find_key(t_export **export, char *key);// in file
+void	ft_unset(t_cmd *cmnd, t_export **export, t_env **env);
+int		ft_check_key(char *key);// in file
+int		ft_find_key(t_export **export, char *key);// in file
 
 #endif
 

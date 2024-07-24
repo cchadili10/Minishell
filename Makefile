@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/23 14:35:48 by hchadili         ###   ########.fr        #
+#    Updated: 2024/07/24 09:18:31 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC = minishell.c \
 		builtins/export.c \
 		builtins/export_node.c \
 		builtins/unset.c \
+		builtins/exit.c \
 		builtins/ft_putstr.c \
 		
 

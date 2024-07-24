@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/23 21:12:41 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:08:41 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void ft_buitin_cmnd(t_cmd *cmnds, t_env **env,t_export **export, int place)
 	if (place == 5)
 		ft_unset(cmnds, export, env);
 	if (place == 6)
-		exit(0);
+		ft_exit(cmnds);
 	
 }
 
