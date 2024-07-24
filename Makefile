@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/24 09:18:31 by hchadili         ###   ########.fr        #
+#    Updated: 2024/07/24 17:42:30 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,9 @@ NAME = minishell
 CC = cc -g -fsanitize=address 
 CFLAGS = -Wall -Wextra -Werror 
 RDFLAGS = -lreadline
+
+READLINEDIR = $(shell brew --prefix readline)
+
 SRC = minishell.c \
 		find_node.c \
 		tools/ft_split.c \
@@ -53,17 +56,18 @@ SRC = minishell.c \
 		builtins/unset.c \
 		builtins/exit.c \
 		builtins/ft_putstr.c \
+		signals/signals.c
 		
 
 OBJ = $(SRC:.c=.o)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) -o $(NAME) $(RDFLAGS)  
+	@$(CC) $(OBJ) -o $(NAME) -L$(READLINEDIR)/lib -lreadline
 
 all: $(NAME)
 
 %.o : %.c minishell.h
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c -I$(READLINEDIR)/include  $< -o $@
 	
 clean:
 	@rm -rf $(OBJ)
@@ -72,3 +76,5 @@ fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
+# -I$(READLINEDIR)/include 
+# -L$(READLINEDIR)/lib

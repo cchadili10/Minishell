@@ -33,7 +33,7 @@ typedef enum e_type
 {
 	CMD,
 	PIPE,
-	SPACE,
+	SPC,
 	IN,
 	HEREDOC,
 	OUT,
@@ -174,7 +174,8 @@ t_export	*create_node(char *key, char *value);
 void	ft_unset(t_cmd *cmnd, t_export **export, t_env **env);
 int		ft_check_key(char *key);// in file
 int		ft_find_key(t_export **export, char *key);// in file
-
+//signals
+void ft_signal(void);
 #endif
 
 // Structure for the command line

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenazing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:27 by yessemna          #+#    #+#             */
-/*   Updated: 2024/05/19 19:05:39 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:20:03 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void pipe_redirection(char *line, t_token **list, int *i)
         {
             while (is_space(line[d + 1]))
                 d = d + 1;
-            lst_add_back(list, lst_new(ft_substr(line, d++, 1), SPACE));
+            lst_add_back(list, lst_new(ft_substr(line, d++, 1), SPC));
         }
         else if (line[d] == '<')
         {

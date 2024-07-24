@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/15 20:59:12 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:20:03 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,29 @@ int catch_errors(t_token **arg)
 
     cur = *arg;
 
-    if(!cur || (cur->value == SPACE && cur->next == NULL))
+    if(!cur || (cur->value == SPC && cur->next == NULL))
         return (0);
-    if(cur && (cur->value == PIPE || (cur->value == SPACE && cur->next->value == PIPE)))
+    if(cur && (cur->value == PIPE || (cur->value == SPC && cur->next->value == PIPE)))
         return (print_err("syntax error near unexpected token `|'", arg), 0);
     
     while (cur)
 	{
 		if (is_redirection(cur->value))
 		{
-			if (cur->next == NULL || (cur->next->value == SPACE && cur->next->next == NULL))
+			if (cur->next == NULL || (cur->next->value == SPC && cur->next->next == NULL))
 				return (print_err(NULL, arg), 0);
-			if (cur->next->value == PIPE || (cur->next->value == SPACE && (cur->next->next->value == PIPE)))
+			if (cur->next->value == PIPE || (cur->next->value == SPC && (cur->next->next->value == PIPE)))
 				return (print_err(NULL, arg), 0);
-			if (is_redirection(cur->next->value) || (cur->next->value == SPACE && is_redirection(cur->next->next->value)))
+			if (is_redirection(cur->next->value) || (cur->next->value == SPC && is_redirection(cur->next->next->value)))
 				return (print_err(NULL, arg), 0);
 		}
 		if (cur->value == PIPE)
 		{
-			if (cur->next == NULL || (cur->next->value == SPACE && cur->next->next == NULL))
+			if (cur->next == NULL || (cur->next->value == SPC && cur->next->next == NULL))
 				return (print_err(NULL, arg), 0);
-			if (cur->next->value == PIPE || (cur->next->value == SPACE && cur->next->next->value == PIPE))
+			if (cur->next->value == PIPE || (cur->next->value == SPC && cur->next->next->value == PIPE))
 				return (print_err(NULL, arg), 0);
-            if ((cur->next->value == SPACE && cur->next->next->value != CMD))
+            if ((cur->next->value == SPC && cur->next->next->value != CMD))
                 return (print_err(NULL, arg), 0);
 		}
 		cur = cur->next;

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/23 11:45:36 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:57:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void print_list(t_token *list)
 		printf(" (%s)  ->  ", tmp->key);
 		if (tmp->value == PIPE)
 			printf("PIPE\n");
-		else if (tmp->value == SPACE)
-			printf("SPACE\n");
+		else if (tmp->value == SPC)
+			printf("SPC\n");
 		else if (tmp->value == IN)
 			printf("IN\n");
 		else if (tmp->value == HEREDOC)
@@ -58,7 +58,7 @@ int processline(char *line, t_token **list)
 	i = 0;
 	if (line == NULL)
 		return (0);
-	while (line[i] != '\0')
+	while (i < ft_strlen(line) && line[i] != '\0')
 	{
 		if (line[i] == '|')
 			lst_add_back(list, lst_new(ft_substr(line, i++, 1), PIPE));
@@ -66,7 +66,7 @@ int processline(char *line, t_token **list)
 		{
 			while (is_space(line[i + 1]))
 				i++;
-			lst_add_back(list, lst_new(ft_substr(line, i++, 1), SPACE));
+			lst_add_back(list, lst_new(ft_substr(line, i++, 1), SPC));
 		}
 		else if (line[i] == '<')
 		{
@@ -324,6 +324,8 @@ int main(int ac, char **av, char **env) //$home.c
 	(void)av;
 	envi = NULL;
 
+	ft_signal();
+	rl_catch_signals = 0;
     if (ac > 1)
         print_error("no argument needed");
     initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
@@ -401,7 +403,7 @@ sw
 --> fix echo
 --> exit status
 --> env -i ./minishell should keep a secure path , some commands still work
---> split when there is a space in the value of the env variable
+--> split when there is a SPC in the value of the env variable
 
 --> change (PWD && oldPWD ) when we use cd
 
