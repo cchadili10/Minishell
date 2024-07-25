@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/24 10:08:41 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:30:25 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd)
 	char *arr_join;
 	int x = 0;
 	int res;
+	if (!arr_phat)
+		return NULL;
 	while (arr_phat[x])
 	{
 		res = access(first_cmnd, F_OK | X_OK);
@@ -122,7 +124,9 @@ char *ft_look_for_paht(t_env **env)
 			break;
 		tmp2 = tmp2->next;
 	}
-	return tmp2->value;
+	if(tmp2)
+		return tmp2->value;
+	return NULL;
 }
 
 void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_env)
@@ -132,7 +136,9 @@ void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_en
 	char *arr_join = ft_get_path(arr_phat, tmp->cmds[0]);
 	if (!arr_join)
 	{
-		if ( tmp->redir_out != 1)
+		if (ft_check_cmnd(tmp) != 0)
+			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+		if (tmp->redir_out != 1)
 			close(tmp->redir_out);
 		return;	
 	}
@@ -158,6 +164,11 @@ void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_en
 			{
 				dup2(tmp->redir_out , 1);
 				close(tmp->redir_out);
+			}
+			else if(tmp->redir_in != 0)
+			{
+				dup2(tmp->redir_in, 0);
+				close(tmp->redir_in);
 			}
 			execve(arr_join, tmp->cmds, env);
 			exit(1);
@@ -215,6 +226,11 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 						dup2(tmp->redir_out, STDIN_FILENO);
 						close(tmp->redir_out);
 					}
+					else if(tmp->redir_in != 0)
+					{
+						dup2(tmp->redir_in, 0);
+						close(tmp->redir_in);
+					}
 					close(p[0]);
 					close(p[1]);
 					execve(arr_join, tmp->cmds, env);
@@ -255,6 +271,11 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 						dup2(tmp->redir_out, STDOUT_FILENO);
 						close(tmp->redir_out);
 					}
+					else if(tmp->redir_in != 0)
+					{
+						dup2(tmp->redir_in, 0);
+						close(tmp->redir_in);
+					}
 					close(std_d);
 					close(p[0]);
 					close(p[1]);
@@ -292,6 +313,11 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					{
 						dup2(tmp->redir_out, STDOUT_FILENO);
 						close(tmp->redir_out);
+					}
+					else if(tmp->redir_in != 0)
+					{
+						dup2(tmp->redir_in, 0);
+						close(tmp->redir_in);
 					}
 					close(p[0]);
 					close(p[1]);
