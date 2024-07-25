@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/24 17:57:39 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:16:40 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,10 +334,15 @@ int main(int ac, char **av, char **env) //$home.c
         list = NULL;
         cmd = NULL;
         (void)env;
-        
         line = readline(COLOR_ORANGE"Minishell🐚⤳ "COLOR_WHITE);
         if (!line)
-            break ;
+		{
+        	printf("exit\n");
+			exit(0);
+            // break ;
+		}
+		// if(line == EOF)
+		
         // char  *save_line = line;
         if (line && ft_strlen(line) != 0)
             add_history(line);
