@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/25 13:30:25 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:05:16 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,8 @@ void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_en
 	t_cmd *tmp = *cmnds;
 	char **arr_phat = ft_split(ft_look_for_paht(node_env), ':');
 	char *arr_join = ft_get_path(arr_phat, tmp->cmds[0]);
-	if (!arr_join)
-	{
-		if (ft_check_cmnd(tmp) != 0)
-			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-		if (tmp->redir_out != 1)
-			close(tmp->redir_out);
-		return;	
-	}
-	if (ft_check_cmnd(tmp) != -1)
+	
+	if (ft_check_cmnd(tmp) != -1 || !arr_join)
 	{
 		int saved_stdout = dup(1);
 		int saved_stdout_ = dup(0);
@@ -151,7 +144,13 @@ void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_en
 			dup2(tmp->redir_out , 1);
 			close(tmp->redir_out);
 		}
-		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+		if(arr_join)
+			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+		else
+		{
+			if (ft_check_cmnd(tmp) != 0)
+				ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+		}
 		dup2(saved_stdout, 1);
 		dup2(saved_stdout_, 0);
 	}
@@ -193,17 +192,11 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 	// printf("%s\n",tmp->cmds[0]);
 	while (tmp && num_cmnd)
 	{
-		arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
-		if(!arr_join)
-		{
-			close(p[0]);
-			close(p[1]);
-			return ;
-		}
 		if (num_cmnd == ft_count_cmnds(cmnds)) // first cmnd
 		{
+			arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
 			pipe(p);
-			if (ft_check_cmnd(tmp) != -1)
+			if (ft_check_cmnd(tmp) != -1 || !arr_join)
 			{
 				int saved_stdout = dup(1);
 				dup2(p[1], STDOUT_FILENO);
@@ -212,7 +205,13 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				if(arr_join)
+					ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				else
+				{
+					if (ft_check_cmnd(tmp) != 0)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				}
 				dup2(saved_stdout, 1);
 			}
 			else
@@ -223,7 +222,7 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					dup2(p[1], STDOUT_FILENO);
 					if (tmp->redir_out != 1)
 					{
-						dup2(tmp->redir_out, STDIN_FILENO);
+						dup2(tmp->redir_out, 1);
 						close(tmp->redir_out);
 					}
 					else if(tmp->redir_in != 0)
@@ -244,7 +243,8 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 		{
 			std_d = p[0];
 			pipe(p);
-			if (ft_check_cmnd(tmp) != -1)
+			arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
+			if (ft_check_cmnd(tmp) != -1 || !arr_join)
 			{
 				int saved_stdout = dup(1);
 				int saved_stdout_ = dup(0);
@@ -255,7 +255,13 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp,node_env, export ,ft_check_cmnd(tmp));
+				if(arr_join)
+					ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				else
+				{
+					if (ft_check_cmnd(tmp) != 0)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				}
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
@@ -285,11 +291,11 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 			}
 			close(p[1]);
 			close(std_d);
-			// tmp =  tmp->next;
 		}
 		else if (num_cmnd == 1) // last cmnd
-		{ 
-			if (ft_check_cmnd(tmp) != -1)
+		{
+			arr_join = ft_get_path(arr_phat,tmp->cmds[0]);
+			if (ft_check_cmnd(tmp) != -1 || arr_join)
 			{
 				int saved_stdout = dup(1);
 				int saved_stdout_ = dup(0);
@@ -299,7 +305,13 @@ void ft_excute(t_cmd **cmnds, t_export **export ,t_env **node_env, char **env)
 					dup2(tmp->redir_out , 1);
 					close(tmp->redir_out);
 				}
-				ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				if(arr_join)
+					ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				else
+				{
+					if (ft_check_cmnd(tmp) != 0)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				}
 				dup2(saved_stdout, 1);
 				dup2(saved_stdout_, 0);
 			}
