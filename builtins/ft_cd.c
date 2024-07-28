@@ -6,19 +6,42 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:40:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/20 17:33:51 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/28 16:32:51 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int  ft_check_second_arg(char *str)
+{
+	int x;
+	x = 0;
+	if(!str[x])
+		return 0;
+	while (str[x])
+	{
+		if (str[x] != '.')
+			return (0);
+		x++;
+	}
+	return 1;
+}
+
+void	ft_add_to_path(t_env *pwd, t_env *oldpwd)
+{
+	if (pwd && oldpwd)
+		oldpwd->value = pwd->value; 
+	if (pwd)
+		pwd->value = ft_strjoin_(pwd->value, "/..");
+}
+
 void ft_cd(t_cmd *cmnd, t_env **env)
 {
 	(void)env;
 	(void)cmnd;
-	char arr[PATH_MAX];
 	t_env *tmp;
 	t_env *tmp2;
+	DIR *dir;
 	tmp = *env;
 	tmp2 = *env;
 	int x = 0;
@@ -35,6 +58,7 @@ void ft_cd(t_cmd *cmnd, t_env **env)
 		if (chdir(tmp->value))
 		{
 			perror("chdir erorr");
+			ft_exit_status(1, SET);
 			return;
 		}
 		tmp = *env;	
@@ -50,20 +74,16 @@ void ft_cd(t_cmd *cmnd, t_env **env)
 				break;
 			tmp2 = tmp2->next;
 		}
+		ft_exit_status(0, SET);
 		if (tmp2 && tmp)
 			tmp2->value = tmp->value;
-		getcwd(arr, sizeof(arr));
 		if (tmp)
-			tmp->value = ft_strdup_env(arr);
+			tmp->value = ft_strdup_env(getcwd(0, 0));
 	}
 	else
 	{
-		if (chdir(cmnd->cmds[1]) || x != 2)
-		{
-			perror("chdir erorr");
-			return;
-		}
 		tmp = *env;
+		dir = opendir(cmnd->cmds[1]);
 		while (tmp)
 		{
 			if (strcmp(tmp->key, "PWD") == 0)
@@ -76,11 +96,24 @@ void ft_cd(t_cmd *cmnd, t_env **env)
 				break;
 			tmp2 = tmp2->next;
 		}
+		if (chdir(cmnd->cmds[1]) || x != 2)
+		{
+			perror("chdir erorr");
+			ft_exit_status(1, SET);
+			return ;
+		}
+		ft_exit_status(0, SET);
+		if (!getcwd(0, 0))
+		{
+			printf("work %d\n", ft_check_second_arg(cmnd->cmds[1]));
+			if (ft_check_second_arg(cmnd->cmds[1]))
+				ft_add_to_path(tmp, tmp2);
+			return ;
+		}
 		if (tmp2 && tmp)
 			tmp2->value = tmp->value;
-		getcwd(arr, sizeof(arr));
 		if (tmp)
-			tmp->value = ft_strdup_env(arr);
-
+			tmp->value = ft_strdup_env(getcwd(0, 0));
+		
 	}
 }

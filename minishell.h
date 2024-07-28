@@ -12,6 +12,7 @@
 #include <readline/history.h>
 #include <sys/param.h>
 #include <limits.h>
+#include <dirent.h>
 
 
 # define RED "\033[0;31m"
@@ -22,6 +23,9 @@
 #define COLOR_ORANGE "\033[38;5;214m" 
 # define MAXCMD 1024
 # define MAXLIST 100
+# define GET 0
+# define SET 1
+
 
 // get_next_line
 
@@ -166,7 +170,7 @@ void 	ft_env(t_env **env, t_cmd *cmnds);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_cd(t_cmd *cmnd, t_env **env);
 void	ft_echo(t_cmd *cmnd);
-void	ft_pwd(void);
+void	ft_pwd(t_env **env);
 void	ft_exit(t_cmd *cmnd);
 void	ft_export(t_cmd *cmnd, t_env **env, t_export **export);
 void		insert_end(t_export **head, char *key, char *value);
@@ -174,8 +178,11 @@ t_export	*create_node(char *key, char *value);
 void	ft_unset(t_cmd *cmnd, t_export **export, t_env **env);
 int		ft_check_key(char *key);// in file
 int		ft_find_key(t_export **export, char *key);// in file
+char	*ft_strjoin_(char const *s1, char const *s2);
 //signals
 void ft_signal(void);
+//exit_status
+void	ft_exit_status(int value, int set);
 #endif
 
 // Structure for the command line

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:40:25 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/18 15:17:39 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/28 14:47:50 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,21 @@
 // 	return 1;
 // }
 
-void	ft_pwd(void)
+void	ft_pwd(t_env **env)
 {
+	t_env *tmp = *env;
+	while (tmp)
+	{
+		if(ft_strcmp(tmp->key, "PWD") == 0)
+			break;
+		tmp = tmp->next;
+	}
+	
 	char arr[PATH_MAX];
-	printf("%s\n",getcwd(arr,sizeof(arr)));	
+	getcwd(arr,sizeof(arr));
+	if (arr[0])
+		printf("%s\n",arr);
+	else if(tmp)
+		printf("%s\n",tmp->value);
+		
 }
