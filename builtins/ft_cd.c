@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:40:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/28 16:32:51 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:26:44 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	ft_add_to_path(t_env *pwd, t_env *oldpwd)
 
 void ft_cd(t_cmd *cmnd, t_env **env)
 {
-	(void)env;
-	(void)cmnd;
 	t_env *tmp;
 	t_env *tmp2;
 	DIR *dir;
@@ -102,18 +100,17 @@ void ft_cd(t_cmd *cmnd, t_env **env)
 			ft_exit_status(1, SET);
 			return ;
 		}
-		ft_exit_status(0, SET);
+		
 		if (!getcwd(0, 0))
 		{
-			printf("work %d\n", ft_check_second_arg(cmnd->cmds[1]));
-			if (ft_check_second_arg(cmnd->cmds[1]))
-				ft_add_to_path(tmp, tmp2);
+			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+			ft_exit_status(0, SET);
 			return ;
 		}
 		if (tmp2 && tmp)
 			tmp2->value = tmp->value;
 		if (tmp)
 			tmp->value = ft_strdup_env(getcwd(0, 0));
-		
+		ft_exit_status(0, SET);
 	}
 }

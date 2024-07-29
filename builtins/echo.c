@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/20 16:47:35 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:41:41 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ void ft_echo(t_cmd *cmnd)
 			printf("\n");
 		}
 	}
-	
+	ft_exit_status(0, SET);
 }

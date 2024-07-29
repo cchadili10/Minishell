@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:33:24 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/23 16:26:32 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:09:53 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,14 @@ void	ft_remove_key_env(t_env **env, char *key)
 void ft_unset(t_cmd *cmnd, t_export **export, t_env **env)
 {
 	int x = 0;
+	int check = 0;
 	while (cmnd->cmds[x])
 		x++;
 	if(x == 1)
+	{
+		ft_exit_status(0, SET);
 		return ;
+	}
 	else
 	{
 		x = 1;
@@ -109,9 +113,16 @@ void ft_unset(t_cmd *cmnd, t_export **export, t_env **env)
 				}
 			}
 			else
+			{
 				printf("unset: `%s': not a valid identifier\n", cmnd->cmds[x]);
+				check = 1;	
+			}
 			
 			x++;
 		}
+		if (check)
+			ft_exit_status(1, SET);
+		else
+			ft_exit_status(0, SET);
 	}
 }

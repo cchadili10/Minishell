@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:40:25 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/28 14:47:50 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:56:33 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	ft_pwd(t_env **env)
 		printf("%s\n",arr);
 	else if(tmp)
 		printf("%s\n",tmp->value);
-		
+	ft_exit_status(0, SET);
 }

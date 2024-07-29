@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 21:34:56 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/24 11:43:53 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:11:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	ft_exit(t_cmd *cmnd)
 	else
 	{
 		if (ft_check_exit_number(cmnd->cmds[1]))
+		{
 			printf("exit\nMinishell: bash: exit: too many arguments\n");
+			ft_exit_status(1, SET);
+		}
 		else
 		{
 			printf("exit\nMinishell: exit: %s: numeric argument required\n", cmnd->cmds[1]);

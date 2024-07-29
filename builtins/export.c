@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/23 14:18:46 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:53:50 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void ft_export(t_cmd *cmnd, t_env **env, t_export **export)
 			printf("declare -x %s=\"%s\"\n",tmp1->key, tmp1->value);
 			tmp1 = tmp1->next;
 		}
+		ft_exit_status(0, SET);
 	}
 	else
 	{
@@ -187,6 +188,7 @@ void ft_export(t_cmd *cmnd, t_env **env, t_export **export)
 			if (ft_check_key(key) == 0)
 			{
 				print_error("export: not valid in this context:");
+				ft_exit_status(1, SET);
 				return ;
 			}
 			if (append == 0)
@@ -227,7 +229,7 @@ void ft_export(t_cmd *cmnd, t_env **env, t_export **export)
 			update_ = 0;
 			x++;
 		}
-		
+		ft_exit_status(0, SET);
 	}
 	
 }

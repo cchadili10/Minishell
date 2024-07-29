@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 01:53:59 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/19 18:32:47 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:56:18 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,5 @@ void ft_env(t_env **env, t_cmd *cmnds)
 		printf("%s=%s\n",tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
+	ft_exit_status(0, SET);
 }
