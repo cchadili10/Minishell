@@ -6,22 +6,76 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/29 09:51:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:00:09 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <limits.h>
+int ft_count_arg(char **str)
+{
+	int x = 0;
+	while (str[x])
+		x++;
+	return x;
+}
+void ft_sort_export(t_export **export)
+{
+	t_export *tmp = *export;
+	t_export *tmp2 = *export;
+	char *key = NULL;
+	char *value = NULL;
+	int x = 0;
+	while (tmp)
+	{
+		while (tmp2 && tmp2->next && tmp2->next->next)
+		{
+			if(x == 0)
+			{
+				if (ft_strcmp(tmp2->key, tmp2->next->key) > 0)
+				{
+					key = tmp2->key;
+					value = tmp2->value;
+					
+					tmp2->key =  tmp2->next->key;
+					tmp2->value =  tmp2->next->value;
+					
+					tmp2->next->key = key;
+					tmp2->next->value = value;
+				}
+			}
+			if (ft_strcmp(tmp2->next->key, tmp2->next->next->key) > 0)
+			{
+				key = tmp2->next->key;
+				value = tmp2->next->value;
+				
+				tmp2->next->key =  tmp2->next->next->key;
+				tmp2->next->value =  tmp2->next->next->value;
+				
+				tmp2->next->next->key = key;
+				tmp2->next->next->value = value;
+			}
+			tmp2 = tmp2->next;
+			x++;
+		}
+		x = 0;
+		tmp = tmp->next;
+		tmp2 = *export;
+	}
+	
+}
 
 void ft_fill_export(t_export **export, t_env **env)
 {
 	t_env *tmp = *env;
+
 
 	while (tmp)
 	{
 		insert_end(export, tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
+	ft_sort_export(export);
 }
 
 int ft_count_cmnds(t_cmd **cmnds)
@@ -41,19 +95,17 @@ int ft_count_cmnds(t_cmd **cmnds)
 
 int ft_check_cmnd(t_cmd *cmnd)
 {
-	static char *builts[] = {"env", "pwd", "cd", "echo", "export", "unset", "exit", "$?", NULL};
+	static char *builts[] = {"env", "pwd", "echo", "$?", "export" ,"cd", "unset", "exit", NULL};
 	int x = 0;
 	t_cmd *tmp;
 
 	tmp = cmnd;
-	// printf("%s\n",tmp->cmds[0]);
 	while (builts[x])
 	{
 		if (strcmp(builts[x], tmp->cmds[0]) == 0)
 			break;
 		x++;
 	}
-	// printf("%d\n",x);
 	if (x >= 8)
 		return -1;
 	return (x);
@@ -71,10 +123,7 @@ char *ft_get_path(char **arr_phat, char *first_cmnd)
 	{
 		res = access(first_cmnd, F_OK | X_OK);
 		if (res == 0)
-		{
-			// printf("%s\n",first_cmnd);
 			return first_cmnd;
-		}
 		else
 		{
 			arr_join_one = ft_srtjoin(arr_phat[x], "/");
@@ -95,23 +144,23 @@ char *ft_get_path(char **arr_phat, char *first_cmnd)
 
 void ft_buitin_cmnd(t_cmd *cmnds, t_env **env, t_export **export, int place)
 {
-	// static char *builts[] = {"env","pwd","cd","echo", "export", "unset", "exit", NULL};
+	// static char *builts[] = {"env", "pwd", "echo",   "$?", "export" ,"cd", "unset", "exit", NULL};
 	if (place == 0)
 		ft_env(env, cmnds);
 	if (place == 1)
 		ft_pwd(env);
 	if (place == 2)
-		ft_cd(cmnds, env);
-	if (place == 3)
 		ft_echo(cmnds);
+	if (place == 3)
+		ft_exit_status(0, GET);
 	if (place == 4)
 		ft_export(cmnds, env, export);
 	if (place == 5)
-		ft_unset(cmnds, export, env);
+		ft_cd(cmnds, env);
 	if (place == 6)
-		ft_exit(cmnds);
+		ft_unset(cmnds, export, env);
 	if (place == 7)
-		ft_exit_status(0, GET);
+		ft_exit(cmnds);
 }
 
 char *ft_look_for_paht(t_env **env)
@@ -214,11 +263,18 @@ void ft_excute(t_cmd **cmnds, t_export **export, t_env **node_env, char **env)
 					ft_exit_status(127, SET);
 				}
 				dup2(p[1], STDOUT_FILENO);
-				if (arr_join)
-					ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-				else
+				if (arr_join && ft_check_cmnd(tmp) < 5)
 				{
-					if (ft_check_cmnd(tmp) != 0)
+					if (ft_check_cmnd(tmp) == 4 && ft_count_arg(tmp->cmds) == 1)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+					else if (ft_check_cmnd(tmp) != 4)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				}
+				else if (!arr_join && ft_check_cmnd(tmp) < 5)
+				{
+					if (ft_check_cmnd(tmp) != 0 && ft_check_cmnd(tmp) != 4)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+					else if (ft_check_cmnd(tmp) == 4 && ft_count_arg(tmp->cmds) == 1 && ft_check_cmnd(tmp) != 0)
 						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 				}
 				dup2(saved_stdout, 1);
@@ -268,11 +324,18 @@ void ft_excute(t_cmd **cmnds, t_export **export, t_env **node_env, char **env)
 				}
 				dup2(std_d, STDIN_FILENO);
 				dup2(p[1], STDOUT_FILENO);
-				if (arr_join)
-					ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-				else
+				if (arr_join && ft_check_cmnd(tmp) < 5)
 				{
-					if (ft_check_cmnd(tmp) != 0)
+					if (ft_check_cmnd(tmp) == 4 && ft_count_arg(tmp->cmds) == 1)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+					else if (ft_check_cmnd(tmp) != 4)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				}
+				else if (!arr_join && ft_check_cmnd(tmp) < 5)
+				{
+					if (ft_check_cmnd(tmp) != 0 && ft_check_cmnd(tmp) != 4)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+					else if (ft_check_cmnd(tmp) == 4 && ft_count_arg(tmp->cmds) == 1 && ft_check_cmnd(tmp) != 0)
 						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 				}
 				dup2(saved_stdout, 1);
@@ -323,11 +386,18 @@ void ft_excute(t_cmd **cmnds, t_export **export, t_env **node_env, char **env)
 					printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 					ft_exit_status(127, SET);
 				}
-				else if (arr_join)
-					ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-				else
+				else if (arr_join && ft_check_cmnd(tmp) < 5)
 				{
-					if (ft_check_cmnd(tmp) != 0)
+					if (ft_check_cmnd(tmp) == 4 && ft_count_arg(tmp->cmds) == 1)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+					else if (ft_check_cmnd(tmp) != 4)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+				}
+				else if(!arr_join && ft_check_cmnd(tmp) < 5)
+				{
+					if (ft_check_cmnd(tmp) != 0 && ft_check_cmnd(tmp) != 4)
+						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+					else if (ft_check_cmnd(tmp) == 4 && ft_count_arg(tmp->cmds) == 1 && ft_check_cmnd(tmp) != 0)
 						ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 				}
 				dup2(saved_stdout, 1);

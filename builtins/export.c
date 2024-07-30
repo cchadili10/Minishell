@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/29 10:53:50 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:24:42 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,7 @@ void ft_export(t_cmd *cmnd, t_env **env, t_export **export)
 			x++;
 		}
 		ft_exit_status(0, SET);
+		ft_sort_export(export);
 	}
 	
 }

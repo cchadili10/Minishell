@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/25 09:16:40 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:24:59 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,9 @@ int main(int ac, char **av, char **env) //$home.c
 	t_cmd *cmd;
 	(void)av;
 	envi = NULL;
+	struct termios term;
 
+	tcgetattr(STDIN_FILENO, &term);
 	ft_signal();
 	rl_catch_signals = 0;
     if (ac > 1)
@@ -388,6 +390,7 @@ int main(int ac, char **av, char **env) //$home.c
 		ft_execution(&cmd, &envi);
 		free((void*)line);
 		g_malloc(0, FREE);
+		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	}
 		g_malloc_env(0, FREE);
 }

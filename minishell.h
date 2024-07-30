@@ -13,6 +13,7 @@
 #include <sys/param.h>
 #include <limits.h>
 #include <dirent.h>
+#include <termios.h>
 
 
 # define RED "\033[0;31m"
@@ -183,6 +184,8 @@ char	*ft_strjoin_(char const *s1, char const *s2);
 void ft_signal(void);
 //exit_status
 void	ft_exit_status(int value, int set);
+//sort_export
+void ft_sort_export(t_export **export);
 #endif
 
 // Structure for the command line
