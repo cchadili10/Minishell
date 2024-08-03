@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/07/28 15:17:48 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/03 11:38:26 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,18 +46,28 @@ SRC = minishell.c \
 		parsing/finders.c \
 		parsing/heredoc_expand.c \
 		parsing/heredoc.c \
+		Execution/call_builtins.c \
 		Execution/execution.c \
+		Execution/execution_func.c \
+		Execution/execution_multi.c \
+		Execution/execution_one.c \
+		Execution/sort_export.c \
 		builtins/env.c \
 		builtins/ft_cd.c \
+		builtins/ft_cd_env.c \
+		builtins/ft_cd_export.c \
 		builtins/echo.c \
 		builtins/ft_pwd.c \
 		builtins/export.c \
+		builtins/export_extand.c \
+		builtins/export_extand_a.c \
 		builtins/export_node.c \
 		builtins/unset.c \
+		builtins/unset_env.c \
+		builtins/unset_export.c \
 		builtins/exit.c \
-		builtins/ft_putstr.c \
 		signals/signals.c \
-		exit/exit.c
+		exit/exit.c \
 		
 
 OBJ = $(SRC:.c=.o)
