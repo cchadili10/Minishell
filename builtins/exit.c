@@ -6,11 +6,11 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 21:34:56 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/29 11:11:39 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:25:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 int	ft_atoi_l(const char *str)
 {
@@ -42,25 +42,42 @@ int	ft_atoi_l(const char *str)
 
 int	ft_check_exit_number(char *str)
 {
-	int x;
+	int	x;
 
 	x = 0;
-	if(!str[x])
-		return 0;
-	if (str[x] == '-' && str[x+1])
+	if (!str[x])
+		return (0);
+	if (str[x] == '-' && str[x + 1])
 		x++;
-	while(str[x])
+	while (str[x])
 	{
-		if(str[x] < '0' || str[x] > '9')
-			return 0;
+		if (str[x] < '0' || str[x] > '9')
+			return (0);
 		x++;
 	}
-	return 1;
+	return (1);
+}
+
+void	ft_exit_many_arg(t_cmd *cmnd)
+{
+	if (ft_check_exit_number(cmnd->cmds[1]))
+	{
+		printf("exit\nMinishell: bash: exit: too many arguments\n");
+		ft_exit_status(1, SET);
+	}
+	else
+	{
+		printf("exit\nMinishell: exit: %s: ", cmnd->cmds[1]);
+		printf("numeric argument required\n");
+		exit(255);
+	}
 }
 
 void	ft_exit(t_cmd *cmnd)
 {
-	int x = 0;
+	int	x;
+
+	x = 0;
 	while (cmnd->cmds[x])
 		x++;
 	if (x == 1)
@@ -71,21 +88,11 @@ void	ft_exit(t_cmd *cmnd)
 			exit((unsigned char)ft_atoi_l(cmnd->cmds[1]));
 		else
 		{
-			printf("exit\nMinishell: exit: %s: numeric argument required\n", cmnd->cmds[1]);
+			printf("exit\nMinishell: exit: %s: ", cmnd->cmds[1]);
+			printf("numeric argument required\n");
 			exit(255);
 		}
 	}
 	else
-	{
-		if (ft_check_exit_number(cmnd->cmds[1]))
-		{
-			printf("exit\nMinishell: bash: exit: too many arguments\n");
-			ft_exit_status(1, SET);
-		}
-		else
-		{
-			printf("exit\nMinishell: exit: %s: numeric argument required\n", cmnd->cmds[1]);
-			exit(255);
-		}
-	}
+		ft_exit_many_arg(cmnd);
 }

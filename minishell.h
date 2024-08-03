@@ -79,6 +79,16 @@ typedef struct s_export
 	struct s_export	*next;	
 }	t_export;
 
+
+typedef struct s_export_var
+{
+	char *key;
+	char *value;
+	int start;
+	int append;
+	int update_;	
+}	t_export_var;
+
 // tools
 char *ft_strcpy(char *dest, const char *src);
 int     ft_strlen(const char *str);
@@ -169,7 +179,7 @@ void ft_here_doc(t_token *cmd, t_env *envi, int *red_in);
 //builtsin
 void 	ft_env(t_env **env, t_cmd *cmnds);
 void	ft_putstr_fd(char *s, int fd);
-void	ft_cd(t_cmd *cmnd, t_env **env);
+void	ft_cd(t_cmd *cmnd, t_env **env, t_export **export);
 void	ft_echo(t_cmd *cmnd);
 void	ft_pwd(t_env **env);
 void	ft_exit(t_cmd *cmnd);
@@ -186,6 +196,23 @@ void ft_signal(void);
 void	ft_exit_status(int value, int set);
 //sort_export
 void ft_sort_export(t_export **export);
+//export_functions
+void	ft_replace_value_for_export(t_export **export, char *key, char *value, int check);
+void	ft_replace_value_for_env(t_env **env, char *key, char *value, int check);
+void	ft_add_to_env_export(t_export **export, t_env **env, char *key, char *value);
+int ft_find_key(t_export **export, char *key);
+int ft_check_key(char *key);
+void	ft_set_zero_to_struct(t_export_var *exp);
+int	ft_count_eq(char *str, int chek, t_export_var *exp);
+//unset_functions
+void	ft_remove_key_export(t_export **export, char *key);
+void	ft_remove_key_env(t_env **env, char *key);
+//cd_functions
+void	ft_go_to_home_env(t_env **env);
+void	ft_go_to_home_export(t_export **export);
+void	ft_set_path_for_env(t_env **env);
+int		ft_set_path_for_export(t_export **export, t_cmd *cmnd, int x);
+
 #endif
 
 // Structure for the command line

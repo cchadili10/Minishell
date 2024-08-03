@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_export.c                                      :+:      :+:    :+:   */
+/*   export_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 17:46:50 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/21 17:47:39 by hchadili         ###   ########.fr       */
+/*   Created: 2024/07/31 13:33:55 by hchadili          #+#    #+#             */
+/*   Updated: 2024/07/31 13:35:11 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*ft_strdup_(const char *s1)
 	int		size;
 
 	x = 0;
-	if(!s1)
-		return 0;
+	if (!s1)
+		return (0);
 	size = ft_strlen(s1);
 	array = (char *) malloc(sizeof(char) * (size + 1));
 	if (!(array))
@@ -53,7 +53,6 @@ void	insert_end(t_export **head, char *key, char *value)
 	t_export	*temp;
 
 	new_node = create_node(ft_strdup_(key), ft_strdup_(value));
-	// new_node = create_node(key, value);
 	if (*head == NULL)
 	{
 		*head = new_node;
