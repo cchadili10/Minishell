@@ -194,16 +194,14 @@ char	*ft_strjoin_(char const *s1, char const *s2);
 void ft_signal(void);
 //exit_status
 void	ft_exit_status(int value, int set);
-//sort_export
-void ft_sort_export(t_export **export);
 //export_functions
 void	ft_replace_value_for_export(t_export **export, char *key, char *value, int check);
 void	ft_replace_value_for_env(t_env **env, char *key, char *value, int check);
 void	ft_add_to_env_export(t_export **export, t_env **env, char *key, char *value);
-int ft_find_key(t_export **export, char *key);
-int ft_check_key(char *key);
+int 	ft_find_key(t_export **export, char *key);
+int 	ft_check_key(char *key);
 void	ft_set_zero_to_struct(t_export_var *exp);
-int	ft_count_eq(char *str, int chek, t_export_var *exp);
+int		ft_count_eq(char *str, int chek, t_export_var *exp);
 //unset_functions
 void	ft_remove_key_export(t_export **export, char *key);
 void	ft_remove_key_env(t_env **env, char *key);
@@ -212,6 +210,22 @@ void	ft_go_to_home_env(t_env **env);
 void	ft_go_to_home_export(t_export **export);
 void	ft_set_path_for_env(t_env **env);
 int		ft_set_path_for_export(t_export **export, t_cmd *cmnd, int x);
+//execution_functions
+void	ft_excute(t_cmd **cmnds, t_export **export, t_env **node_env);
+void	ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_env);
+void	ft_buitin_cmnd(t_cmd *cmnds, t_env **env, t_export **export, int place);
+int		ft_check_cmnd(t_cmd *cmnd);
+int		ft_count_cmnds(t_cmd **cmnds);
+char	*ft_look_for_paht(t_env **env);
+void 	ft_fill_export(t_export **export, t_env **env);
+char	*ft_get_path(char **arr_phat, char *first_cmnd);
+char	**ft_get_charenv(t_env **env);
+int		ft_count_arg(char **str);
+void	ft_first_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, int *p);
+void	ft_mid_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, int *p);
+void	ft_last_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, int *p);
+//sort_export
+void	ft_sort_export(t_export **export);
 
 #endif
 

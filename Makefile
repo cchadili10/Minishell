@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/03 11:38:26 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/03 13:41:18 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,9 @@ SRC = minishell.c \
 		Execution/execution_multi.c \
 		Execution/execution_one.c \
 		Execution/sort_export.c \
+		Execution/ft_first_cmnd.c \
+		Execution/ft_middel_cmnd.c \
+		Execution/ft_last_cmnd.c \
 		builtins/env.c \
 		builtins/ft_cd.c \
 		builtins/ft_cd_env.c \

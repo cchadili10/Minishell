@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/30 09:24:59 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/03 13:39:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,11 +353,11 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         }    
-        // if (!catch_errors(&list))    // <--- to catch errors
-        // {
-        //     free((void*)line);
-        //     continue;
-        // } 
+        if (!catch_errors(&list))    // <--- to catch errors
+        {
+            free((void*)line);
+            continue;
+        } 
         // if(print_env(envi, list))    // <--- to print the env
         // {
         //     free((void*)line);
