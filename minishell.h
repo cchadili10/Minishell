@@ -89,6 +89,16 @@ typedef struct s_export_var
 	int update_;	
 }	t_export_var;
 
+typedef struct s_exection_var
+{
+	int p[2];
+	char **arr_phat;
+	char **env;
+	char *arr_join;
+	int id;
+	int std_d;
+}	t_exection_var;
+
 // tools
 char *ft_strcpy(char *dest, const char *src);
 int     ft_strlen(const char *str);
@@ -221,9 +231,10 @@ void 	ft_fill_export(t_export **export, t_env **env);
 char	*ft_get_path(char **arr_phat, char *first_cmnd);
 char	**ft_get_charenv(t_env **env);
 int		ft_count_arg(char **str);
-void	ft_first_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, int *p);
-void	ft_mid_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, int *p);
-void	ft_last_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, int *p);
+void	ft_first_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, t_exection_var *exp);
+void	ft_mid_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, t_exection_var *exp);
+void	ft_last_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, t_exection_var *exp);
+void	ft_set_zero(t_exection_var *exp);
 //sort_export
 void	ft_sort_export(t_export **export);
 

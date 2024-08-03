@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:30:43 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 10:31:40 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:32:37 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@ void	ft_buitin_cmnd(t_cmd *cmnds, t_env **env, t_export **export, int place)
 
 int	ft_check_cmnd(t_cmd *cmnd)
 {
-	static char *builts[] = {"env", "pwd", "echo", "$?", "export" ,"cd", "unset", "exit", NULL};
-	int x = 0;
-	t_cmd *tmp;
+	static char	*builts[] = {"env", "pwd", "echo", "$?",
+		"export", "cd", "unset", "exit", NULL};
+	int			x;
+	t_cmd		*tmp;
 
 	tmp = cmnd;
+	x = 0;
 	while (builts[x])
 	{
 		if (strcmp(builts[x], tmp->cmds[0]) == 0)

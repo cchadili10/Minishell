@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 13:23:07 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:48:42 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 int	ft_count_arg(char **str)
 {
-	int x = 0;
+	int	x;
+
+	x = 0;
 	while (str[x])
 		x++;
-	return x;
+	return (x);
 }
 
 void	ft_execution(t_cmd **cmnds, t_env **env)
 {
+	int				i;
+	char			**arr_env;
+	static t_export	*export = NULL;
+
 	if (!cmnds || !*cmnds || !env || !*env)
 		return ;
-	int count_cmnd;
-	char **arr_env = NULL;
-	static t_export *export = NULL;
-	count_cmnd = 0;
+	i = 3;
 	arr_env = ft_get_charenv(env);
 	if (!export)
 		ft_fill_export(&export, env);
@@ -35,11 +38,6 @@ void	ft_execution(t_cmd **cmnds, t_env **env)
 		ft_excute_one(cmnds, &export, arr_env, env);
 	else
 		ft_excute(cmnds, &export, env);
-	for (int i = 3; i < OPEN_MAX; i++)
-	{
-		close(i);
-	}
-	// write(0,"0 shj\n",7);
-	// write(1,"1 shj\n",7);
-	// write(2,"2 shj\n",7);
+	while (i < OPEN_MAX)
+		close(i++);
 }

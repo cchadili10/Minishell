@@ -6,63 +6,76 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 10:14:32 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:56:30 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_excute_one(t_cmd **cmnds, t_export **export, char **env, t_env **node_env)
+void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
+		t_export **export, t_exection_var *exp)
 {
-	t_cmd *tmp = *cmnds;
-	char **arr_phat = ft_split(ft_look_for_paht(node_env), ':');
-	char *arr_join = ft_get_path(arr_phat, tmp->cmds[0]);
+	int	saved_stdout;
+	int	saved_stdin;
 
-	if (ft_check_cmnd(tmp) != -1 || !arr_join)
+	((1) && (saved_stdin = dup(0), saved_stdout = dup(1)));
+	if (tmp->redir_out != 1)
 	{
-		int saved_stdout = dup(1);
-		int saved_stdout_ = dup(0);
+		dup2(tmp->redir_out, 1);
+		close(tmp->redir_out);
+	}
+	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
+	{
+		printf("Minishell: %s: command not found\n", tmp->cmds[0]);
+		ft_exit_status(127, SET);
+	}
+	else if (exp->arr_join)
+		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+	else
+	{
+		if (ft_check_cmnd(tmp) != 0)
+			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+	}
+	dup2(saved_stdout, 1);
+	dup2(saved_stdin, 0);
+}
+
+void	ft_excute_one_cmd_using_fork(t_cmd *tmp, t_exection_var *exp, char **env)
+{
+	exp->id = fork();
+	if (exp->id == 0)
+	{
 		if (tmp->redir_out != 1)
 		{
 			dup2(tmp->redir_out, 1);
 			close(tmp->redir_out);
 		}
-		if (!arr_join && ft_check_cmnd(tmp) == -1)
+		if (tmp->redir_in != 0)
 		{
-			printf("Minishell: %s: command not found\n", tmp->cmds[0]);
-			ft_exit_status(127, SET);
+			dup2(tmp->redir_in, 0);
+			close(tmp->redir_in);
 		}
-		else if (arr_join)
-			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-		else
-		{
-			if (ft_check_cmnd(tmp) != 0)
-				ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
-		}
-		dup2(saved_stdout, 1);
-		dup2(saved_stdout_, 0);
+		execve(exp->arr_join, tmp->cmds, env);
+		exit(1);
+		ft_exit_status(0, SET);
 	}
+	wait(NULL);
+	if (tmp->redir_out != 1)
+		close(tmp->redir_out);
+}
+
+void	ft_excute_one(t_cmd **cmnds, t_export **export,
+			char **env, t_env **node_env)
+{
+	t_cmd			*tmp;
+	t_exection_var	exp;
+
+	ft_set_zero(&exp);
+	tmp = *cmnds;
+	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':');
+	exp.arr_join = ft_get_path(exp.arr_phat, tmp->cmds[0]);
+	if (ft_check_cmnd(tmp) != -1 || !exp.arr_join)
+		ft_excute_one_builtin_comd(tmp, node_env, export, &exp);
 	else
-	{
-		int id = fork();
-		if (id == 0)
-		{
-			if (tmp->redir_out != 1)
-			{
-				dup2(tmp->redir_out, 1);
-				close(tmp->redir_out);
-			}
-			if (tmp->redir_in != 0)
-			{
-				dup2(tmp->redir_in, 0);
-				close(tmp->redir_in);
-			}
-			execve(arr_join, tmp->cmds, env);
-			exit(1);
-			ft_exit_status(0, SET);
-		}
-		wait(NULL);
-		if (tmp->redir_out != 1)
-			close(tmp->redir_out);
-	}
+		ft_excute_one_cmd_using_fork(tmp, &exp, env);
 }
