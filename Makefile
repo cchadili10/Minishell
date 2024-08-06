@@ -6,13 +6,13 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/03 13:41:18 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/06 15:40:17 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CC = cc -g -fsanitize=address 
+CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 RDFLAGS = -lreadline
 
@@ -41,11 +41,16 @@ SRC = minishell.c \
 		tools/ft_putendl_fd.c \
 		tools/ft_lstclear.c \
 		tools/get_next_line.c \
+		tools/ft_atoi.c \
+		tools/ft_itoa.c \
 		parsing/errors.c \
 		parsing/tokenazing.c \
 		parsing/finders.c \
 		parsing/heredoc_expand.c \
 		parsing/heredoc.c \
+		parsing/process_line.c \
+		parsing/process_line_.c \
+		init/init_env.c \
 		Execution/call_builtins.c \
 		Execution/execution.c \
 		Execution/execution_func.c \
@@ -71,6 +76,11 @@ SRC = minishell.c \
 		builtins/exit.c \
 		signals/signals.c \
 		exit/exit.c \
+		ft_printf/ft_putnbr.c \
+		ft_printf/ft_putchar.c \
+		ft_printf/ft_putstr.c \
+		ft_printf/ft_printf.c \
+		ft_printf/ft_hexa.c 
 		
 
 OBJ = $(SRC:.c=.o)

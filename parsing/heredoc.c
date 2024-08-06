@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/19 13:35:23 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:26:49 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
     if (pid == 0)
     {
         // int fd_read;
+		ft_signal();
         while (1)
         {
             line = readline("> ");

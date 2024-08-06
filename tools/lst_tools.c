@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/19 07:05:46 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:04:25 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*lst_new(char *key, t_type value)
 	if (!new)
 		return (NULL);
 	new->key = key;
+	new->copy_key = key;
 	new->value = value;
 	new->next = NULL;
 	return (new);

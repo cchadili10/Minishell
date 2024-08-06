@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 17:48:42 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:18:42 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ void	ft_execution(t_cmd **cmnds, t_env **env)
 		ft_excute_one(cmnds, &export, arr_env, env);
 	else
 		ft_excute(cmnds, &export, env);
-	while (i < OPEN_MAX)
-		close(i++);
+	// while (i < OPEN_MAX)
+	// 	close(i++);
 }

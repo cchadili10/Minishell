@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:40:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 09:44:29 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:11:49 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	ft_cd(t_cmd *cmnd, t_env **env, t_export **export)
 		x++;
 	if (x == 1)
 	{
-		ft_go_to_home_env(env);
-		ft_go_to_home_export(export);
+		if (ft_go_to_home_export(export))
+			ft_go_to_home_env(env);
 	}
 	else
 	{

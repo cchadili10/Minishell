@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:33:55 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/31 13:35:11 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:16:00 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strdup_(const char *s1)
 	if (!s1)
 		return (0);
 	size = ft_strlen(s1);
-	array = (char *) malloc(sizeof(char) * (size + 1));
+	array = (char *) g_malloc_env((sizeof(char) * (size + 1)), MALLOC);
 	if (!(array))
 		return (0);
 	while (s1[x])

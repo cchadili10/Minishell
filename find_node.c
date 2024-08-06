@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/24 14:20:03 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:36:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void find_node(t_env *envi, t_token *list)
                     if (!found)
                     {
                         tmp->key = NULL;
+						// tmp->copy_key = 
                         tmp_env = envi;
                     }
                 }
@@ -196,6 +197,12 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                 tmp = tmp->next;
                 if (tmp && tmp->value == SPC)
                     tmp = tmp->next;
+				if(!tmp->key)
+				{
+					printf("bash: %s: ambiguous redirect\n", tmp->copy_key);
+					ft_exit_status(1, SET);
+					return (0);	
+				}
                 red_out = open(tmp->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                 if (red_out < 0)
                     return(perror(tmp->key), 0);
@@ -223,6 +230,7 @@ int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)
                     return(perror(tmp->key), 0);
                 // printf("fd = %d\n", red_out);
                 // printf("-------> line = %s\n", get_next_line(red_out));
+				// close(red_in);
                 tmp = tmp->next;
                 continue ;
             }

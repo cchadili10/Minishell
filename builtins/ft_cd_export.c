@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 07:29:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 09:45:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:09:45 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_look_for_pwd_export(t_export **tmp, char *str)
 	}
 }
 
-void	ft_go_to_home_export(t_export **export)
+int	ft_go_to_home_export(t_export **export)
 {
 	t_export	*tmp;
 	t_export	*tmp2;
@@ -30,10 +30,16 @@ void	ft_go_to_home_export(t_export **export)
 	tmp = *export;
 	tmp2 = *export;
 	ft_look_for_pwd_export(&tmp, "HOME");
+	if (!tmp)
+	{
+		printf("Minishell: cd: HOME not set\n");
+		return (0);
+	}
+		
 	if (chdir(tmp->value))
 	{
 		ft_exit_status(1, SET);
-		return ;
+		return (0);
 	}
 	tmp = *export;
 	ft_look_for_pwd_export(&tmp, "PWD");
@@ -43,6 +49,7 @@ void	ft_go_to_home_export(t_export **export)
 		tmp2->value = tmp->value;
 	if (tmp)
 		tmp->value = ft_strdup_env(getcwd(0, 0));
+	return (1);
 }
 
 int	ft_set_path_for_export(t_export **export, t_cmd *cmnd, int x)

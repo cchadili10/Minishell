@@ -6,18 +6,20 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:46:20 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/28 16:26:48 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:24:55 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
 
 void sigusr_handler(int sig)
 {
 	(void)sig;
 	if(sig == SIGQUIT)
 	{
-		ft_exit_status(127, SET);
+		ft_exit_status(0, SET);
 		return;
 	}
 	else

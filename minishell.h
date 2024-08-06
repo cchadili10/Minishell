@@ -14,6 +14,7 @@
 #include <limits.h>
 #include <dirent.h>
 #include <termios.h>
+# include <stdarg.h>
 
 
 # define RED "\033[0;31m"
@@ -26,6 +27,8 @@
 # define MAXLIST 100
 # define GET 0
 # define SET 1
+# define HEXA "0123456789abcdef"
+# define HEXA_MAJ "0123456789ABCDEF"
 
 
 // get_next_line
@@ -53,6 +56,7 @@ typedef enum e_type
 typedef struct s_token
 {
 	char	*key;
+	char	*copy_key;
 	t_type	value;
 	struct s_token	*next;
 }	t_token;
@@ -114,6 +118,8 @@ void 	print_error(char *str);
 char 	**dbl_join(char **s1, char *s2);
 char	*ft_strdup(const char *s);
 char	*get_next_line(int fd);
+int ft_atoi(const char *str);
+char *ft_itoi(int nbr);
 //finders
 
 int is_space(char c);
@@ -133,8 +139,12 @@ void pipe_redirection(char *line, t_token **list, int *i);
 void dollar_sign(char *line, t_token **list, int *i, int start, int end);
 int prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi);
 // parsing
-
+int processline(char *line, t_token **list);
 int catch_errors(t_token **arg);
+void	spc_pipe_red(char *line, t_token **list, int *i);
+int quotes(char *line, t_token **list, int *i);
+int is_red(char c);
+void initenv(char **env, t_env **envi);
 
 //lst_tools.c
 void    lst_add_back(t_token **head, t_token *new);
@@ -217,7 +227,7 @@ void	ft_remove_key_export(t_export **export, char *key);
 void	ft_remove_key_env(t_env **env, char *key);
 //cd_functions
 void	ft_go_to_home_env(t_env **env);
-void	ft_go_to_home_export(t_export **export);
+int		ft_go_to_home_export(t_export **export);
 void	ft_set_path_for_env(t_env **env);
 int		ft_set_path_for_export(t_export **export, t_cmd *cmnd, int x);
 //execution_functions
@@ -237,6 +247,15 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, t_exection_va
 void	ft_set_zero(t_exection_var *exp);
 //sort_export
 void	ft_sort_export(t_export **export);
+//ft_printf
+int		ft_printf(const char *format, ...);
+void	ft_putchar(char c, int *count);
+void	ft_putstr(char *str, int *count);
+void	ft_putnbr(int n, int *count);
+void	ft_put_u_nbr(unsigned int n, int *count);
+void	ft_hexa(unsigned int n, int *count, char *HEXA_);
+void	ft_hexap(unsigned long long n, int *count, char *HEXA_);
+
 
 #endif
 
