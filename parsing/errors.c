@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/24 14:20:03 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:10:24 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int catch_errors(t_token **arg)
 				return (print_err(NULL, arg), 0);
 			if (cur->next->value == PIPE || (cur->next->value == SPC && cur->next->next->value == PIPE))
 				return (print_err(NULL, arg), 0);
-            if ((cur->next->value == SPC && cur->next->next->value != CMD))
+            if ((cur->next->value == SPC && (cur->next->next->value != CMD)))
                 return (print_err(NULL, arg), 0);
 		}
 		cur = cur->next;

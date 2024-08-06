@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/06 16:34:16 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/06 17:35:50 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,8 +81,7 @@ SRC = minishell.c \
 		printf/ft_putstr.c \
 		printf/ft_printf.c \
 		printf/ft_hexa.c 
-		
-
+	
 OBJ = $(SRC:.c=.o)
 
 $(NAME): $(OBJ)
@@ -98,7 +97,6 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-
 re: fclean all
 # -I$(READLINEDIR)/include 
 # -L$(READLINEDIR)/lib

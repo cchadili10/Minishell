@@ -50,6 +50,7 @@ typedef enum e_type
 	DBL_Q,
 	VAR,
 	DBL_VAR,
+	EXIT_STATUS,
 }	t_type;
 
 
@@ -119,7 +120,7 @@ char 	**dbl_join(char **s1, char *s2);
 char	*ft_strdup(const char *s);
 char	*get_next_line(int fd);
 int ft_atoi(const char *str);
-char *ft_itoi(int nbr);
+char	*ft_itoa(int n);
 //finders
 
 int is_space(char c);
@@ -213,7 +214,7 @@ char	*ft_strjoin_(char const *s1, char const *s2);
 //signals
 void ft_signal(void);
 //exit_status
-void	ft_exit_status(int value, int set);
+int		ft_exit_status(int value, int set);
 //export_functions
 void	ft_replace_value_for_export(t_export **export, char *key, char *value, int check);
 void	ft_replace_value_for_env(t_env **env, char *key, char *value, int check);

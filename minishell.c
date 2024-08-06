@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/06 16:18:20 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:18:01 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int main(int ac, char **av, char **env) //$home.c
 1 -- env -i ./minishell   --> done
 sw
 
-
+-------> 
 ??
 --> export
 --> unset

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:30:43 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 17:32:37 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:31:44 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,18 @@ void	ft_buitin_cmnd(t_cmd *cmnds, t_env **env, t_export **export, int place)
 	if (place == 2)
 		ft_echo(cmnds);
 	if (place == 3)
-		ft_exit_status(0, GET);
-	if (place == 4)
 		ft_export(cmnds, env, export);
-	if (place == 5)
+	if (place == 4)
 		ft_cd(cmnds, env, export);
-	if (place == 6)
+	if (place == 5)
 		ft_unset(cmnds, export, env);
-	if (place == 7)
+	if (place == 6)
 		ft_exit(cmnds);
 }
 
 int	ft_check_cmnd(t_cmd *cmnd)
 {
-	static char	*builts[] = {"env", "pwd", "echo", "$?",
+	static char	*builts[] = {"env", "pwd", "echo",
 		"export", "cd", "unset", "exit", NULL};
 	int			x;
 	t_cmd		*tmp;
@@ -47,7 +45,7 @@ int	ft_check_cmnd(t_cmd *cmnd)
 			break ;
 		x++;
 	}
-	if (x >= 8)
+	if (x >= 7)
 		return (-1);
 	return (x);
 }

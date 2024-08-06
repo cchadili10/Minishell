@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:35:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 15:49:25 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:02:49 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void initenv(char **env, t_env **envi)
 		key = ft_substr_env(env[i], 0, index);
 		value = ft_substr_env(env[i], index + 1, ft_strlen(env[i]) - index);
 		if(ft_strcmp(key, "SHLVL") == 0)
-			value = ft_itoi(ft_atoi(value) + 1);
+			value = ft_itoa(ft_atoi(value) + 1);
 		else if(ft_strcmp(key, "_") == 0)
 			value = "/usr/bin/env";
 		if(ft_strcmp(key, "OLDPWD") == 0)

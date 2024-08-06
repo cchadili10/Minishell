@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:28:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 15:21:49 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:03:54 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ void variables(char *line, t_token **list, int *i)
 			lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), DBL_VAR));
 			(*i)++;
 		}
+		else if (line[*i] == '$' && line[(*i) + 1] == '?')
+		{
+			lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), EXIT_STATUS));
+			(*i)++;
+		}
 		else if (line[*i] == '$')
 			handle_var(line, list, i);
 }
@@ -70,6 +75,21 @@ void handl_cmd(char *line, t_token **list, int *i)
 	end = (*i) - start;
 	lst_add_back(list, lst_new(ft_substr(line, start, end + 1), CMD));
 	(*i)++;
+}
+
+void expand_exit_status(t_token **list)
+{
+	t_token *tmp = *list;
+
+	while (tmp)
+	{
+		if (tmp->value == EXIT_STATUS)
+		{
+			tmp->key = ft_itoa(ft_exit_status(0, GET));
+			tmp->value = CMD;
+		}
+		tmp = tmp->next;
+	}
 }
 
 int processline(char *line, t_token **list)
@@ -94,5 +114,7 @@ int processline(char *line, t_token **list)
 		else
 			handl_cmd(line, list, &i);
 	}
+	// func loop over the token list , $? exit_status -> expand -> cmd
+	expand_exit_status(list);
 	return (1);
 }
