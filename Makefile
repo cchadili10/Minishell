@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/06 15:40:17 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/06 16:34:16 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,11 +76,11 @@ SRC = minishell.c \
 		builtins/exit.c \
 		signals/signals.c \
 		exit/exit.c \
-		ft_printf/ft_putnbr.c \
-		ft_printf/ft_putchar.c \
-		ft_printf/ft_putstr.c \
-		ft_printf/ft_printf.c \
-		ft_printf/ft_hexa.c 
+		printf/ft_putnbr.c \
+		printf/ft_putchar.c \
+		printf/ft_putstr.c \
+		printf/ft_printf.c \
+		printf/ft_hexa.c 
 		
 
 OBJ = $(SRC:.c=.o)
