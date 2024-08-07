@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/07 04:10:48 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:38:15 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ void	ft_execution(t_cmd **cmnds, t_env **env)
 		ft_excute_one(cmnds, &export, arr_env, env);
 	else
 		ft_excute(cmnds, &export, env);
+	// while (i < OPEN_MAX)
+	// 	close(i++);
 }
