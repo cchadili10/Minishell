@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/06 18:18:01 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:17:09 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,59 @@
 
 // print list as a table
 
-// void print_list(t_token *list)
-// {
-// 	t_token *tmp = list;
-// 	while (tmp)
-// 	{
-// 		printf(" (%s)  ->  ", tmp->key);
-// 		if (tmp->value == PIPE)
-// 			printf("PIPE\n");
-// 		else if (tmp->value == SPC)
-// 			printf("SPC\n");
-// 		else if (tmp->value == IN)
-// 			printf("IN\n");
-// 		else if (tmp->value == HEREDOC)
-// 			printf("HEREDOC\n");
-// 		else if (tmp->value == OUT)
-// 			printf("OUT\n");
-// 		else if (tmp->value == APPEND)
-// 			printf("APPEND\n");
-// 		else if (tmp->value == SNGL_Q)
-// 			printf("Sgl_q\n");
-// 		else if (tmp->value == DBL_Q)
-// 			printf("Dbl_q\n");
-// 		else if (tmp->value == VAR)
-// 			printf("VAR\n");	
-// 		else if (tmp->value == CMD)
-// 			printf("CMD\n");
-// 		else if (tmp->value == DBL_VAR)
-// 			printf("DBL_VAR\n");
-// 		tmp = tmp->next;
-// 	}
-// }
+void print_cmd(t_cmd **cmd)
+{
+	t_cmd *tmp = *cmd;
+	int i = 0;
+	printf("\n-----------\n");
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->cmds && tmp->cmds[i])
+		{
+			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
+			i++;
+		}
+		printf("redir_in: %d\n", tmp->redir_in);
+		printf("redir_out: %d\n", tmp->redir_out);
+		tmp = tmp->next;
+	}
+	printf("\n-----------\n");
+}
+
+void print_list(t_token *list)
+{
+	t_token *tmp = list;
+	while (tmp)
+	{
+		printf(" (%s)  ->  ", tmp->key);
+		if (tmp->value == PIPE)
+			printf("PIPE\n");
+		else if (tmp->value == SPC)
+			printf("SPC\n");
+		else if (tmp->value == IN)
+			printf("IN\n");
+		else if (tmp->value == HEREDOC)
+			printf("HEREDOC\n");
+		else if (tmp->value == OUT)
+			printf("OUT\n");
+		else if (tmp->value == APPEND)
+			printf("APPEND\n");
+		else if (tmp->value == SNGL_Q)
+			printf("Sgl_q\n");
+		else if (tmp->value == DBL_Q)
+			printf("Dbl_q\n");
+		else if (tmp->value == VAR)
+			printf("VAR\n");	
+		else if (tmp->value == CMD)
+			printf("CMD\n");
+		else if (tmp->value == DBL_VAR)
+			printf("DBL_VAR\n");
+		else if (tmp->value == EXPND)
+			printf("EXPND\n");
+		tmp = tmp->next;
+	}
+}
 
 
 // Main function
@@ -80,25 +102,7 @@
 // }
 
 
-// void print_cmd(t_cmd **cmd)
-// {
-// 	t_cmd *tmp = *cmd;
-// 	int i = 0;
-// 	printf("\n-----------\n");
-// 	while (tmp)
-// 	{
-// 		i = 0;
-// 		while (tmp->cmds && tmp->cmds[i])
-// 		{
-// 			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
-// 			i++;
-// 		}
-// 		printf("redir_in: %d\n", tmp->redir_in);
-// 		printf("redir_out: %d\n", tmp->redir_out);
-// 		tmp = tmp->next;
-// 	}
-// 	printf("\n-----------\n");
-// }
+
 void join_nodes(t_token **list)
 {
 	t_token *tmp = *list;
@@ -130,13 +134,15 @@ int main(int ac, char **av, char **env) //$home.c
 	t_cmd *cmd;
 	struct termios term;
 	envi = NULL;
+	list = NULL;
 	(void)av;
 	tcgetattr(STDIN_FILENO, &term);
 	ft_signal();
 	rl_catch_signals = 0;
     if (ac > 1)
         print_error("no argument needed");
-    initenv(env, &envi);       // <---  problem in env ( should not split with '=' )
+ // <---  problem in env ( should not split with '=' )
+	initenv(env, &envi);
     while (1)
     {
         list = NULL;
@@ -156,11 +162,6 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         }    
-        if (!catch_errors(&list))    // <--- to catch errors
-        {
-            free((void*)line);
-            continue;
-        } 
 
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
@@ -168,8 +169,22 @@ int main(int ac, char **av, char **env) //$home.c
         {
             free((void*)line);
             continue;
-        } 
+        }
+        if (!catch_errors(&list))    // <--- to catch errors
+        {
+            free((void*)line);
+            continue;
+        }
+		// print_cmd(&cmd);
+		// while (envi)
+		// {
+		// 	printf("key: %s\n", envi->key);
+		// 	printf("value: %s\n", envi->value);
+		// 	envi = envi->next;
+		// }
+	// print_env(envi, list);
 		ft_execution(&cmd, &envi);
+		
 		free((void*)line);
 		g_malloc(0, FREE);
 		while (i < OPEN_MAX)
