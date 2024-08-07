@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 07:29:29 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 16:03:59 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/07 04:13:16 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	ft_look_for_pwd_env(t_env **tmp, char *str)
 
 void	ft_go_to_home_env(t_env **env)
 {
+	static int	check;
+	char		arr[PATH_MAX];
 	t_env		*tmp;
 	t_env		*tmp2;
-	static int	check;
-	char	arr[PATH_MAX];
 
 	tmp = *env;
 	tmp2 = *env;
@@ -37,9 +37,9 @@ void	ft_go_to_home_env(t_env **env)
 	ft_look_for_pwd_env(&tmp2, "OLDPWD");
 	ft_exit_status(0, SET);
 	getcwd(arr, sizeof(arr));
-	if(!tmp2 && !check && tmp)
+	if (!tmp2 && !check && tmp)
 	{
-		lst_add_back_env(env,lst_new_env("OLDPWD", tmp->value));
+		lst_add_back_env(env, lst_new_env("OLDPWD", tmp->value));
 		check = 1;
 	}
 	else if (tmp2 && tmp)
@@ -50,19 +50,19 @@ void	ft_go_to_home_env(t_env **env)
 
 void	ft_set_path_for_env(t_env **env)
 {
-	t_env		*tmp;
-	t_env		*tmp2;
 	static int	check;
 	char		arr[PATH_MAX];
+	t_env		*tmp;
+	t_env		*tmp2;
 
 	tmp = *env;
 	tmp2 = *env;
 	ft_look_for_pwd_env(&tmp, "PWD");
 	ft_look_for_pwd_env(&tmp2, "OLDPWD");
 	getcwd(arr, sizeof(arr));
-	if(!tmp2 && !check && tmp)
+	if (!tmp2 && !check && tmp)
 	{
-		lst_add_back_env(env,lst_new_env("OLDPWD", tmp->value));
+		lst_add_back_env(env, lst_new_env("OLDPWD", tmp->value));
 		check = 1;
 	}
 	else if (tmp2 && tmp)
