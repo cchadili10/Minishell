@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 00:46:19 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/07 01:36:07 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/07/12 22:54:24 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	while (*s)
 	{
-		while (*s == c && *s)
+		while (*s == c  && *s)
 			s++;
 		if (*s)
 		{
@@ -77,7 +77,7 @@ char	**ft_split_env(char const *s, char c)
 
 	if (!s)
 		return (0);
-	lst = g_malloc_env((ft_countword(s, c) + 1) * sizeof(char *), MALLOC);
+	lst = (char **)g_malloc_env((ft_countword(s, c) + 1) * sizeof(char *), MALLOC);
 	if (!lst)
 		return (0);
 	i = 0;

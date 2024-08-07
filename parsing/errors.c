@@ -3,83 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/07 04:06:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:10:24 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_redirection(t_type type)
+int is_redirection(t_type type)
 {
-	if (type == APPEND || type == HEREDOC || type == IN || type == OUT)
-		return (1);
-	return (0);
+    if(type == APPEND || type == HEREDOC || type == IN || type == OUT)
+        return (1);
+    return (0);
 }
 
-int	err(char *str, t_token *cur, int flag)
+int print_err(char *str, t_token **arg)
 {
-	if (str == NULL)
-		ft_putendl_fd("syntax error", 2);
-	else if (flag == 1)
-		ft_printf("%s `%s'\n", str, cur->next->key);
-	else
-		ft_printf("minishell: %s", str);
-	return (1);
+    (void)arg;
+    if(str == NULL)
+        ft_putendl_fd("syntax error", 2);
+    else
+        ft_putendl_fd(str, 2);
+    return (1);
 }
 
-int	check_is_valid(t_token *cur)
+int catch_errors(t_token **arg)
 {
-	if (is_redirection(cur->value))
+    t_token *cur;
+    // t_token *prev;
+
+    cur = *arg;
+
+    if(!cur || (cur->value == SPC && cur->next == NULL))
+        return (0);
+    if(cur && (cur->value == PIPE || (cur->value == SPC && cur->next->value == PIPE)))
+        return (print_err("syntax error near unexpected token `|'", arg), 0);
+    
+    while (cur)
 	{
-		if (cur->next->next
-			&& (cur->next->value == PIPE && cur->next->next->value == PIPE))
-			return (err("syntax error near unexpected token `|'", cur, 0), 0);
-		if (cur->next == NULL
-			|| (cur->next->value == SPC && cur->next->next == NULL)
-			|| cur->next->value == PIPE)
+		if (is_redirection(cur->value))
 		{
-			err("syntax error near unexpected token `newline'", cur, 0);
-			return (0);
+			if (cur->next == NULL || (cur->next->value == SPC && cur->next->next == NULL))
+				return (print_err(NULL, arg), 0);
+			if (cur->next->value == PIPE || (cur->next->value == SPC && (cur->next->next->value == PIPE)))
+				return (print_err(NULL, arg), 0);
+			if (is_redirection(cur->next->value) || (cur->next->value == SPC && is_redirection(cur->next->next->value)))
+				return (print_err(NULL, arg), 0);
 		}
-		if ((cur->next->value == SPC && (cur->next->next->value == PIPE))
-			|| (cur->next->value == PIPE && cur->next->next->value == PIPE))
-			return (err("syntax error near unexpected token `|'", cur, 0), 0);
-		if (is_redirection(cur->next->value)
-			|| (cur->next->value == SPC
-				&& is_redirection(cur->next->next->value)))
-			return (err("syntax error near unexpected token", cur, 1), 0);
-	}
-	if (cur->value == PIPE)
-	{
-		if (cur->next == NULL
-			|| (cur->next->value == SPC && cur->next->next == NULL)
-			|| (cur->next->value == SPC && cur->next->next->value == PIPE)
-			|| (cur->next->value == SPC && (cur->next->next->value != CMD)))
-			return (err("syntax error near unexpected token `|'", cur, 0), 0);
-		if (cur->next->value == PIPE)
-			return (err("syntax error near unexpected token `||'", cur, 0), 0);
-	}
-	return (1);
-}
-
-int	catch_errors(t_token **arg)
-{
-	t_token	*cur;
-
-	cur = *arg;
-	if (!cur || (cur->value == SPC && cur->next == NULL))
-		return (0);
-	while (cur)
-	{
-		if (!check_is_valid(cur))
+		if (cur->value == PIPE)
 		{
-			ft_exit_status(258, SET);
-			return (0);
+			if (cur->next == NULL || (cur->next->value == SPC && cur->next->next == NULL))
+				return (print_err(NULL, arg), 0);
+			if (cur->next->value == PIPE || (cur->next->value == SPC && cur->next->next->value == PIPE))
+				return (print_err(NULL, arg), 0);
+            if ((cur->next->value == SPC && (cur->next->next->value != CMD)))
+                return (print_err(NULL, arg), 0);
 		}
 		cur = cur->next;
 	}
-	return (1);
+	
+
+    return (1);
 }
+
+/*
+
+        '| echo'  --> DONE!
+        '||' , '| |'
+        '| 0' , '|0'
+		
+        '>|' , '> |' --> DONE!
+        '> 0' , '>0'  --> DONE!
+		'><' , '> <'  --> DONE!
+
+*/
