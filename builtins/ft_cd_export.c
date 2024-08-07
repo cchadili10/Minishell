@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 07:29:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 14:09:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/07 04:13:41 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_go_to_home_export(t_export **export)
 		printf("Minishell: cd: HOME not set\n");
 		return (0);
 	}
-		
 	if (chdir(tmp->value))
 	{
 		ft_exit_status(1, SET);

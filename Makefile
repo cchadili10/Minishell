@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
+#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/06 17:35:50 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/07 04:53:34 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ RDFLAGS = -lreadline
 READLINEDIR = $(shell brew --prefix readline)
 
 SRC = minishell.c \
-		find_node.c \
 		tools/ft_split.c \
 		tools/ft_srtjoin.c \
 		tools/ft_strjoin.c \
@@ -40,16 +39,18 @@ SRC = minishell.c \
 		tools/count_word.c \
 		tools/ft_putendl_fd.c \
 		tools/ft_lstclear.c \
-		tools/get_next_line.c \
 		tools/ft_atoi.c \
 		tools/ft_itoa.c \
+		tools/ft_malloc_tools.c \
 		parsing/errors.c \
 		parsing/tokenazing.c \
 		parsing/finders.c \
-		parsing/heredoc_expand.c \
 		parsing/heredoc.c \
 		parsing/process_line.c \
 		parsing/process_line_.c \
+		parsing/prepare_cmd.c \
+		parsing/prepare_cmd_.c \
+		parsing/find_node.c \
 		init/init_env.c \
 		Execution/call_builtins.c \
 		Execution/execution.c \

@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:46:20 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/30 09:24:55 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/07 01:48:27 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-
-void sigusr_handler(int sig)
+void	sigusr_handler(int sig)
 {
 	(void)sig;
-	if(sig == SIGQUIT)
+	if (sig == SIGQUIT)
 	{
 		ft_exit_status(0, SET);
-		return;
+		return ;
 	}
 	else
 	{
@@ -32,7 +30,7 @@ void sigusr_handler(int sig)
 	}
 }
 
-void ft_signal(void)
+void	ft_signal(void)
 {
 	signal(SIGINT, sigusr_handler);
 	signal(SIGQUIT, sigusr_handler);
