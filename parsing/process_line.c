@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:28:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 19:03:54 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/07 02:14:29 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // ---------> variables
-void handle_var(char *line, t_token **list, int *i)
+void	handle_var(char *line, t_token **list, int *i)
 {
-	int start;
-	int end;
-	
+	int	start;
+	int	end;
+
 	start = 0;
 	end = 0;
 	if (!is_alnum(line[(*i) + 1]))
@@ -29,7 +29,7 @@ void handle_var(char *line, t_token **list, int *i)
 		while (is_alnum(line[*i]) && !is_special(line[*i]))
 		{
 			if (!is_alnum(line[(*i) + 1]))
-				break;
+				break ;
 			(*i)++;
 		}
 		end = (*i) - start;
@@ -38,32 +38,31 @@ void handle_var(char *line, t_token **list, int *i)
 	}
 }
 
-void variables(char *line, t_token **list, int *i)
+void	variables(char *line, t_token **list, int *i)
 {
 	if (line[*i] == '$' && (line[(*i) + 1] >= '0' && line[(*i) + 1] <= '9'))
-		{
-			lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), VAR));
-			(*i)++;
-		}
-		else if (line[*i] == '$' && line[(*i) + 1] == '$')
-		{
-			lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), DBL_VAR));
-			(*i)++;
-		}
-		else if (line[*i] == '$' && line[(*i) + 1] == '?')
-		{
-			lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), EXIT_STATUS));
-			(*i)++;
-		}
-		else if (line[*i] == '$')
-			handle_var(line, list, i);
+	{
+		lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), VAR));
+		(*i)++;
+	}
+	else if (line[*i] == '$' && line[(*i) + 1] == '$')
+	{
+		lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), DBL_VAR));
+		(*i)++;
+	}
+	else if (line[*i] == '$' && line[(*i) + 1] == '?')
+	{
+		lst_add_back(list, lst_new(ft_substr(line, (*i)++, 2), EXIT_STATUS));
+		(*i)++;
+	}
+	else if (line[*i] == '$')
+		handle_var(line, list, i);
 }
-//-----------
 
-void handl_cmd(char *line, t_token **list, int *i)
+void	handl_cmd(char *line, t_token **list, int *i)
 {
-	int start;
-	int end;
+	int	start;
+	int	end;
 
 	start = *i;
 	while (line[*i] && !is_special(line[*i]))
@@ -77,10 +76,11 @@ void handl_cmd(char *line, t_token **list, int *i)
 	(*i)++;
 }
 
-void expand_exit_status(t_token **list)
+void	expand_exit_status(t_token **list)
 {
-	t_token *tmp = *list;
+	t_token	*tmp;
 
+	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->value == EXIT_STATUS)
@@ -92,9 +92,9 @@ void expand_exit_status(t_token **list)
 	}
 }
 
-int processline(char *line, t_token **list)
+int	processline(char *line, t_token **list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (line == NULL)
@@ -105,16 +105,15 @@ int processline(char *line, t_token **list)
 			spc_pipe_red(line, list, &i);
 		else if (line[i] == '\'' || (line[i] == '$' && line[i + 1] == '\'')
 			|| line[i] == '\"' || (line[i] == '$' && line[i + 1] == '\"'))
-			{
-				if (!quotes(line, list, &i))
-					return (0);
-			}
-		else if(line[i] == '$')
+		{
+			if (!quotes(line, list, &i))
+				return (0);
+		}
+		else if (line[i] == '$')
 			variables(line, list, &i);
 		else
 			handl_cmd(line, list, &i);
 	}
-	// func loop over the token list , $? exit_status -> expand -> cmd
 	expand_exit_status(list);
 	return (1);
 }
