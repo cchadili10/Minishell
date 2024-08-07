@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_extand_a.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:14:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 16:17:22 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/07 04:14:42 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_strjoin_(char const *s1, char const *s2)
 	if (!s1 && !s2)
 		return (0);
 	size = (ft_strlen(s1) + ft_strlen(s2));
-	array = (char *) g_malloc_env((sizeof(char) * size) + 1 , MALLOC);
+	array = (char *) g_malloc_env((sizeof(char) * size) + 1, MALLOC);
 	if (!array)
 		return (0);
 	while (s1[x])
