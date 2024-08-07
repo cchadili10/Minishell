@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   process_line_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:19:32 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/07 02:09:21 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:23:53 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_red(char c)
+int is_red(char c)
 {
-	return (c == '<' || c == '>');
+	return(c == '<' || c == '>');
 }
 
 void	spc_pipe_red(char *line, t_token **list, int *i)
@@ -45,68 +45,67 @@ void	spc_pipe_red(char *line, t_token **list, int *i)
 	}
 }
 
-int	single_quote(char *line, t_token **list, int *i)
+int single_quote(char *line, t_token **list, int *i)
 {
-	int	end;
-
+	int end; 
+	
 	end = 0;
 	if (line[*i] == '$')
-		(*i)++;
-	if (line[(*i) + 1] == '\'')
-	{
-		lst_add_back(list, lst_new("", SNGL_Q));
-		(*i)++;
-	}
-	else
-	{
-		end = find_char(line + (*i) + 1, '\'');
-		if (end)
-			lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), SNGL_Q));
+			(*i)++;
+		if (line[(*i) + 1] == '\'')
+		{
+			lst_add_back(list, lst_new("", SNGL_Q));
+			(*i)++;
+		}
 		else
-			return (ft_exit_status(122, SET)
-				, print_error("Error: missing single quote\n"), 0);
-		(*i) += end + 1;
-	}
-	(*i)++;
+		{
+			end = find_char(line + (*i) + 1, '\'');
+			if (end)
+				lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), SNGL_Q));
+			else
+				return(ft_exit_status(122, SET), print_error("Error: missing single quote\n"), 0);
+			(*i) += end + 1;
+		}
+		(*i)++;
 	return (1);
 }
 
-int	double_quotes(char *line, t_token **list, int *i)
+int double_quotes(char *line, t_token **list, int *i)
 {
-	int	end;
+	int end;
 
 	end = 0;
 	if (line[*i] == '$')
-		(*i)++;
-	if (line[*i + 1] == '\"')
-	{
-		lst_add_back(list, lst_new("", DBL_Q));
-		(*i) += 1;
-	}
-	else
-	{
-		end = find_char(line + (*i) + 1, '\"');
-		if (end)
-			lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), DBL_Q));
+			(*i)++;
+		if (line[*i + 1] == '\"')
+		{
+			
+			(*i) += 1;lst_add_back(list, lst_new("", DBL_Q));
+		}
 		else
-			return (print_error("Error: missing double quote\n"), 0);
-		(*i) += end + 1;
-	}
-	(*i)++;
+		{
+			end = find_char(line + (*i) + 1, '\"');
+			if (end)
+				lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), DBL_Q));
+			else
+				return(print_error("Error: missing double quote\n"), 0);
+			(*i) += end + 1;
+		}
+		(*i)++;
 	return (1);
 }
 
-int	quotes(char *line, t_token **list, int *i)
+int quotes(char *line, t_token **list, int *i)
 {
 	if (line[*i] == '\'' || (line[*i] == '$' && line[(*i) + 1] == '\''))
 	{
-		if (!single_quote(line, list, i))
+		if(!single_quote(line, list, i))
 			return (0);
 	}
 	else if (line[*i] == '\"' || (line[*i] == '$' && line[(*i) + 1] == '\"'))
 	{
-		if (!double_quotes(line, list, i))
-			return (0);
+		if(!double_quotes(line, list, i))
+			return(0);
 	}
 	return (1);
 }
