@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/07 16:53:59 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:45:09 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <dirent.h>
 # include <termios.h>
 # include <stdarg.h>
+#include <sys/stat.h>
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define CYELLOW "\001\e[0;31m\002"
@@ -104,6 +105,7 @@ typedef struct s_exection_var
 	char	*arr_join;
 	int		id;
 	int		std_d;
+	int		flag;
 }	t_exection_var;
 
 // tools
@@ -237,7 +239,7 @@ int		ft_check_cmnd(t_cmd *cmnd);
 int		ft_count_cmnds(t_cmd **cmnds);
 char	*ft_look_for_paht(t_env **env);
 void	ft_fill_export(t_export **export, t_env **env);
-char	*ft_get_path(char **arr_phat, char *first_cmnd);
+char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp);
 char	**ft_get_charenv(t_env **env);
 int		ft_count_arg(char **str);
 void	ft_first_cmnd(t_cmd *tmp, t_env **node_env, t_export **export, t_exection_var *exp);

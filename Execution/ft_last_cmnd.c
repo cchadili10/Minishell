@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 18:31:08 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:52:53 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_run_last_built(t_cmd *tmp, t_env **node_env,
 void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 			t_export **export, t_exection_var *exp)
 {
-	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0]);
+	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);
 	if (ft_check_cmnd(tmp) != -1 || !exp->arr_join)
 		ft_run_last_built(tmp, node_env, export, exp);
 	else

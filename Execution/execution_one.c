@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/07 17:11:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:55:25 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	}
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
 	{
-		printf("Minishell: %s: command not found\n", tmp->cmds[0]);
+		if (exp->flag == 1)
+		{
+			printf("Minishell: %s: is a directory\n", tmp->cmds[0]);
+			exp->flag = 0;
+		}
+		else
+			printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 		ft_exit_status(127, SET);
 	}
 	else if (exp->arr_join)
@@ -74,7 +80,8 @@ void	ft_excute_one(t_cmd **cmnds, t_export **export,
 	ft_set_zero(&exp);
 	tmp = *cmnds;
 	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':');
-	exp.arr_join = ft_get_path(exp.arr_phat, tmp->cmds[0]);
+	exp.arr_join = ft_get_path(exp.arr_phat, tmp->cmds[0], &exp);
+	// printf("%s\n",exp.arr_join);
 	if (ft_check_cmnd(tmp) != -1 || !exp.arr_join)
 		ft_excute_one_builtin_comd(tmp, node_env, export, &exp);
 	else

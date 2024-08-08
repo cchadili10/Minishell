@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 18:30:25 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:52:45 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_mid_cmnd(t_cmd *tmp, t_env **node_env,
 			t_export **export, t_exection_var *exp)
 {
 	exp->std_d = exp->p[0];
-	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0]);
+	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);
 	pipe(exp->p);
 	if (ft_check_cmnd(tmp) != -1 || !exp->arr_join)
 		ft_run_mid_built(tmp, node_env, export, exp);
