@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/08 15:52:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:45:54 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,14 @@ void	ft_run_mid_built(t_cmd *tmp, t_env **node_env,
 	}
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
 	{
-		printf("Minishell: %s: command not found\n", tmp->cmds[0]);
+		if (exp->flag == 1)
+			printf("Minishell: %s: is a directory\n", tmp->cmds[0]);
+		else if(exp->flag == 2)
+			printf("Minishell: %s: No such file or directory\n", tmp->cmds[0]);
+		else
+			printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 		ft_exit_status(127, SET);
+		exp->flag = 0;
 	}
 	dup2(exp->std_d, STDIN_FILENO);
 	dup2(exp->p[1], STDOUT_FILENO);
