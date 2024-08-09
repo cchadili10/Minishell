@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/08 15:45:09 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/09 23:51:32 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int		is_red(char c);
 void	initenv(char **env, t_env **envi);
 t_cmd	*lst_new_cmd(char **line, int in, int out);
 void	lst_add_back_cmd(t_cmd **head, t_cmd *new);
+int handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi);
 
 //lst_tools.c
 void	lst_add_back(t_token **head, t_token *new);

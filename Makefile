@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/07 13:49:56 by yessemna         ###   ########.fr        #
+#    Updated: 2024/08/09 20:47:28 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC = minishell.c \
 		parsing/prepare_cmd.c \
 		parsing/prepare_cmd_.c \
 		parsing/find_node.c \
+		parsing/redirections.c \
 		init/init_env.c \
 		Execution/call_builtins.c \
 		Execution/execution.c \
