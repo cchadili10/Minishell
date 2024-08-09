@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/08 15:55:25 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:36:12 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
 	{
 		if (exp->flag == 1)
-		{
 			printf("Minishell: %s: is a directory\n", tmp->cmds[0]);
-			exp->flag = 0;
-		}
+		else if(exp->flag == 2)
+			printf("Minishell: %s: No such file or directory\n", tmp->cmds[0]);
 		else
 			printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 		ft_exit_status(127, SET);
+		exp->flag = 0;
 	}
 	else if (exp->arr_join)
 		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
