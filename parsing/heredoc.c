@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/09 21:03:53 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:34:40 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,16 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 	t_token	*tmp;
 	char	*line;
 	int		fd_write;
-	int		pid;
-	int		status;
+	// int		pid;
+	// int		status;
 
 	tmp = cmd;
 	fd_write = open("/tmp/dog", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_write != -1)
 		*red_in = fd_write;
-	pid = fork();
-	if (pid == 0)
-	{
+	// pid = fork();
+	// if (pid == 0)
+	// {
 		ft_signal();
 		while (1)
 		{
@@ -122,14 +122,14 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 			putin_fd(fd_write, line);
 		}
 		free(line);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			write(1, "\n", 1);// set exit code to 1 before that handle signals
-		}
-	}
+		// exit(0);
+	// }
+	// else
+	// {
+	// 	waitpid(pid, &status, 0);
+	// 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	// 	{
+	// 		write(1, "\n", 1);
+	// 	}
+	// }
 }

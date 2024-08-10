@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/07 17:17:09 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:36:43 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 
 // print list as a table
 
-void print_cmd(t_cmd **cmd)
-{
-	t_cmd *tmp = *cmd;
-	int i = 0;
-	printf("\n-----------\n");
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->cmds && tmp->cmds[i])
-		{
-			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
-			i++;
-		}
-		printf("redir_in: %d\n", tmp->redir_in);
-		printf("redir_out: %d\n", tmp->redir_out);
-		tmp = tmp->next;
-	}
-	printf("\n-----------\n");
-}
+// void print_cmd(t_cmd **cmd)
+// {
+// 	t_cmd *tmp = *cmd;
+// 	int i = 0;
+// 	printf("\n-----------\n");
+// 	while (tmp)
+// 	{
+// 		i = 0;
+// 		while (tmp->cmds && tmp->cmds[i])
+// 		{
+// 			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
+// 			i++;
+// 		}
+// 		printf("redir_in: %d\n", tmp->redir_in);
+// 		printf("redir_out: %d\n", tmp->redir_out);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n-----------\n");
+// }
 
 void print_list(t_token *list)
 {
@@ -126,7 +126,7 @@ void join_nodes(t_token **list)
 }
 
 
-int main(int ac, char **av, char **env) //$home.c
+int main(int ac, char **av, char **env)
 {
 	t_env *envi;
 	char *line;
@@ -141,7 +141,6 @@ int main(int ac, char **av, char **env) //$home.c
 	rl_catch_signals = 0;
     if (ac > 1)
         print_error("no argument needed");
- // <---  problem in env ( should not split with '=' )
 	initenv(env, &envi);
     while (1)
     {
@@ -161,8 +160,7 @@ int main(int ac, char **av, char **env) //$home.c
         {
             free((void*)line);
             continue;
-        }    
-
+        }
         find_node(envi, list);   // <--- to expand the variables
         join_nodes(&list);      // <--------------- join
         if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
@@ -170,21 +168,14 @@ int main(int ac, char **av, char **env) //$home.c
             free((void*)line);
             continue;
         }
-        if (!catch_errors(&list))    // <--- to catch errors
+		if (!catch_errors(&list))    // <--- to catch errors
         {
             free((void*)line);
             continue;
         }
-		// print_cmd(&cmd);
-		// while (envi)
-		// {
-		// 	printf("key: %s\n", envi->key);
-		// 	printf("value: %s\n", envi->value);
-		// 	envi = envi->next;
-		// }
-	// print_env(envi, list);
+        
 		ft_execution(&cmd, &envi);
-		
+		// print_list(list);
 		free((void*)line);
 		g_malloc(0, FREE);
 		while (i < OPEN_MAX)
@@ -193,27 +184,3 @@ int main(int ac, char **av, char **env) //$home.c
 	}
 	g_malloc_env(0, FREE);
 }
-
-/*
-
---> "$HOME"                               ->DONE
---> print env                             ->DONE 
---> env: r: No such file or directory
------> garbage collector   <-----        -->DONE
-1 -- env -i ./minishell   --> done
-sw
-
--------> 
-??
---> export
---> unset
---> fix echo
---> exit status
---> env -i ./minishell should keep a secure path , some commands still work
---> split when there is a SPC in the value of the env variable
-
---> change (PWD && oldPWD ) when we use cd
-
--
-
-*/

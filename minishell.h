@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/09 23:51:32 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:31:26 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int		is_space(char c);
 int		is_special(char c);
 int		find_char(char *str, char c);
 int		is_alnum(char c);
-char	*cpy_part(char *src, int start, int end);
 
 //tokenazing
 char	*ft_srtjoin(char *s1, char *s2);
@@ -151,7 +150,8 @@ int		is_red(char c);
 void	initenv(char **env, t_env **envi);
 t_cmd	*lst_new_cmd(char **line, int in, int out);
 void	lst_add_back_cmd(t_cmd **head, t_cmd *new);
-int handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi);
+int		handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi);
+char	*cpy_part(char *src, int start, int end);
 
 //lst_tools.c
 void	lst_add_back(t_token **head, t_token *new);

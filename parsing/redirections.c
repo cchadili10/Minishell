@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/09 22:12:44 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:34:53 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ int	redir_in(t_token **tmp, int *red_in)
 		*tmp = (*tmp)->next;
 	(*red_in) = open((*tmp)->key, O_RDONLY);
 	if ((*red_in) < 0)
-		return (perror((*tmp)->key), 0);
+		return (0);
+	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
+			|| ((*tmp)->next->value == SPC
+				&& (*tmp)->next->next->value == PIPE)))
+		return (1);
 	*tmp = (*tmp)->next;
 	return (1);
 }
@@ -33,7 +37,11 @@ int	redir_hd(t_token **tmp, int *red_in, t_env *envi)
 	close(*red_in);
 	(*red_in) = open("/tmp/dog", O_RDONLY);
 	if ((*red_in) < 0)
-		return (perror((*tmp)->key), 0);
+		return (0);
+	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
+			|| ((*tmp)->next->value == SPC
+				&& (*tmp)->next->next->value == PIPE)))
+		return (1);
 	(*tmp) = (*tmp)->next;
 	return (1);
 }
@@ -45,7 +53,11 @@ int	redir_apnd(t_token **tmp, int *red_out)
 		(*tmp) = (*tmp)->next;
 	(*red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if ((*red_out) < 0)
-		return (perror((*tmp)->key), 0);
+		return (0);
+	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
+			|| ((*tmp)->next->value == SPC
+				&& (*tmp)->next->next->value == PIPE)))
+		return (1);
 	(*tmp) = (*tmp)->next;
 	return (1);
 }
@@ -65,7 +77,11 @@ int	redir_out(t_token **tmp, int *red_out)
 	}
 	(*red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if ((*red_out) < 0)
-		return (perror((*tmp)->key), 0);
+		return (0);
+	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
+			|| ((*tmp)->next->value == SPC
+				&& (*tmp)->next->next->value == PIPE)))
+		return (1);
 	*tmp = (*tmp)->next;
 	return (1);
 }

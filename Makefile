@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
+#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/09 20:47:28 by yessemna         ###   ########.fr        #
+#    Updated: 2024/08/10 17:39:15 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC = minishell.c \
 		parsing/prepare_cmd_.c \
 		parsing/find_node.c \
 		parsing/redirections.c \
+		parsing/copy_part.c \
 		init/init_env.c \
 		Execution/call_builtins.c \
 		Execution/execution.c \

@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   find_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/10 00:10:36 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:32:33 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char *cpy_part(char *src, int start, int end)
-{
-    int lenght = (end - start);
-    int i = -1;
-    char *out = g_malloc(lenght + 2, MALLOC);
-    if(!out)
-        return (NULL); 
-    while (++i <= lenght)
-        out[i] = src[i];
-    out[i] = '\0';
-    return (out);
-}
 
 void core_var(t_env *envi, t_token **tmp, int found)
 {
@@ -50,41 +37,44 @@ void core_var(t_env *envi, t_token **tmp, int found)
         }
 }
 
+void	ft_core_dbl_q_helper(char **line, t_token **tmp, t_env *tmp_env, int *found)
+{
+	int	i;
+	i = 0;
+
+	while (tmp_env->value[i])
+		(*line) = join_char((*line), tmp_env->value[i++]);
+	if (count_word(tmp_env->value) == 1)
+		(*tmp)->value = CMD;
+	else
+		(*tmp)->value = EXPND;
+	*found = 1;
+}
+
 void core_dbl_q(t_token **tmp, char **line, int *x, t_env **envi)
 {
     char    *var;
-    int     arr[3];
-    int     found = 0;
-    t_env   *tmp_env = *envi;
+    int     arr[2];
+    int     found;
+    t_env   *tmp_env;
 
-    ((1) && (arr[0] = 0, arr[1] = *x, arr[2] = 0));
-    (*x)++;
-    arr[1] = (*x);
+    ((1) && (arr[0] = *x, arr[1] = 0, found = 0, tmp_env = *envi));
+    arr[0] = ++(*x);
     while ((*tmp)->key[*x] && is_alnum((*tmp)->key[*x]))
         (*x)++;
-    arr[2] = (*x) - 1;
-    var = cpy_part((*tmp)->key + arr[1], arr[1], arr[2]);
+    arr[1] = (*x) - 1;
+    var = cpy_part((*tmp)->key + arr[0], arr[0], arr[1]);
     while (tmp_env)
     {
         if (ft_strcmp(var, tmp_env->key) == 0)
         {
-            arr[0] = 0;
-            while (tmp_env->value[arr[0]])
-                (*line) = join_char((*line), tmp_env->value[arr[0]+=1]);
-            if(count_word(tmp_env->value) == 1)
-                (*tmp)->value = CMD;
-            else
-                (*tmp)->value = EXPND;
-            found = 1;
+			ft_core_dbl_q_helper(line, tmp, tmp_env, &found);
             break;
         }
         tmp_env = tmp_env->next;
     }
     if (!found)
-    {
-        (*line) = "";
-        tmp_env = *envi;
-    }
+		(*line) = "";
     tmp_env = *envi;
 }
 
@@ -104,7 +94,8 @@ void handle_expand(t_env *envi, t_token **tmp, int found)
         while ((*tmp)->key[x])
         {
             if ((*tmp)->key[x] != '$' || ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '\'')
-                || ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '\0') || ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '$'))
+                || ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '\0')
+				|| ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '$'))
             {
                 line = join_char(line, (*tmp)->key[x]);
                 x++;
@@ -132,20 +123,3 @@ void find_node(t_env *envi, t_token *list)
         }
     }
 }
-
-
-int count(t_token *list)
-{
-    int i = 0;
-
-    while (list)
-    {
-        if (list->value == CMD)
-            i++;
-        list = list->next;
-    }
-    return (i);
-}
-
-
-
