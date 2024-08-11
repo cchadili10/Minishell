@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/09 19:36:12 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 22:07:38 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	{
 		if (exp->flag == 1)
 			printf("Minishell: %s: is a directory\n", tmp->cmds[0]);
-		else if(exp->flag == 2)
+		else if (exp->flag == 2)
 			printf("Minishell: %s: No such file or directory\n", tmp->cmds[0]);
 		else
 			printf("Minishell: %s: command not found\n", tmp->cmds[0]);
@@ -81,7 +81,6 @@ void	ft_excute_one(t_cmd **cmnds, t_export **export,
 	tmp = *cmnds;
 	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':');
 	exp.arr_join = ft_get_path(exp.arr_phat, tmp->cmds[0], &exp);
-	// printf("%s\n",exp.arr_join);
 	if (ft_check_cmnd(tmp) != -1 || !exp.arr_join)
 		ft_excute_one_builtin_comd(tmp, node_env, export, &exp);
 	else
