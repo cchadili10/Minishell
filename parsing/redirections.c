@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/10 17:34:53 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:40:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	redir_in(t_token **tmp, int *red_in)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
-	*tmp = (*tmp)->next;
 	return (1);
 }
 
@@ -42,7 +41,7 @@ int	redir_hd(t_token **tmp, int *red_in, t_env *envi)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
-	(*tmp) = (*tmp)->next;
+	*tmp = (*tmp)->next;
 	return (1);
 }
 
@@ -58,7 +57,6 @@ int	redir_apnd(t_token **tmp, int *red_out)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
-	(*tmp) = (*tmp)->next;
 	return (1);
 }
 
@@ -82,7 +80,6 @@ int	redir_out(t_token **tmp, int *red_out)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
-	*tmp = (*tmp)->next;
 	return (1);
 }
 

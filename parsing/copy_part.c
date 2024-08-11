@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_part.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:28:34 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/10 17:30:31 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 00:30:29 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*cpy_part(char *src, int start, int end)
     int		i;
 
 	i = -1;
+    if (src[0] == '?')
+        return ("?");
 	lenght =  (end - start);
 	out = g_malloc(lenght + 2, MALLOC);
     if(!out)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/10 17:31:26 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:06:13 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@
 # define SET 1
 # define HEXA "0123456789abcdef"
 # define HEXA_MAJ "0123456789ABCDEF"
-
 
 typedef enum e_type
 {
@@ -108,6 +107,9 @@ typedef struct s_exection_var
 	int		flag;
 }	t_exection_var;
 
+
+void print_cmd(t_cmd **cmd);
+void print_list(t_token *list);
 // tools
 char	*ft_strcpy(char *dest, const char *src);
 int		ft_strlen(const char *str);
@@ -152,6 +154,7 @@ t_cmd	*lst_new_cmd(char **line, int in, int out);
 void	lst_add_back_cmd(t_cmd **head, t_cmd *new);
 int		handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi);
 char	*cpy_part(char *src, int start, int end);
+void	token_exit_status(char **line, t_token **list, int *i);
 
 //lst_tools.c
 void	lst_add_back(t_token **head, t_token *new);
