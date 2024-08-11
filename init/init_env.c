@@ -6,11 +6,27 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:35:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/07 17:16:16 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/11 22:06:20 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	null_env_case(char **env, t_env **envi, char arr[PATH_MAX])
+{
+	if (*env == NULL)
+	{
+		lst_add_back_env(envi, lst_new_env(ft_strdup_env("PATH"),
+				ft_strdup_env("/usr/local/bin:/bin:/usr/bin:/bin")));
+		lst_add_back_env(envi, lst_new_env(ft_strdup_env("PWD"),
+				ft_strdup_env(arr)));
+		lst_add_back_env(envi, lst_new_env(ft_strdup_env("SHLVL"),
+				ft_strdup_env("1")));
+		lst_add_back_env(envi, lst_new_env(ft_strdup_env("_"),
+				ft_strdup_env("/usr/bin/env")));
+	}
+	return (1);
+}
 
 void	initenv(char **env, t_env **envi)
 {
@@ -18,20 +34,13 @@ void	initenv(char **env, t_env **envi)
 	char	*value;
 	int		index;
 	int		i;
-	char arr[PATH_MAX];
-	
+	char	arr[PATH_MAX];
+
 	getcwd(arr, PATH_MAX);
 	index = 0;
 	i = -1;
-	if(*env == NULL)
-	{
-		lst_add_back_env(envi, lst_new_env(ft_strdup_env("PATH"), ft_strdup_env("/usr/local/bin:/bin:/usr/bin:/bin")));
-		lst_add_back_env(envi, lst_new_env(ft_strdup_env("PWD") ,ft_strdup_env(arr)));
-		lst_add_back_env(envi, lst_new_env(ft_strdup_env("SHLVL"), ft_strdup_env("1")));
-		lst_add_back_env(envi, lst_new_env(ft_strdup_env("_"), ft_strdup_env("/usr/bin/env")));	
+	if (null_env_case(env, envi, arr))
 		return ;
-	}
-
 	while (env && env[++i])
 	{
 		index = find_char(env[i], '=');

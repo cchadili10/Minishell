@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_middel_cmnd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/09 19:45:54 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 22:06:47 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_run_mid_built(t_cmd *tmp, t_env **node_env,
 	{
 		if (exp->flag == 1)
 			printf("Minishell: %s: is a directory\n", tmp->cmds[0]);
-		else if(exp->flag == 2)
+		else if (exp->flag == 2)
 			printf("Minishell: %s: No such file or directory\n", tmp->cmds[0]);
 		else
 			printf("Minishell: %s: command not found\n", tmp->cmds[0]);
