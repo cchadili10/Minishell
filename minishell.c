@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/10 18:36:43 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:49:22 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 
 // print list as a table
 
-// void print_cmd(t_cmd **cmd)
-// {
-// 	t_cmd *tmp = *cmd;
-// 	int i = 0;
-// 	printf("\n-----------\n");
-// 	while (tmp)
-// 	{
-// 		i = 0;
-// 		while (tmp->cmds && tmp->cmds[i])
-// 		{
-// 			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
-// 			i++;
-// 		}
-// 		printf("redir_in: %d\n", tmp->redir_in);
-// 		printf("redir_out: %d\n", tmp->redir_out);
-// 		tmp = tmp->next;
-// 	}
-// 	printf("\n-----------\n");
-// }
+void print_cmd(t_cmd **cmd)
+{
+	t_cmd *tmp = *cmd;
+	int i = 0;
+	printf("\n-----------\n");
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->cmds && tmp->cmds[i])
+		{
+			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
+			i++;
+		}
+		printf("redir_in: %d\n", tmp->redir_in);
+		printf("redir_out: %d\n", tmp->redir_out);
+		tmp = tmp->next;
+	}
+	printf("\n-----------\n");
+}
 
 void print_list(t_token *list)
 {
@@ -109,6 +109,11 @@ void join_nodes(t_token **list)
 	t_token *tmp2;
 	while (tmp)
 	{
+			if (tmp->value == EXPND && tmp->next && tmp->next->value == EXPND)
+			{
+				tmp->key = ft_srtjoin(tmp->key, tmp->next->key);
+				tmp->next = tmp->next->next;
+			}
 		if (tmp->next && (tmp->value == DBL_Q || tmp->value == SNGL_Q || tmp->value == VAR
 			|| tmp->value == DBL_VAR || tmp->value == CMD) && (tmp->next->value == DBL_Q
 			|| tmp->next->value == SNGL_Q || tmp->next->value == VAR || tmp->next->value == DBL_VAR
@@ -161,21 +166,25 @@ int main(int ac, char **av, char **env)
             free((void*)line);
             continue;
         }
+		if (!catch_errors(&list))    // <--- to catch errors
+        {
+            free((void*)line);
+            continue;
+        }
         find_node(envi, list);   // <--- to expand the variables
+		// print_list(list);
+		// t_token *tmp = list;
+		
         join_nodes(&list);      // <--------------- join
         if (!prepare_cmd(list, &cmd, envi))// <--- to prepare the command
         {
             free((void*)line);
             continue;
         }
-		if (!catch_errors(&list))    // <--- to catch errors
-        {
-            free((void*)line);
-            continue;
-        }
         
 		ft_execution(&cmd, &envi);
-		// print_list(list);
+		// printf("\n////////////////////\n");
+		// print_cmd(&cmd);
 		free((void*)line);
 		g_malloc(0, FREE);
 		while (i < OPEN_MAX)

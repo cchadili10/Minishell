@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/10 17:35:48 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:05:38 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	token_exit_status(char **line, t_token **list, int *i)
+{
+	if (*line[*i] == '$' && *line[(*i) + 1] == '?')
+	{
+		lst_add_back(list, lst_new("$?", DBL_Q));
+		(*i) += 2;
+	}
+}
 
 void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 {
@@ -23,7 +32,7 @@ void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 	j = -1;
 	if (*tmp && (*tmp)->value == EXPND)
 	{
-		(*tmp)->value = CMD;
+		(*tmp)->value = VAR;
 		arr = ft_split((*tmp)->key, ' ');
 		while (arr[++i])
 		{

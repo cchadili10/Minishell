@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/07 17:22:57 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/11 00:34:59 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	err(char *str, t_token *cur, int flag)
 
 int	check_is_valid(t_token *cur)
 {
+	
 	if (is_redirection(cur->value))
 	{
 		if (cur && cur->next && cur->next->next
@@ -54,12 +55,16 @@ int	check_is_valid(t_token *cur)
 				&& is_redirection(cur->next->next->value)))
 			return (err("syntax error near unexpected token", cur, 1), 0);
 	}
-	if (cur->value == PIPE)
+	else if (cur->value == PIPE)
 	{
+		if (cur->next == NULL || (cur->next->value == SPC && cur->next->next == NULL))
+			return (err("syntax error near unexpected token `|'", cur, 0), 0);
+		if ((cur->next->value == SPC && is_redirection(cur->next->next->value) && cur->next->next->next == NULL)
+			|| (cur->next->value == PIPE && cur->next->next == NULL))
+			return (err("syntax error near unexpected token `newline'", cur, 0), 0);
 		if (cur->next == NULL
 			|| (cur->next->value == SPC && cur->next->next == NULL)
-			|| (cur->next->value == SPC && cur->next->next->value == PIPE)
-			|| (cur->next->value == SPC && (cur->next->next->value != CMD)))
+			|| (cur->next->value == SPC && cur->next->next->value == PIPE))
 			return (err("syntax error near unexpected token `|'", cur, 0), 0);
 		if (cur->next->value == PIPE)
 			return (err("syntax error near unexpected token `||'", cur, 0), 0);
