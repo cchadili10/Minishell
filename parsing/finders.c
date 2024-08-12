@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   finders.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:47:34 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/09 23:51:40 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:04:07 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,16 @@ int	is_alnum(char c)
 		|| (c >= '0' && c <= '9') || c == '_');
 }
 
-char	*join_char(char *str, char c)
+int	ft_findchar(char *str, char c)
 {
-	char	*out;
-	int		i;
-	int		len;
+	int	i;
 
 	i = 0;
-	if (!str)
-		str = ft_strdup("");
-	len = ft_strlen(str);
-	out = g_malloc(len + 2, MALLOC);
-	while (str[i] != '\0')
+	while (str[i])
 	{
-		out[i] = str[i];
+		if (str[i] == c)
+			return (1);
 		i++;
 	}
-	out[i] = c;
-	out[i + 1] = '\0';
-	return (out);
+	return (0);
 }

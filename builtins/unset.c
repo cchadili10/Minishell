@@ -6,13 +6,13 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:33:24 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 09:20:38 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_unset_env_exp(t_cmd *cmnd, t_export **export, t_env **env, int check)
+void	ft_unset_env_exp(t_cmd *cmnd, t_exp **export, t_env **env, int check)
 {
 	int	x;
 
@@ -40,7 +40,7 @@ void	ft_unset_env_exp(t_cmd *cmnd, t_export **export, t_env **env, int check)
 		ft_exit_status(0, SET);
 }
 
-void	ft_unset(t_cmd *cmnd, t_export **export, t_env **env)
+void	ft_unset(t_cmd *cmnd, t_exp **export, t_env **env)
 {
 	int	x;
 	int	check;

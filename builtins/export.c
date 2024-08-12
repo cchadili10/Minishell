@@ -6,26 +6,30 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/31 18:09:56 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_print_export(t_export **export)
+void	ft_print_export(t_exp **export)
 {
-	t_export	*tmp1;
+	t_exp	*tmp1;
 
 	tmp1 = *export;
 	while (tmp1)
 	{
-		printf("declare -x %s=\"%s\"\n", tmp1->key, tmp1->value);
+		printf("declare -x %s", tmp1->key);
+		if (tmp1->value)
+			printf("=\"%s\"\n", tmp1->value);
+		else
+			printf("\n");
 		tmp1 = tmp1->next;
 	}
 	ft_exit_status(0, SET);
 }
 
-void	ft_add_export_or_env(t_env **env, t_export **export, t_export_var *exp)
+void	ft_add_export_or_env(t_env **env, t_exp **export, t_export_var *exp)
 {
 	if (ft_find_key(export, exp->key) == 0)
 	{
@@ -35,7 +39,7 @@ void	ft_add_export_or_env(t_env **env, t_export **export, t_export_var *exp)
 			insert_end(export, exp->key, exp->value);
 		}
 		else
-			insert_end(export, exp->key, exp->value);
+			insert_end(export, exp->key, NULL);
 	}
 	else
 	{
@@ -45,7 +49,7 @@ void	ft_add_export_or_env(t_env **env, t_export **export, t_export_var *exp)
 }
 
 void	ft_add_var_to_env_export(t_env **env,
-			t_export **export, t_export_var *exp)
+			t_exp **export, t_export_var *exp)
 {
 	if (ft_find_key(export, exp->key))
 		ft_add_to_env_export(export, env, exp->key, exp->value);
@@ -61,7 +65,7 @@ void	ft_add_var_to_env_export(t_env **env,
 	}
 }
 
-void	ft_export_add(t_cmd *cmnd, t_env **env, t_export **export)
+void	ft_export_add(t_cmd *cmnd, t_env **env, t_exp **export)
 {
 	t_export_var	exp;
 	int				x;
@@ -77,9 +81,9 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_export **export)
 				exp.start, (ft_strlen(cmnd->cmds[x]) - exp.start));
 		if (ft_check_key(exp.key) == 0)
 		{
-			print_error("export: not valid in this context:");
+			ft_printf("Minishell: export: '%s'", cmnd->cmds[x]);
+			ft_printf(": not a valid identifier\n");
 			ft_exit_status(1, SET);
-			return ;
 		}
 		else if (exp.append == 0)
 			ft_add_export_or_env(env, export, &exp);
@@ -90,7 +94,7 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_export **export)
 	}
 }
 
-void	ft_export(t_cmd *cmnd, t_env **env, t_export **export)
+void	ft_export(t_cmd *cmnd, t_env **env, t_exp **export)
 {
 	int	x;
 

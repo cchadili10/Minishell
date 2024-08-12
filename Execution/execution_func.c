@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/09 19:41:55 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_look_for_paht(t_env **env)
 	return (NULL);
 }
 
-void	ft_fill_export(t_export **export, t_env **env)
+void	ft_fill_export(t_exp **export, t_env **env)
 {
 	t_env	*tmp;
 
@@ -54,7 +54,7 @@ void	ft_fill_export(t_export **export, t_env **env)
 			insert_end(export, tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	insert_end(export, "OLDPWD", "");
+	insert_end(export, "OLDPWD", NULL);
 	ft_sort_export(export);
 }
 
@@ -80,7 +80,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 	}
 	else
 	{
-		if (first_cmnd[0] == '/')
+		if (first_cmnd[0] == '/' || (first_cmnd[0] == '.' && first_cmnd[1] == '/'))
 		{
 			exp->flag = 2;
 			return (NULL);

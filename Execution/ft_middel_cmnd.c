@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_middel_cmnd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/11 22:06:47 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	ft_run_mid_built_continue(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp)
+			t_exp **export, t_exection_var *exp)
 {
 	if (exp->arr_join && ft_check_cmnd(tmp) < 4)
 	{
@@ -33,7 +33,7 @@ void	ft_run_mid_built_continue(t_cmd *tmp, t_env **node_env,
 }
 
 void	ft_run_mid_built(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp)
+			t_exp **export, t_exection_var *exp)
 {
 	int	saved_stdout;
 	int	saved_stdin;
@@ -88,7 +88,7 @@ void	ft_run_mid_cmd_using_fork(t_cmd *tmp, t_exection_var *exp)
 }
 
 void	ft_mid_cmnd(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp)
+			t_exp **export, t_exection_var *exp)
 {
 	exp->std_d = exp->p[0];
 	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);

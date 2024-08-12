@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/08 15:47:39 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_set_zero(t_exection_var *exp)
 	exp->flag = 0;
 }
 
-void	ft_excute(t_cmd **cmnds, t_export **export, t_env **node_env)
+void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 {
 	t_cmd			*tmp;
 	int				num_cmnd;

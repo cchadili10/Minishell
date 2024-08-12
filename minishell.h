@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/11 22:14:37 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/13 00:04:47 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,21 @@
 # include <dirent.h>
 # include <termios.h>
 # include <stdarg.h>
-#include <sys/stat.h>
-// # define RED "\033[0;31m"
-// # define GREEN "\033[0;32m"
-// # define CYELLOW "\001\e[0;31m\002"
-// # define COLOR_WHITE "\033[37m" 
-// # define COLOR_ORANGE "\033[38;5;214m" 
+# include <sys/stat.h>
+# define COLOR_WHITE "\033[37m" 
+# define COLOR_ORANGE "\033[38;5;214m" 
 # define MAXCMD 1024
 # define MAXLIST 100
 # define GET 0
 # define SET 1
 # define HEXA "0123456789abcdef"
 # define HEXA_MAJ "0123456789ABCDEF"
+
+// typedef struct s_fds
+// {
+// 	int		fd;
+// 	s_fds	*next;
+// }	t_fds;
 
 typedef enum e_type
 {
@@ -85,7 +88,7 @@ typedef struct s_export
 	char			*key;
 	char			*value;
 	struct s_export	*next;	
-}	t_export;
+}	t_exp;
 
 typedef struct s_export_var
 {
@@ -93,7 +96,7 @@ typedef struct s_export_var
 	char	*value;
 	int		start;
 	int		append;
-	int		update_;	
+	int		update_;
 }	t_export_var;
 
 typedef struct s_exection_var
@@ -131,6 +134,7 @@ int		is_space(char c);
 int		is_special(char c);
 int		find_char(char *str, char c);
 int		is_alnum(char c);
+int		ft_findchar(char *str, char c);
 
 //tokenazing
 char	*ft_srtjoin(char *s1, char *s2);
@@ -190,76 +194,64 @@ void	*g_malloc_env(size_t size, t_call call);
 char	*ft_strdup_env(const char *s);
 char	**ft_split_env(char const *s, char c);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
-//exection
-void	ft_execution (t_cmd **cmnds, t_env **env);
-void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in);
-
-//builtsin
-t_export	*create_node(char *key, char *value);
-void	ft_env(t_env **env, t_cmd *cmnds);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_cd(t_cmd *cmnd, t_env **env, t_export **export);
-void	ft_echo(t_cmd *cmnd);
-void	ft_pwd(t_env **env);
-void	ft_exit(t_cmd *cmnd);
-void	ft_export(t_cmd *cmnd, t_env **env, t_export **export);
-void	insert_end(t_export **head, char *key, char *value);
-void	ft_unset(t_cmd *cmnd, t_export **export, t_env **env);
-int		ft_check_key(char *key);// in file
-int		ft_find_key(t_export **export, char *key);// in file
-char	*ft_strjoin_(char const *s1, char const *s2);
 
 //signals
 void	ft_signal(void);
+void	ft_herdoc(int sig);
+
+//exection
+void	ft_execution(t_cmd **cmnds, t_env **env);
+void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in);
 
 //exit_status
 int		ft_exit_status(int value, int set);
+int		ft_exit_herdog(int check, int set);
 
 //export_functions
-void	ft_replace_value_for_export(t_export **export,
+void	ft_replace_value_for_export(t_exp **export,
 			char *key, char *value, int check);
 void	ft_replace_value_for_env(t_env **env, char *key,
 			char *value, int check);
-void	ft_add_to_env_export(t_export **export, t_env **env,
+void	ft_add_to_env_export(t_exp **export, t_env **env,
 			char *key, char *value);
-int		ft_find_key(t_export **export, char *key);
+int		ft_find_key(t_exp **export, char *key);
 int		ft_check_key(char *key);
 void	ft_set_zero_to_struct(t_export_var *exp);
 int		ft_count_eq(char *str, int chek, t_export_var *exp);
 
 //unset_functions
-void	ft_remove_key_export(t_export **export, char *key);
+void	ft_remove_key_export(t_exp **export, char *key);
 void	ft_remove_key_env(t_env **env, char *key);
 
 //cd_functions
 void	ft_go_to_home_env(t_env **env);
-int		ft_go_to_home_export(t_export **export);
+int		ft_go_to_home_export(t_exp **export);
 void	ft_set_path_for_env(t_env **env);
-int		ft_set_path_for_export(t_export **export, t_cmd *cmnd, int x);
+int		ft_set_path_for_export(t_exp **export, t_cmd *cmnd, int x);
 
 //execution_functions
-void	ft_excute(t_cmd **cmnds, t_export **export, t_env **node_env);
-void	ft_excute_one(t_cmd **cmnds, t_export **export,
+void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env);
+void	ft_excute_one(t_cmd **cmnds, t_exp **export,
 			char **env, t_env **node_env);
 void	ft_buitin_cmnd(t_cmd *cmnds, t_env **env,
-			t_export **export, int place);
+			t_exp **export, int place);
 int		ft_check_cmnd(t_cmd *cmnd);
 int		ft_count_cmnds(t_cmd **cmnds);
 char	*ft_look_for_paht(t_env **env);
-void	ft_fill_export(t_export **export, t_env **env);
+void	ft_fill_export(t_exp **export, t_env **env);
 char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp);
 char	**ft_get_charenv(t_env **env);
 int		ft_count_arg(char **str);
 void	ft_first_cmnd(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp);
+			t_exp **export, t_exection_var *exp);
 void	ft_mid_cmnd(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp);
+			t_exp **export, t_exection_var *exp);
 void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp);
+			t_exp **export, t_exection_var *exp);
 void	ft_set_zero(t_exection_var *exp);
 
 //sort_export
-void	ft_sort_export(t_export **export);
+void	ft_sort_export(t_exp **export);
 
 //ft_printf
 int		ft_printf(const char *format, ...);
@@ -269,6 +261,20 @@ void	ft_putnbr(int n, int *count);
 void	ft_put_u_nbr(unsigned int n, int *count);
 void	ft_hexa(unsigned int n, int *count, char *HEXA_);
 void	ft_hexap(unsigned long long n, int *count, char *HEXA_);
+//builtsin
+void	ft_env(t_env **env, t_cmd *cmnds);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_cd(t_cmd *cmnd, t_env **env, t_exp **export);
+void	ft_echo(t_cmd *cmnd);
+void	ft_pwd(t_env **env);
+void	ft_exit(t_cmd *cmnd);
+void	ft_export(t_cmd *cmnd, t_env **env, t_exp **export);
+void	insert_end(t_exp **head, char *key, char *value);
+void	ft_unset(t_cmd *cmnd, t_exp **export, t_env **env);
+t_exp	*create_node(char *key, char *value);
+int		ft_check_key(char *key);
+int		ft_find_key(t_exp **export, char *key);
+char	*ft_strjoin_(char const *s1, char const *s2);
 
 #endif
 // Structure for the command line

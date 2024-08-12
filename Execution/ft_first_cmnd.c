@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_first_cmnd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/11 22:07:13 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	ft_run_first_built_continue(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp)
+			t_exp **export, t_exection_var *exp)
 {
 	if (exp->arr_join && ft_check_cmnd(tmp) < 4)
 	{
@@ -33,7 +33,7 @@ void	ft_run_first_built_continue(t_cmd *tmp, t_env **node_env,
 }
 
 void	ft_run_first_built(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp)
+			t_exp **export, t_exection_var *exp)
 {
 	int	saved_stdout;
 
@@ -60,7 +60,7 @@ void	ft_run_first_built(t_cmd *tmp, t_env **node_env,
 }
 
 void	ft_first_cmnd(t_cmd *tmp, t_env **node_env,
-			t_export **export, t_exection_var *exp)
+			t_exp **export, t_exection_var *exp)
 {
 	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);
 	pipe(exp->p);

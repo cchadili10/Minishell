@@ -6,13 +6,13 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:00:12 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/01 22:49:01 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:19:55 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_look_for_key_export(t_export **tmp, char *key, int *check)
+void	ft_look_for_key_export(t_exp **tmp, char *key, int *check)
 {
 	while (*tmp)
 	{
@@ -27,11 +27,11 @@ void	ft_look_for_key_export(t_export **tmp, char *key, int *check)
 	}
 }
 
-void	ft_remove_key_export(t_export **export, char *key)
+void	ft_remove_key_export(t_exp **export, char *key)
 {
-	t_export	*tmp;
-	t_export	*for_free_export;
-	int			check;
+	t_exp	*tmp;
+	t_exp	*for_free_export;
+	int		check;
 
 	tmp = *export;
 	check = 0;

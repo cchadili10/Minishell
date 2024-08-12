@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/11 17:45:35 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:03:02 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_findchar(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 void	putin_fd(int fd, char *line)
 {
@@ -81,7 +67,24 @@ char	*heredoc_expand(char *line, t_env *envi)
 		else
 			((1) && (ret = join_char(ret, line[i]), i++));
 	}
-	return (ret);
+	return (free(line), ret);
+}
+
+void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
+{
+	while (1)
+	{
+		*line = readline("> ");
+		if (!*(line))
+			break ;
+		if ((*line) && ft_strlen((*line)) != 0)
+			add_history((*line));
+		if (!ft_strcmp((*line), (*tmp)->key))
+			break ;
+		if (!((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
+			(*line) = heredoc_expand((*line), *envi);
+		putin_fd(fd_write, (*line));
+	}
 }
 
 void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
@@ -89,25 +92,20 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 	t_token	*tmp;
 	char	*line;
 	int		fd_write;
+	int		std;
 
-	tmp = cmd;
+	((1) && (std = dup(0), tmp = cmd, line = NULL));
 	fd_write = open("/tmp/dog", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	signal(SIGINT, ft_herdoc);
+	rl_catch_signals = 1;
 	if (fd_write != -1)
 		*red_in = fd_write;
-	ft_signal();
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (line && ft_strlen(line) != 0)
-			add_history(line);
-		if (!ft_strcmp(line, tmp->key))
-			break ;
-		if (!(tmp->value == DBL_Q || tmp->value == SNGL_Q))
-			line = heredoc_expand(line, envi);
-		putin_fd(fd_write, line);
-	}
+	hd_heper(&line, &tmp, fd_write, &envi);
 	free(line);
+	if (!ttyname(0))
+		ft_exit_herdog(1, SET);
+	dup2(std, 0);
 	ft_exit_status(0, SET);
+	ft_signal();
+	rl_catch_signals = 0;
 }

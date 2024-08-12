@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_line_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:19:32 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/11 17:05:30 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:51:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ int	double_quotes(char *line, t_token **list, int *i)
 	int	end;
 
 	end = 0;
-	token_exit_status(&line, list, i);
+	if (line[*i] == '$' && line[(*i) + 1] == '?')
+		token_exit_status(&line, list, i);
 	if (line[*i] == '$')
 		(*i)++;
 	if (line[*i + 1] == '\"')

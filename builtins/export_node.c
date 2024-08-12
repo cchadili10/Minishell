@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:33:55 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 16:16:00 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ char	*ft_strdup_(const char *s1)
 	return (array);
 }
 
-t_export	*create_node(char *key, char *value)
+t_exp	*create_node(char *key, char *value)
 {
-	t_export	*new_node;
+	t_exp	*new_node;
 
-	new_node = malloc(sizeof(t_export));
+	new_node = malloc(sizeof(t_exp));
 	if (!new_node)
 		return (0);
 	new_node->key = key;
@@ -47,10 +47,10 @@ t_export	*create_node(char *key, char *value)
 	return (new_node);
 }
 
-void	insert_end(t_export **head, char *key, char *value)
+void	insert_end(t_exp **head, char *key, char *value)
 {
-	t_export	*new_node;
-	t_export	*temp;
+	t_exp	*new_node;
+	t_exp	*temp;
 
 	new_node = create_node(ft_strdup_(key), ft_strdup_(value));
 	if (*head == NULL)

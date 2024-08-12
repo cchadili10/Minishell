@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:35:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/11 22:06:20 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:35:27 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int	null_env_case(char **env, t_env **envi, char arr[PATH_MAX])
 				ft_strdup_env("1")));
 		lst_add_back_env(envi, lst_new_env(ft_strdup_env("_"),
 				ft_strdup_env("/usr/bin/env")));
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void	initenv(char **env, t_env **envi)

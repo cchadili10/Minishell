@@ -6,13 +6,13 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:30:43 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 18:31:44 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_buitin_cmnd(t_cmd *cmnds, t_env **env, t_export **export, int place)
+void	ft_buitin_cmnd(t_cmd *cmnds, t_env **env, t_exp **export, int place)
 {
 	if (place == 0)
 		ft_env(env, cmnds);

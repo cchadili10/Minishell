@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:46:20 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/11 17:03:09 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:01:31 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	sigusr_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		ft_exit_status(128 + sig, SET);
+		ft_exit_herdog(1, SET);
 	}
 }
 
@@ -34,4 +35,10 @@ void	ft_signal(void)
 {
 	signal(SIGINT, sigusr_handler);
 	signal(SIGQUIT, sigusr_handler);
+}
+
+void	ft_herdoc(int sig)
+{
+	(void)sig;
+	close(0);
 }

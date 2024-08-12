@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 07:29:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/07 04:13:41 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:20:15 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_look_for_pwd_export(t_export **tmp, char *str)
+void	ft_look_for_pwd_export(t_exp **tmp, char *str)
 {
 	while (*tmp)
 	{
@@ -22,10 +22,10 @@ void	ft_look_for_pwd_export(t_export **tmp, char *str)
 	}
 }
 
-int	ft_go_to_home_export(t_export **export)
+int	ft_go_to_home_export(t_exp **export)
 {
-	t_export	*tmp;
-	t_export	*tmp2;
+	t_exp	*tmp;
+	t_exp	*tmp2;
 
 	tmp = *export;
 	tmp2 = *export;
@@ -51,11 +51,11 @@ int	ft_go_to_home_export(t_export **export)
 	return (1);
 }
 
-int	ft_set_path_for_export(t_export **export, t_cmd *cmnd, int x)
+int	ft_set_path_for_export(t_exp **export, t_cmd *cmnd, int x)
 {
-	t_export	*tmp;
-	t_export	*tmp2;
-	char		arr[PATH_MAX];
+	t_exp	*tmp;
+	t_exp	*tmp2;
+	char	arr[PATH_MAX];
 
 	tmp = *export;
 	tmp2 = *export;

@@ -6,13 +6,13 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:15:53 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 17:59:42 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:19:35 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_sort_first_node(t_export **tmp2)
+void	ft_sort_first_node(t_exp **tmp2)
 {
 	char	*key;
 	char	*value;
@@ -30,7 +30,7 @@ void	ft_sort_first_node(t_export **tmp2)
 	}
 }
 
-void	ft_sort_others_node(t_export **tmp2)
+void	ft_sort_others_node(t_exp **tmp2)
 {
 	char	*key;
 	char	*value;
@@ -45,10 +45,10 @@ void	ft_sort_others_node(t_export **tmp2)
 	(*tmp2)->next->next->value = value;
 }
 
-void	ft_sort_export(t_export **export)
+void	ft_sort_export(t_exp **export)
 {
-	t_export	*tmp;
-	t_export	*tmp2;
+	t_exp		*tmp;
+	t_exp		*tmp2;
 	int			x;
 
 	tmp = *export;

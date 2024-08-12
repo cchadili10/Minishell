@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/07 04:10:48 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/13 00:32:28 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_execution(t_cmd **cmnds, t_env **env)
 {
 	int				i;
 	char			**arr_env;
-	static t_export	*export = NULL;
+	static t_exp	*export = NULL;
 
 	if (!cmnds || !*cmnds || !env || !*env)
 		return ;

@@ -3,27 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/11 22:07:38 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
-		t_export **export, t_exection_var *exp)
+		t_exp **export, t_exection_var *exp)
 {
 	int	saved_stdout;
 	int	saved_stdin;
 
 	((1) && (saved_stdin = dup(0), saved_stdout = dup(1)));
 	if (tmp->redir_out != 1)
-	{
-		dup2(tmp->redir_out, 1);
-		close(tmp->redir_out);
-	}
+		((1) && (dup2(tmp->redir_out, 1), close(tmp->redir_out)));
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
 	{
 		if (exp->flag == 1)
@@ -42,8 +39,7 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 		if (ft_check_cmnd(tmp) != 0)
 			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 	}
-	dup2(saved_stdout, 1);
-	dup2(saved_stdin, 0);
+	((1) && (dup2(saved_stdout, 1), dup2(saved_stdin, 0)));
 }
 
 void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
@@ -71,7 +67,7 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 		close(tmp->redir_out);
 }
 
-void	ft_excute_one(t_cmd **cmnds, t_export **export,
+void	ft_excute_one(t_cmd **cmnds, t_exp **export,
 			char **env, t_env **node_env)
 {
 	t_cmd			*tmp;

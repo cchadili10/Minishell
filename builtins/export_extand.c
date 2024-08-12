@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:41:38 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/31 14:38:04 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:20:35 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	ft_check_key(char *key)
 	return (0);
 }
 
-int	ft_find_key(t_export **export, char *key)
+int	ft_find_key(t_exp **export, char *key)
 {
-	t_export	*tmp;
+	t_exp	*tmp;
 
 	tmp = *export;
 	while (tmp)
@@ -49,11 +49,11 @@ int	ft_find_key(t_export **export, char *key)
 	return (0);
 }
 
-void	ft_add_to_env_export(t_export **export,
+void	ft_add_to_env_export(t_exp **export,
 			t_env **env, char *key, char *value)
 {
-	t_export	*tmp;
-	t_env		*tmp_env;
+	t_exp	*tmp;
+	t_env	*tmp_env;
 
 	((1) && (tmp = *export, tmp_env = *env));
 	while (tmp)
@@ -89,10 +89,10 @@ void	ft_replace_value_for_env(t_env **env, char *key, char *value, int check)
 		tmp->value = ft_strdup_env(value);
 }
 
-void	ft_replace_value_for_export(t_export **export,
+void	ft_replace_value_for_export(t_exp **export,
 				char *key, char *value, int check)
 {
-	t_export	*tmp;
+	t_exp	*tmp;
 
 	tmp = *export;
 	while (tmp)
