@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:33:24 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 22:00:29 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_unset_env_exp(t_cmd *cmnd, t_exp **export, t_env **env, int check)
 		}
 		else
 		{
-			printf("unset: `%s': not a valid identifier\n", cmnd->cmds[x]);
+			ft_printf("unset: `%s': not a valid identifier\n", cmnd->cmds[x]);
 			check = 1;
 		}
 		x++;

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 07:29:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:20:15 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:59:34 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_go_to_home_export(t_exp **export)
 	ft_look_for_pwd_export(&tmp, "HOME");
 	if (!tmp)
 	{
-		printf("Minishell: cd: HOME not set\n");
+		ft_printf("Minishell: cd: HOME not set\n");
 		return (0);
 	}
 	if (chdir(tmp->value))
@@ -69,8 +69,8 @@ int	ft_set_path_for_export(t_exp **export, t_cmd *cmnd, int x)
 	}
 	if (!getcwd(0, 0))
 	{
-		printf("cd: error retrieving current directory: getcwd: cannot ");
-		printf("access parent directories: No such file or directory\n");
+		ft_printf("cd: error retrieving current directory: getcwd: cannot ");
+		ft_printf("access parent directories: No such file or directory\n");
 	}
 	getcwd(arr, sizeof(arr));
 	if (tmp2 && tmp)

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:40:25 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/03 09:27:11 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 22:00:06 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_pwd(t_env **env)
 		tmp = tmp->next;
 	}
 	getcwd(arr, sizeof(arr));
-	if (tmp)
+	if (arr)
 		printf("%s\n", arr);
 	else if (tmp)
 		printf("%s\n", tmp->value);
