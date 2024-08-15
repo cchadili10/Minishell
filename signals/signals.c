@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:46:20 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:01:31 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:32:00 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ void	ft_signal(void)
 void	ft_herdoc(int sig)
 {
 	(void)sig;
+	rl_on_new_line();
 	close(0);
 }

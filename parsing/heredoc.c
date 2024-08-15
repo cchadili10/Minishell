@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/12 22:03:02 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:35:09 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
 {
 	while (1)
 	{
+		if (!ttyname(0))
+			break ;
 		*line = readline("> ");
 		if (!*(line))
 			break ;
@@ -92,20 +94,13 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 	t_token	*tmp;
 	char	*line;
 	int		fd_write;
-	int		std;
 
-	((1) && (std = dup(0), tmp = cmd, line = NULL));
+	((1) && (tmp = cmd, line = NULL));
 	fd_write = open("/tmp/dog", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	signal(SIGINT, ft_herdoc);
-	rl_catch_signals = 1;
 	if (fd_write != -1)
 		*red_in = fd_write;
 	hd_heper(&line, &tmp, fd_write, &envi);
 	free(line);
-	if (!ttyname(0))
-		ft_exit_herdog(1, SET);
-	dup2(std, 0);
+	close(fd_write);
 	ft_exit_status(0, SET);
-	ft_signal();
-	rl_catch_signals = 0;
 }

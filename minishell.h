@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/13 00:04:47 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:45:59 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,13 @@ typedef struct s_exection_var
 	int		std_d;
 	int		flag;
 }	t_exection_var;
+
+typedef struct s_main_prepare_cmd
+{
+	char	**cmd_strs;
+	int		red_in;
+	int		red_out;
+}			t_main_prepare_cmd;
 
 void	print_cmd(t_cmd **cmd);
 void	print_list(t_token *list);
@@ -275,6 +282,11 @@ t_exp	*create_node(char *key, char *value);
 int		ft_check_key(char *key);
 int		ft_find_key(t_exp **export, char *key);
 char	*ft_strjoin_(char const *s1, char const *s2);
+//testing
+int		ft_check_file_erorr(char *str);
+void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp);
+char	*ft_loop_for_path(char **arr_phat, char *first_cmnd);
+char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test);
 
 #endif
 // Structure for the command line

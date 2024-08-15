@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/12 20:40:20 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:33:28 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ int	redir_in(t_token **tmp, int *red_in)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
+	*tmp = (*tmp)->next;
 	return (1);
 }
 
 int	redir_hd(t_token **tmp, int *red_in, t_env *envi)
 {
+	if ((*red_in) != 0)
+		close((*red_in));
 	(*tmp) = (*tmp)->next;
 	if (*tmp && (*tmp)->value == SPC)
 		(*tmp) = (*tmp)->next;
@@ -40,7 +43,10 @@ int	redir_hd(t_token **tmp, int *red_in, t_env *envi)
 	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
+	{
+		(*tmp)->key = "/tmp/dog";
 		return (1);
+	}
 	*tmp = (*tmp)->next;
 	return (1);
 }
@@ -57,6 +63,7 @@ int	redir_apnd(t_token **tmp, int *red_out)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
+	*tmp = (*tmp)->next;
 	return (1);
 }
 
@@ -80,11 +87,13 @@ int	redir_out(t_token **tmp, int *red_out)
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
 		return (1);
+	*tmp = (*tmp)->next;
 	return (1);
 }
 
 int	handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi)
 {
+	rl_catch_signals = 1;
 	if ((*tmp)->value == IN)
 		return (redir_in(tmp, red_in));
 	else if ((*tmp)->value == HEREDOC)

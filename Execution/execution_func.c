@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:41:21 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,49 +60,25 @@ void	ft_fill_export(t_exp **export, t_env **env)
 
 char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 {
-	char	*arr_join_one;
-	char	*arr_join;
-	int		x;
-	int		res;
-	struct stat resp;
-	
+	struct stat	resp;
 
-	x = -1;
 	if (!arr_phat)
 		return (NULL);
 	if (stat(first_cmnd, &resp) == 0)
 	{
 		if (S_ISDIR(resp.st_mode))
-		{
-			exp->flag = 1;
-			return (NULL);
-		}
+			return (ft_check_cmd_erorrs(first_cmnd, exp, 3));
 	}
-	else
+	if (first_cmnd[0] == '/' || (first_cmnd[0] == '.' && first_cmnd[1] == '/'))
+		return (ft_check_cmd_erorrs(first_cmnd, exp, 1));
+	if (first_cmnd[ft_strlen(first_cmnd) - 1] == '/')
+		return (ft_check_cmd_erorrs(first_cmnd, exp, 2));
+	if (access(first_cmnd, F_OK) == 0)
 	{
-		if (first_cmnd[0] == '/' || (first_cmnd[0] == '.' && first_cmnd[1] == '/'))
-		{
-			exp->flag = 2;
-			return (NULL);
-		}
-	}
-	while (arr_phat[++x])
-	{
-		res = access(first_cmnd, F_OK | X_OK);
-		if (res == 0)
+		if (access(first_cmnd, X_OK) == 0)
 			return (first_cmnd);
-		else
-		{
-			arr_join_one = ft_srtjoin(arr_phat[x], "/");
-			arr_join = ft_srtjoin(arr_join_one, first_cmnd);
-			res = access(arr_join, F_OK | X_OK);
-			if (res == 0)
-				break ;
-			else if (res == -1 && !arr_phat[x + 1])
-				return (NULL);
-		}
 	}
-	return (arr_join);
+	return (ft_loop_for_path(arr_phat, first_cmnd));
 }
 
 char	**ft_get_charenv(t_env **env)

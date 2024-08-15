@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/12 15:50:37 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:39:38 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 
 void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 {
-	char	**cmd_strs;
-	int		red_in;
-	int		red_out;
+	t_main_prepare_cmd	t;
+	int					std;
 
-	((1) && (red_in = 0, red_out = 1, cmd_strs = NULL));
+	signal(SIGINT, ft_herdoc);
+	rl_catch_signals = 1;
+	(1) && (t.red_in = 0, t.red_out = 1, t.cmd_strs = NULL, std = dup(0));
 	while (*tmp && (*tmp)->value != PIPE)
 	{
 		if ((!(*tmp)->next && (*tmp)->value == SPC) || (*tmp)->key == NULL)
@@ -69,13 +70,18 @@ void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 			*tmp = (*tmp)->next;
 		if ((*tmp && (*tmp)->value == PIPE) || (*tmp)->key == NULL)
 			continue ;
-		if (handle_redir(tmp, &red_in, &red_out, envi))
+		if (handle_redir(tmp, &t.red_in, &t.red_out, envi))
 			continue ;
-		split_in_cmd(&cmd_strs, tmp);
-		*tmp = (*tmp)->next;
+		(split_in_cmd(&t.cmd_strs, tmp), *tmp = (*tmp)->next);
 	}
-	if (cmd_strs)
-		lst_add_back_cmd(cmd, lst_new_cmd(cmd_strs, red_in, red_out));
+	if (t.cmd_strs)
+		lst_add_back_cmd(cmd, lst_new_cmd(t.cmd_strs, t.red_in, t.red_out));
+	else
+		close(t.red_in);
+	if (!ttyname(0))
+		ft_exit_herdog(1, SET);
+	(dup2(std, 0), close(std), rl_catch_signals = 0);
+	ft_signal();
 }
 
 int	prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/13 00:32:28 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:45:00 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,28 @@ int	ft_count_arg(char **str)
 	return (x);
 }
 
+void	ft_close_fd(t_cmd **cmnds)
+{
+	t_cmd	*tmp;
+
+	tmp = *cmnds;
+	while (tmp)
+	{
+		if (tmp->redir_in != 0)
+			close(tmp->redir_in);
+		if (tmp->redir_out != 1)
+			close(tmp->redir_out);
+		tmp = tmp->next;
+	}
+}
+
 void	ft_execution(t_cmd **cmnds, t_env **env)
 {
-	int				i;
 	char			**arr_env;
 	static t_exp	*export = NULL;
 
 	if (!cmnds || !*cmnds || !env || !*env)
 		return ;
-	i = 3;
 	arr_env = ft_get_charenv(env);
 	if (!export)
 		ft_fill_export(&export, env);
@@ -38,4 +51,5 @@ void	ft_execution(t_cmd **cmnds, t_env **env)
 		ft_excute_one(cmnds, &export, arr_env, env);
 	else
 		ft_excute(cmnds, &export, env);
+	ft_close_fd(cmnds);
 }

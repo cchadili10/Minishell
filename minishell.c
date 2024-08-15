@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/13 00:31:35 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:46:18 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	join_nodes(t_token **list)
 	}
 }
 
-bool	should_continue(char *line, t_token **list, t_env **envi)
+bool	ft_parse(char *line, t_token **list, t_env **envi)
 {
 	if (!processline(line, list))
 		return (true);
@@ -52,15 +52,14 @@ bool	should_continue(char *line, t_token **list, t_env **envi)
 	return (false);
 }
 
-bool	should_continue2(t_token **list, t_cmd **cmd, t_env **envi)
+bool	ft_execute(t_token **list, t_cmd **cmd, t_env **envi)
 {
 	if (!prepare_cmd(*list, cmd, *envi))
-		return (true);
-	if (ft_exit_herdog(1, GET))
 	{
-		ft_exit_herdog(0, SET);
 		return (true);
 	}
+	if (ft_exit_herdog(1, GET))
+		return (ft_exit_herdog(0, SET), true);
 	ft_execution(cmd, envi);
 	return (false);
 }
@@ -76,13 +75,13 @@ void	ft_loop_main(t_env **envi)
 	while (1)
 	{
 		((1) && (line = NULL, list = NULL, cmd = NULL));
-		line = readline("minishell$ "COLOR_WHITE);
+		line = readline("minishell$ ");
 		if (!line)
 			(printf("exit\n"), exit(0));
 		if (line && ft_strlen(line) != 0)
 			add_history(line);
-		if (should_continue(line, &list, envi)
-			|| should_continue2(&list, &cmd, envi))
+		if (ft_parse(line, &list, envi)
+			|| ft_execute(&list, &cmd, envi))
 		{
 			free((void *)line);
 			continue ;

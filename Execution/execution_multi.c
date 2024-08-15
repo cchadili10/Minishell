@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:44:14 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,28 @@ void	ft_set_zero(t_exection_var *exp)
 void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 {
 	t_cmd			*tmp;
-	int				num_cmnd;
+	int				num;
 	t_exection_var	exp;
 
 	ft_set_zero(&exp);
-	num_cmnd = ft_count_cmnds(cmnds);
-	tmp = *cmnds;
+	(1) && (num = ft_count_cmnds(cmnds), tmp = *cmnds);
 	exp.env = ft_get_charenv(node_env);
 	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':');
-	while (tmp && num_cmnd)
+	while (tmp && num)
 	{
-		if (num_cmnd == ft_count_cmnds(cmnds))
+		if (num == ft_count_cmnds(cmnds))
 			ft_first_cmnd(tmp, node_env, export, &exp);
-		else if (num_cmnd != 1)
+		else if (num != 1)
 			ft_mid_cmnd(tmp, node_env, export, &exp);
-		else if (num_cmnd == 1)
+		else if (num == 1)
 			ft_last_cmnd(tmp, node_env, export, &exp);
 		if (tmp->redir_out != 1)
 			close(tmp->redir_out);
-		((1) && (tmp = tmp->next, num_cmnd--));
+		if (tmp->redir_in != 0)
+			close(tmp->redir_in);
+		((1) && (tmp = tmp->next, num--));
 	}
-	((1) && (close(exp.p[0]), close(exp.p[1])));
-	num_cmnd = ft_count_cmnds(cmnds);
-	while (num_cmnd--)
+	((1) && (close(exp.p[0]), close(exp.p[1]), num = ft_count_cmnds(cmnds)));
+	while (num--)
 		wait(NULL);
 }

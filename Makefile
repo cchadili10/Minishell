@@ -6,7 +6,7 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/12 23:46:35 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/15 20:12:17 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC = minishell.c \
 		Execution/ft_first_cmnd.c \
 		Execution/ft_middel_cmnd.c \
 		Execution/ft_last_cmnd.c \
+		Execution/check_cmd.c \
 		builtins/env.c \
 		builtins/ft_cd.c \
 		builtins/ft_cd_env.c \
