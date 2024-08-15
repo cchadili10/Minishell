@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:19:32 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 15:51:39 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/15 22:51:47 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	single_quote(char *line, t_token **list, int *i)
 			lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), SNGL_Q));
 		else
 			return (ft_exit_status(122, SET)
-				, print_error("Error: missing single quote\n"), 0);
+				, print_error("Error: missing single quote"), 0);
 		(*i) += end + 1;
 	}
 	(*i)++;
@@ -91,7 +91,7 @@ int	double_quotes(char *line, t_token **list, int *i)
 		if (end)
 			lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), DBL_Q));
 		else
-			return (print_error("Error: missing double quote\n"), 0);
+			return (print_error("Error: missing double quote"), 0);
 		(*i) += end + 1;
 	}
 	(*i)++;
