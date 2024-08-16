@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/15 21:35:09 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:33:32 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
 		*line = readline("> ");
 		if (!*(line))
 			break ;
-		if ((*line) && ft_strlen((*line)) != 0)
-			add_history((*line));
 		if (!ft_strcmp((*line), (*tmp)->key))
 			break ;
 		if (!((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))

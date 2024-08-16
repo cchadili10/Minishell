@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 21:41:21 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:10:50 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 	{
 		if (access(first_cmnd, X_OK) == 0)
 			return (first_cmnd);
+		else 
+			exp->flag = 6;
 	}
 	return (ft_loop_for_path(arr_phat, first_cmnd));
 }

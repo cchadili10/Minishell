@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/15 21:33:28 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:07:30 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	redir_apnd(t_token **tmp, int *red_out)
 	(*red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if ((*red_out) < 0)
 		return (0);
-	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
-			|| ((*tmp)->next->value == SPC
-				&& (*tmp)->next->next->value == PIPE)))
-		return (1);
+	// if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
+	// 		|| ((*tmp)->next->value == SPC
+	// 			&& (*tmp)->next->next->value == PIPE)))
+	// 	return (1);
 	*tmp = (*tmp)->next;
 	return (1);
 }
@@ -83,10 +83,10 @@ int	redir_out(t_token **tmp, int *red_out)
 	(*red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if ((*red_out) < 0)
 		return (0);
-	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
-			|| ((*tmp)->next->value == SPC
-				&& (*tmp)->next->next->value == PIPE)))
-		return (1);
+	// if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
+	// 		|| ((*tmp)->next->value == SPC
+	// 			&& (*tmp)->next->next->value == PIPE)))
+	// 	return (1);
 	*tmp = (*tmp)->next;
 	return (1);
 }

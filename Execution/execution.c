@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:09:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 21:45:00 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:02:14 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ void	ft_execution(t_cmd **cmnds, t_env **env)
 	arr_env = ft_get_charenv(env);
 	if (!export)
 		ft_fill_export(&export, env);
+	t_cmd	*tmp = *cmnds;
+	while (tmp)
+	{
+		for (int i = 0;tmp->cmds[i]; i++)
+			printf("cmd -> %s \n", tmp->cmds[i]);
+		printf("stdin [%d]\n", tmp->redir_in);
+		printf("stdout [%d]\n", tmp->redir_out);
+		tmp =  tmp->next;
+	}
+	
 	if (ft_count_cmnds(cmnds) == 1)
 		ft_excute_one(cmnds, &export, arr_env, env);
 	else

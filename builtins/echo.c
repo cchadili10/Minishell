@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/07/31 13:47:12 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:58:48 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@ int	ft_look_for_n(char *str)
 
 void	ft_write_echo_no_nl(t_cmd *tmp, int x, int i)
 {
+	int holder;
+
+	holder = x;
 	while (x < i)
 	{
-		if (x == 2)
+		if (x == holder)
 			write(1, tmp->cmds[x], ft_strlen(tmp->cmds[x]));
 		else
 		{
@@ -69,17 +72,21 @@ void	ft_echo(t_cmd *cmnd)
 {
 	int		i;
 	int		x;
+	int		y;
+	int		check;
 	t_cmd	*tmp;
 
-	((1) && (x = 2, i = 1, tmp = cmnd));
+	((1) && (x = 2, y = 0, i = 1, check = 0, tmp = cmnd));
 	while (tmp->cmds[i])
 		i++;
 	if (i == 1)
 		printf("\n");
 	else
 	{
-		if (ft_look_for_n(tmp->cmds[1]))
-			ft_write_echo_no_nl(tmp, x, i);
+		while (ft_look_for_n(tmp->cmds[++y]))
+			check = 1;
+		if (check)
+			ft_write_echo_no_nl(tmp, y, i);
 		else
 			ft_write_echo_nl(tmp, x, i);
 	}

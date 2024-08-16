@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 21:40:24 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:32:06 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 	exp->id = fork();
 	if (exp->id == 0)
 	{
+		(tmp->redir_out == -1) && (ft_printf("Minishell: %s: Permission denied\n", tmp->cmds[1]));
+		if(tmp->redir_out == -1)
+			exit(0);
 		if (tmp->redir_out != 1)
 		{
 			dup2(tmp->redir_out, 1);

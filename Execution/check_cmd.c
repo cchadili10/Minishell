@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 21:45:34 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:10:17 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 		ft_printf("Minishell: %s: Permission denied\n", tmp->cmds[0]);
 	else if (exp->flag == 4)
 		ft_printf("Minishell: %s: Not a directory\n", tmp->cmds[0]);
-	else
+	else if (exp->flag == 0)
 		ft_printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 	ft_exit_status(127, SET);
 	exp->flag = 0;

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:14:41 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 15:29:27 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:00:44 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ char	*ft_strjoin_(char const *s1, char const *s2)
 	array = (char *) g_malloc_env((sizeof(char) * size) + 1, MALLOC);
 	if (!array)
 		return (0);
-	while (s1[x])
+	while (s1 && s1[x])
 	{
 		array[x] = s1[x];
 		x++;
 	}
-	while (s2[y])
+	while (s2 && s2[y])
 		array[x++] = s2[y++];
 	array[size] = '\0';
 	return (array);
