@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/16 20:33:32 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:54:19 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
 		*line = readline("> ");
 		if (!*(line))
 			break ;
-		if (!ft_strcmp((*line), (*tmp)->key))
+		if (!ft_strcmp((*line), (*tmp)->copy_key))
 			break ;
 		if (!((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
 			(*line) = heredoc_expand((*line), *envi);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/15 21:46:18 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:58:08 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	join_nodes(t_token **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->value == EXPND && tmp->next && tmp->next->value == EXPND)
+		if (tmp->value == CMD && tmp->next && tmp->next->value == CMD)
 			((1) && (tmp->key = ft_srtjoin(tmp->key, tmp->next->key),
 					tmp->next = tmp->next->next));
 		if (tmp->next && (tmp->value == DBL_Q || tmp->value == SNGL_Q
@@ -41,7 +41,7 @@ void	join_nodes(t_token **list)
 	}
 }
 
-bool	ft_parse(char *line, t_token **list, t_env **envi)
+bool	ft_parse(char *line, t_token **list, t_env **envi, t_cmd **cmd)
 {
 	if (!processline(line, list))
 		return (true);
@@ -49,15 +49,14 @@ bool	ft_parse(char *line, t_token **list, t_env **envi)
 		return (true);
 	find_node(*envi, *list);
 	join_nodes(list);
+	if (!prepare_cmd(*list, cmd, *envi))
+		return (true);
 	return (false);
 }
 
 bool	ft_execute(t_token **list, t_cmd **cmd, t_env **envi)
 {
-	if (!prepare_cmd(*list, cmd, *envi))
-	{
-		return (true);
-	}
+	(void)list;
 	if (ft_exit_herdog(1, GET))
 		return (ft_exit_herdog(0, SET), true);
 	ft_execution(cmd, envi);
@@ -80,7 +79,7 @@ void	ft_loop_main(t_env **envi)
 			(printf("exit\n"), exit(0));
 		if (line && ft_strlen(line) != 0)
 			add_history(line);
-		if (ft_parse(line, &list, envi)
+		if (ft_parse(line, &list, envi, &cmd)
 			|| ft_execute(&list, &cmd, envi))
 		{
 			free((void *)line);

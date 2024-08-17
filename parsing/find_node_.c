@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/11 21:47:05 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:46:35 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	core_var(t_env *envi, t_token **tmp, int found)
 		if (ft_strcmp((*tmp)->key + 1, tmp_env->key) == 0)
 		{
 			(*tmp)->key = tmp_env->value;
-			if (count_word(tmp_env->value) == 0)
-				(*tmp)->value = CMD;
-			else
-				(*tmp)->value = EXPND;
+			(*tmp)->value = CMD;
 			found = 1;
 			break ;
 		}
@@ -45,10 +42,7 @@ void	core_q_helper(char **line, t_token **tmp, t_env *tmp_env, int *found)
 	i = 0;
 	while (tmp_env->value[i])
 		(*line) = join_char((*line), tmp_env->value[i++]);
-	if (count_word(tmp_env->value) == 0)
-		(*tmp)->value = CMD;
-	else
-		(*tmp)->value = EXPND;
+	(*tmp)->value = CMD;
 	*found = 1;
 }
 

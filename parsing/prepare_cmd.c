@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/15 21:39:38 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:47:24 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 
 	i = -1;
 	j = -1;
-	if (*tmp && (*tmp)->value == EXPND)
+	if (*tmp && (*tmp)->value == CMD)
 	{
 		(*tmp)->value = VAR;
 		arr = ft_split((*tmp)->key, ' ');
@@ -50,14 +50,24 @@ void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 		*cmd_strs = dbl_join(*cmd_strs, (*tmp)->key);
 }
 
+void	short_hand(t_main_prepare_cmd *t, t_cmd **cmd)
+{
+	if (t->cmd_strs)
+		lst_add_back_cmd(cmd, lst_new_cmd(t->cmd_strs, t->red_in, t->red_out));
+	else
+		close(t->red_in);
+	if (!ttyname(0))
+		ft_exit_herdog(1, SET);
+	(dup2(t->std, 0), close(t->std), rl_catch_signals = 0);
+	ft_signal();
+}
+
 void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 {
 	t_main_prepare_cmd	t;
-	int					std;
 
-	signal(SIGINT, ft_herdoc);
-	rl_catch_signals = 1;
-	(1) && (t.red_in = 0, t.red_out = 1, t.cmd_strs = NULL, std = dup(0));
+	(signal(SIGINT, ft_herdoc), rl_catch_signals = 1);
+	(1) && (t.red_in = 0, t.red_out = 1, t.cmd_strs = NULL, t.std = dup(0));
 	while (*tmp && (*tmp)->value != PIPE)
 	{
 		if ((!(*tmp)->next && (*tmp)->value == SPC) || (*tmp)->key == NULL)
@@ -72,16 +82,11 @@ void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 			continue ;
 		if (handle_redir(tmp, &t.red_in, &t.red_out, envi))
 			continue ;
+		if ((*tmp)->key == NULL)
+			continue ;
 		(split_in_cmd(&t.cmd_strs, tmp), *tmp = (*tmp)->next);
 	}
-	if (t.cmd_strs)
-		lst_add_back_cmd(cmd, lst_new_cmd(t.cmd_strs, t.red_in, t.red_out));
-	else
-		close(t.red_in);
-	if (!ttyname(0))
-		ft_exit_herdog(1, SET);
-	(dup2(std, 0), close(std), rl_catch_signals = 0);
-	ft_signal();
+	short_hand(&t, cmd);
 }
 
 int	prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi)

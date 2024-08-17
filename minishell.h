@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/15 21:45:59 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:45:03 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef enum e_type
 	VAR,
 	DBL_VAR,
 	EXIT_STATUS,
-	EXPND,
 }	t_type;
 
 typedef struct s_token
@@ -113,6 +112,7 @@ typedef struct s_exection_var
 typedef struct s_main_prepare_cmd
 {
 	char	**cmd_strs;
+	int		std;
 	int		red_in;
 	int		red_out;
 }			t_main_prepare_cmd;
