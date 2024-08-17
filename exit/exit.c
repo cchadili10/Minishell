@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:05:28 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:05:43 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:25:39 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	ft_exit_status(int value, int set)
 	if (set == SET)
 		exit_staus = value;
 	else if (set == GET)
-	{
-		ft_exit_status(127, SET);
 		return (exit_staus);
-	}
 	return (0);
 }
 

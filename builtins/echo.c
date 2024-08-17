@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/16 19:58:48 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:52:49 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_look_for_n(char *str)
 
 void	ft_write_echo_no_nl(t_cmd *tmp, int x, int i)
 {
-	int holder;
+	int	holder;
 
 	holder = x;
 	while (x < i)

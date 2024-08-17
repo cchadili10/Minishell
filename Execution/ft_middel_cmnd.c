@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 20:44:29 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 22:22:30 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	ft_run_mid_cmd_using_fork(t_cmd *tmp, t_exection_var *exp)
 	exp->id = fork();
 	if (exp->id == 0)
 	{
+		if (tmp->redir_out == -1)
+			exit(0);
 		dup2(exp->std_d, STDIN_FILENO);
 		dup2(exp->p[1], STDOUT_FILENO);
 		if (tmp->redir_out != 1)

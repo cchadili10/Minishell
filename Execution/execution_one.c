@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/16 20:32:06 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:52:20 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	{
 		if (ft_check_cmnd(tmp) != 0)
 			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+		else if (ft_check_cmnd(tmp) == 0)
+			ft_printf("Minishell: %s: No such file or directory\n",
+				tmp->cmds[0]);
 	}
 	((1) && (dup2(saved_stdout, 1), dup2(saved_stdin, 0)));
 	((1) && (close(saved_stdout), close(saved_stdin)));
@@ -44,8 +47,7 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 	exp->id = fork();
 	if (exp->id == 0)
 	{
-		(tmp->redir_out == -1) && (ft_printf("Minishell: %s: Permission denied\n", tmp->cmds[1]));
-		if(tmp->redir_out == -1)
+		if (tmp->redir_out == -1)
 			exit(0);
 		if (tmp->redir_out != 1)
 		{
@@ -59,8 +61,8 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 		}
 		execve(exp->arr_join, tmp->cmds, env);
 		exit(1);
-		ft_exit_status(0, SET);
 	}
+	ft_exit_status(0, SET);
 	wait(NULL);
 }
 

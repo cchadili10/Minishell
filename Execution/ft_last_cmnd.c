@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 20:43:04 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:51:45 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 		exp->id = fork();
 		if (exp->id == 0)
 		{
+			if (tmp->redir_out == -1)
+				exit(0);
 			dup2(exp->p[0], STDIN_FILENO);
 			if (tmp->redir_out != 1)
 			{
@@ -70,10 +72,7 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 				close(tmp->redir_out);
 			}
 			if (tmp->redir_in != 0)
-			{
-				dup2(tmp->redir_in, 0);
-				close(tmp->redir_in);
-			}
+				(1) && (dup2(tmp->redir_in, 0), close(tmp->redir_in))
 			((1) && (close(exp->p[1]), close(exp->p[0])));
 			execve(exp->arr_join, tmp->cmds, exp->env);
 			exit(1);

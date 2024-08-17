@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/16 20:10:50 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:52:35 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 	struct stat	resp;
 
 	if (!arr_phat)
+	{
+		exp->flag = 2;
 		return (NULL);
+	}
 	if (stat(first_cmnd, &resp) == 0)
 	{
 		if (S_ISDIR(resp.st_mode))
@@ -77,7 +80,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 	{
 		if (access(first_cmnd, X_OK) == 0)
 			return (first_cmnd);
-		else 
+		else
 			exp->flag = 6;
 	}
 	return (ft_loop_for_path(arr_phat, first_cmnd));
