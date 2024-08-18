@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/17 23:51:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 09:29:08 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 				close(tmp->redir_out);
 			}
 			if (tmp->redir_in != 0)
-				(1) && (dup2(tmp->redir_in, 0), close(tmp->redir_in))
+				(1) && (dup2(tmp->redir_in, 0), close(tmp->redir_in));
 			((1) && (close(exp->p[1]), close(exp->p[0])));
 			execve(exp->arr_join, tmp->cmds, exp->env);
 			exit(1);

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:40:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:35:33 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,16 @@ void	ft_cd(t_cmd *cmnd, t_env **env, t_exp **export)
 	int	x;
 
 	x = 0;
+	(void)env;
 	while (cmnd->cmds[x])
 		x++;
 	if (x == 1)
 	{
 		if (ft_go_to_home_export(export))
+		{
 			ft_go_to_home_env(env);
+			ft_exit_status(0, SET);
+		}
 	}
 	else
 	{

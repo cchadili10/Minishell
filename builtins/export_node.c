@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:33:55 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:18:22 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 09:18:09 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ t_exp	*create_node(char *key, char *value)
 {
 	t_exp	*new_node;
 
-	new_node = malloc(sizeof(t_exp));
+	new_node = g_malloc_env(sizeof(t_exp), MALLOC);
 	if (!new_node)
-		return (0);
+		return (NULL);
 	new_node->key = key;
 	new_node->value = value;
 	new_node->next = NULL;

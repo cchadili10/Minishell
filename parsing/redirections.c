@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/17 22:01:49 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:17:29 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int	redir_hd(t_token **tmp, int *red_in, t_env *envi)
 	close(*red_in);
 	(*red_in) = open("/tmp/dog", O_RDONLY);
 	if ((*red_in) < 0)
-	{
 		return (0);
-	}
 	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
 			|| ((*tmp)->next->value == SPC
 				&& (*tmp)->next->next->value == PIPE)))
@@ -76,6 +74,7 @@ int	redir_out(t_token **tmp, int *red_out)
 	{
 		printf("bash: %s: ambiguous redirect\n", (*tmp)->copy_key);
 		ft_exit_status(1, SET);
+		ft_exit_herdog(1, SET);
 		return (0);
 	}
 	(*red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -89,7 +88,6 @@ int	handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi)
 {
 	int	flag;
 
-	rl_catch_signals = 1;
 	if ((*tmp)->value == IN)
 		return (redir_in(tmp, red_in));
 	else if ((*tmp)->value == HEREDOC)
