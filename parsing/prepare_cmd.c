@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/17 21:47:24 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:30:07 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	token_exit_status(char **line, t_token **list, int *i)
 void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 {
 	char	**arr;
-	char	**sub;
 	int		i;
 	int		j;
 
@@ -33,18 +32,9 @@ void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 	if (*tmp && (*tmp)->value == CMD)
 	{
 		(*tmp)->value = VAR;
-		arr = ft_split((*tmp)->key, ' ');
+		arr = ft_split((*tmp)->key, 32, 9);
 		while (arr[++i])
-		{
-			if (find_char(arr[i], '\t'))
-			{
-				sub = ft_split(arr[i], '\t');
-				while (sub[++j])
-					*cmd_strs = dbl_join(*cmd_strs, sub[j]);
-			}
-			else
-				*cmd_strs = dbl_join(*cmd_strs, arr[i]);
-		}
+			*cmd_strs = dbl_join(*cmd_strs, arr[i]);
 	}
 	else
 		*cmd_strs = dbl_join(*cmd_strs, (*tmp)->key);

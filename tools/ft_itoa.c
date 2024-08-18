@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:27:40 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/06 19:01:30 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:39:16 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_itoa(int n)
 	if (l < 0)
 		ft_sin(&l, &s);
 	sum = count;
-	array = (char *) malloc(sizeof(char) * (count + 1));
+	array = (char *) g_malloc(sizeof(char) * (count + 1), MALLOC);
 	if (!(array))
 		return (0);
 	while (count - s > 0)

@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:41:38 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 22:20:35 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:07:16 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_add_to_env_export(t_exp **export,
 		tmp->value = ft_strjoin_(tmp->value, value);
 	if (tmp_env)
 		tmp_env->value = ft_strjoin_(tmp_env->value, value);
+	else if (!tmp_env)
+		lst_add_back_env(env, lst_new_env(key, value));
 }
 
 void	ft_replace_value_for_env(t_env **env, char *key, char *value, int check)
@@ -87,6 +89,8 @@ void	ft_replace_value_for_env(t_env **env, char *key, char *value, int check)
 	}
 	if (tmp && check)
 		tmp->value = ft_strdup_env(value);
+	else if (!tmp && check)
+		lst_add_back_env(env, lst_new_env(key, value));
 }
 
 void	ft_replace_value_for_export(t_exp **export,

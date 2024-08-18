@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/17 23:52:35 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:32:15 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char	**ft_get_charenv(t_env **env)
 		return (NULL);
 	while (y < x && tmp)
 	{
-		arr_joined = ft_srtjoin(tmp->key, "=");
-		arr[y] = ft_srtjoin(arr_joined, tmp->value);
+		arr_joined = ft_strjoin_(tmp->key, "=");
+		arr[y] = ft_strjoin_(arr_joined, tmp->value);
 		y++;
 		tmp = tmp->next;
 	}

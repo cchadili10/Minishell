@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/17 23:52:20 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:07:30 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_excute_one(t_cmd **cmnds, t_exp **export,
 
 	ft_set_zero(&exp);
 	tmp = *cmnds;
-	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':');
+	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':', 9);
 	exp.arr_join = ft_get_path(exp.arr_phat, tmp->cmds[0], &exp);
 	if (ft_check_cmnd(tmp) != -1 || !exp.arr_join)
 		ft_excute_one_builtin_comd(tmp, node_env, export, &exp);

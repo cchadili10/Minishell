@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/17 21:58:08 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:07:38 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ void	ft_loop_main(t_env **envi)
 			continue ;
 		}
 		free(line);
-		g_malloc(0, FREE);
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	}
+	g_malloc(0, FREE);
 	g_malloc_env(0, FREE);
 }
 
@@ -104,4 +104,5 @@ int	main(int ac, char **av, char **env)
 		print_error("no argument needed");
 	initenv(env, &envi);
 	ft_loop_main(&envi);
+	system("leaks minishell");
 }

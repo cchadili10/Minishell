@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 21:44:14 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:07:18 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 	ft_set_zero(&exp);
 	(1) && (num = ft_count_cmnds(cmnds), tmp = *cmnds);
 	exp.env = ft_get_charenv(node_env);
-	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':');
+	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':', 9);
 	while (tmp && num)
 	{
 		if (num == ft_count_cmnds(cmnds))
