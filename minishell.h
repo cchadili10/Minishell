@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/18 11:15:28 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:09:27 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ void	print_list(t_token *list);
 char	*ft_strcpy(char *dest, const char *src);
 int		ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, char t);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *b, int c, size_t len);
-char	*ft_strchr(const char *s, int c);
+char	*ft_strchr(const char *s, int c, char t);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putendl_fd(char *s, int fd);
 void	print_error(char *str);
@@ -193,7 +193,7 @@ void	clear_all(t_col **head);
 void	*g_malloc(size_t size, t_call call);
 void	*g_malloc_env(size_t size, t_call call);
 char	*ft_strdup_env(const char *s);
-char	**ft_split_env(char const *s, char c);
+char	**ft_split_env(char const *s, char c, char t);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
 
 //signals

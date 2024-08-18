@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/16 20:10:17 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:42:14 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test)
 		{
 			if (access(first_cmnd, X_OK) == 0)
 				return (first_cmnd);
-			else
-				exp->flag = 3;
+			(first_cmnd[0] == '/') && (exp->flag = 6);
+			(first_cmnd[0] != '/') && (exp->flag = 3);
 		}
 		else
 			exp->flag = 2;
