@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/19 17:26:44 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:35:13 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	lst_add_back_cmd(t_cmd **head, t_cmd *new);
 int		handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi);
 char	*cpy_part(char *src, int start, int end);
 void	token_exit_status(char **line, t_token **list, int *i);
+void	join_nodes(t_token **list);
 
 //lst_tools.c
 void	lst_add_back(t_token **head, t_token *new);
@@ -279,7 +280,8 @@ char	*ft_strjoin_(char const *s1, char const *s2);
 //testing
 int		ft_check_file_erorr(char *str);
 void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp);
-char	*ft_loop_for_path(char **arr_phat, char *first_cmnd, t_exection_var *exp);
+char	*ft_loop_for_path(char **arr_phat,
+			char *first_cmnd, t_exection_var *exp);
 char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test);
 
 #endif

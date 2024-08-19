@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/19 17:28:32 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:38:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test)
 	return (NULL);
 }
 
-char	*ft_loop_for_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
+char	*ft_loop_for_path(char **arr_phat,
+		char *first_cmnd, t_exection_var *exp)
 {
 	char	*arr_join_one;
 	char	*arr_join;
