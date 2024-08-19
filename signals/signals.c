@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:46:20 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/19 17:41:12 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:38:23 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sigusr_handler(int sig)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		write(1,"\n", 1);
+		write(1, "\n", 1);
 		rl_redisplay();
 		ft_exit_status(128 + sig, SET);
 	}
@@ -32,7 +32,7 @@ void	sigusr_handler(int sig)
 
 void	ft_signal(int check)
 {
-	if(check == 1)
+	if (check == 1)
 	{
 		signal(SIGINT, sigusr_handler);
 		signal(SIGQUIT, sigusr_handler);

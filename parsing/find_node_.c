@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/17 21:46:35 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:36:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	core_dbl_q(t_token **tmp, char **line, int *x, t_env **envi)
 		tv = tv->next;
 	}
 	if (!found)
-		(*line) = "";
-	tv = *envi;
+		(*line) = ft_srtjoin((*line), "");
+	(1) && ((*tmp)->value = DBL_Q, tv = *envi);
 }
 
 void	handle_expand(t_env *envi, t_token **tmp, int found)
