@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/18 20:09:27 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:26:44 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ char	**ft_split_env(char const *s, char c, char t);
 char	*ft_substr_env(char const *s, unsigned int start, size_t len);
 
 //signals
-void	ft_signal(void);
+void	ft_signal(int check);
 void	ft_herdoc(int sig);
 
 //exection
@@ -279,7 +279,7 @@ char	*ft_strjoin_(char const *s1, char const *s2);
 //testing
 int		ft_check_file_erorr(char *str);
 void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp);
-char	*ft_loop_for_path(char **arr_phat, char *first_cmnd);
+char	*ft_loop_for_path(char **arr_phat, char *first_cmnd, t_exection_var *exp);
 char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test);
 
 #endif

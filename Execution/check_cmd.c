@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/18 22:42:14 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:28:32 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,18 @@ char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test)
 	return (NULL);
 }
 
-char	*ft_loop_for_path(char **arr_phat, char *first_cmnd)
+char	*ft_loop_for_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 {
 	char	*arr_join_one;
 	char	*arr_join;
 	int		x;
 
 	x = -1;
+	if (!arr_phat)
+	{
+		exp->flag = 2;
+		return (NULL);
+	}
 	while (arr_phat[++x])
 	{
 		arr_join_one = ft_srtjoin(arr_phat[x], "/");

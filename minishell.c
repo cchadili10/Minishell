@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/18 22:07:38 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:40:36 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_loop_main(t_env **envi)
 	tcgetattr(STDIN_FILENO, &term);
 	while (1)
 	{
-		((1) && (line = NULL, list = NULL, cmd = NULL));
+		(ft_signal(1), (1) && (line = NULL, list = NULL, cmd = NULL));
 		line = readline("minishell$ ");
 		if (!line)
 			(printf("exit\n"), exit(0));
@@ -97,7 +97,6 @@ int	main(int ac, char **av, char **env)
 	t_env	*envi;
 
 	(void)av;
-	ft_signal();
 	rl_catch_signals = 0;
 	envi = NULL;
 	if (ac > 1)

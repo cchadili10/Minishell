@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/18 20:30:07 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:40:27 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	short_hand(t_main_prepare_cmd *t, t_cmd **cmd)
 	if (!ttyname(0))
 		ft_exit_herdog(1, SET);
 	(dup2(t->std, 0), close(t->std), rl_catch_signals = 0);
-	ft_signal();
+	ft_signal(1);
 }
 
 void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)

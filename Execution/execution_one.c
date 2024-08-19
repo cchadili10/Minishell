@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/18 20:07:30 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:42:23 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 			t_exection_var *exp, char **env)
 {
+	ft_signal(2);
 	exp->id = fork();
 	if (exp->id == 0)
 	{
+		ft_signal(3);
 		if (tmp->redir_out == -1)
 			exit(0);
 		if (tmp->redir_out != 1)
