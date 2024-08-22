@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/19 19:36:45 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:29:29 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	core_var(t_env *envi, t_token **tmp, int found)
 	tmp_env = envi;
 	while (tmp_env)
 	{
-		if (ft_strcmp((*tmp)->key + 1, tmp_env->key) == 0)
+		// printf("key: %s\n", (*tmp)->key);
+		// printf("tmp_env->key: %s\n", tmp_env->key);
+		if (ft_strcmp((*tmp)->key, tmp_env->key) == 0)
 		{
 			(*tmp)->key = tmp_env->value;
 			(*tmp)->value = CMD;

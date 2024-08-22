@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/11 21:53:00 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:25:22 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	check_is_valid(t_token *cur)
 	}
 	else if (cur->value == PIPE)
 	{
+		// if(cur->value == PIPE)
+		// 	return (err("syntax error near unexpected token `|'", cur, 0), 0);
 		if (cur->next == NULL
 			|| (cur->next->value == SPC && cur->next->next == NULL))
 			return (err("syntax error near unexpected token `|'", cur, 0), 0);
