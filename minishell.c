@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/21 22:06:02 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/22 00:00:02 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	ft_loop_main(t_env **envi)
 		}
 		free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
+		g_malloc(0, FREE);
 	}
-	g_malloc(0, FREE);
 	g_malloc_env(0, FREE);
 }
 

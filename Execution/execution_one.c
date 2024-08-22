@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/19 16:42:23 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:07:00 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 			t_exection_var *exp, char **env)
 {
+	int	status;
+
 	ft_signal(2);
 	exp->id = fork();
 	if (exp->id == 0)
@@ -57,15 +59,14 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 			close(tmp->redir_out);
 		}
 		if (tmp->redir_in != 0)
-		{
-			dup2(tmp->redir_in, 0);
-			close(tmp->redir_in);
-		}
+			(1) && (dup2(tmp->redir_in, 0), close(tmp->redir_in));
 		execve(exp->arr_join, tmp->cmds, env);
 		exit(1);
 	}
-	ft_exit_status(0, SET);
-	wait(NULL);
+	waitpid(exp->id, &status, 0);
+	if (status == 256)
+		status = 1;
+	ft_exit_status(status, SET);
 }
 
 void	ft_excute_one(t_cmd **cmnds, t_exp **export,
