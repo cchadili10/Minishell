@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/19 19:35:13 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:08:05 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,6 +277,8 @@ t_exp	*create_node(char *key, char *value);
 int		ft_check_key(char *key);
 int		ft_find_key(t_exp **export, char *key);
 char	*ft_strjoin_(char const *s1, char const *s2);
+void	ft_run_built_continue(t_cmd *tmp, t_env **node_env,
+			t_exp **export, t_exection_var *exp);
 //testing
 int		ft_check_file_erorr(char *str);
 void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp);

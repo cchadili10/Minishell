@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/19 19:38:45 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/22 21:29:07 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,25 @@
 void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 {
 	if (exp->flag == 1)
+	{
 		ft_printf("Minishell: %s: is a directory\n", tmp->cmds[0]);
+		ft_exit_status(126, SET);
+		return ;
+	}
 	else if (exp->flag == 2)
 		ft_printf("Minishell: %s: No such file or directory\n", tmp->cmds[0]);
 	else if (exp->flag == 3)
+	{
 		ft_printf("Minishell: %s: Permission denied\n", tmp->cmds[0]);
+		ft_exit_status(126, SET);
+		return ;
+	}
 	else if (exp->flag == 4)
+	{
 		ft_printf("Minishell: %s: Not a directory\n", tmp->cmds[0]);
+		ft_exit_status(126, SET);
+		return ;
+	}
 	else if (exp->flag == 0)
 		ft_printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 	ft_exit_status(127, SET);
@@ -79,4 +91,16 @@ char	*ft_loop_for_path(char **arr_phat,
 			return (NULL);
 	}
 	return (arr_join);
+}
+
+void	ft_run_built_continue(t_cmd *tmp, t_env **node_env,
+			t_exp **export, t_exection_var *exp)
+{
+	if (exp->arr_join)
+		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+	else if (!exp->arr_join)
+	{
+		if (ft_check_cmnd(tmp) != 0)
+			ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
+	}
 }
