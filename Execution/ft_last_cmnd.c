@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 22:07:27 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/22 23:31:20 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
 	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);
-	exp->id = fork();
-	if (exp->id == 0)
+	exp->pids[exp->cont] = fork();
+	if (exp->pids[exp->cont++] == 0)
 	{
 		if (ft_check_cmnd(tmp) != -1 || !exp->arr_join)
 		{

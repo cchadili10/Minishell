@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/22 22:08:05 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/22 23:33:04 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ typedef struct s_exection_var
 	int		id;
 	int		std_d;
 	int		flag;
+	int		*pids;
+	int		status;
+	int		cont;
+	int		num_cmnd;
 }	t_exection_var;
 
 typedef struct s_main_prepare_cmd

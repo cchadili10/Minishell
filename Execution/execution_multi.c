@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/18 20:07:18 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/22 23:30:33 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,49 @@ void	ft_set_zero(t_exection_var *exp)
 	exp->p[0] = 0;
 	exp->p[1] = 0;
 	exp->flag = 0;
+	exp->status = 0;
+	exp->pids = NULL;
+	exp->cont = 0;
+	exp->num_cmnd = 0;
+}
+
+void	ft_set_status(t_exection_var *exp)
+{
+	if (exp->cont == 256)
+		ft_exit_status(1, SET);
+	else
+		ft_exit_status(exp->status, SET);
+}
+
+void	ft_set_exp(t_exection_var *exp, t_env **node_env)
+{
+	exp->env = ft_get_charenv(node_env);
+	exp->arr_phat = ft_split(ft_look_for_paht(node_env), ':', 9);
+	exp->pids = g_malloc((exp->num_cmnd * sizeof(int)), MALLOC);
 }
 
 void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 {
 	t_cmd			*tmp;
-	int				num;
 	t_exection_var	exp;
 
 	ft_set_zero(&exp);
-	(1) && (num = ft_count_cmnds(cmnds), tmp = *cmnds);
-	exp.env = ft_get_charenv(node_env);
-	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':', 9);
-	while (tmp && num)
+	(1) && (exp.num_cmnd = ft_count_cmnds(cmnds), tmp = *cmnds);
+	ft_set_exp(&exp, node_env);
+	if (!exp.pids)
+		return ;
+	while (tmp && exp.num_cmnd)
 	{
-		if (num == ft_count_cmnds(cmnds))
+		if (exp.num_cmnd == ft_count_cmnds(cmnds))
 			ft_first_cmnd(tmp, node_env, export, &exp);
-		else if (num != 1)
+		else if (exp.num_cmnd != 1)
 			ft_mid_cmnd(tmp, node_env, export, &exp);
-		else if (num == 1)
+		else if (exp.num_cmnd == 1)
 			ft_last_cmnd(tmp, node_env, export, &exp);
-		if (tmp->redir_out != 1)
-			close(tmp->redir_out);
-		if (tmp->redir_in != 0)
-			close(tmp->redir_in);
-		((1) && (tmp = tmp->next, num--));
+		((1) && (tmp = tmp->next, exp.num_cmnd--));
 	}
-	((1) && (close(exp.p[0]), close(exp.p[1]), num = ft_count_cmnds(cmnds)));
-	while (num--)
-		wait(NULL);
+	((1) && (close(exp.p[0]), close(exp.p[1]), exp.num_cmnd = 0));
+	while (exp.num_cmnd < exp.cont)
+		waitpid(exp.pids[exp.num_cmnd++], &exp.status, 0);
+	ft_set_status(&exp);
 }
