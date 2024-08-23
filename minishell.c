@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/22 00:00:02 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:48:14 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ bool	ft_execute(t_token **list, t_cmd **cmd, t_env **envi)
 	ft_execution(cmd, envi);
 	return (false);
 }
+void	free_garb_exite(void)
+{
+	printf("exit\n");
+	g_malloc_env(0, FREE);
+	exit(0);
+}
 
 void	ft_loop_main(t_env **envi)
 {
@@ -45,7 +51,7 @@ void	ft_loop_main(t_env **envi)
 		(ft_signal(1), (1) && (line = NULL, list = NULL, cmd = NULL));
 		line = readline("minishell$ ");
 		if (!line)
-			(printf("exit\n"), exit(0));
+			free_garb_exite();
 		if (line && ft_strlen(line) != 0)
 			add_history(line);
 		if (ft_parse(line, &list, envi, &cmd)
