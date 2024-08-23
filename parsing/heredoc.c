@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/17 21:54:19 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/23 20:22:14 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 	hd_heper(&line, &tmp, fd_write, &envi);
 	free(line);
 	close(fd_write);
-	ft_exit_status(0, SET);
+	if (ttyname(0))
+			ft_exit_status(0, SET) ;
 }

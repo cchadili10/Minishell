@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/18 21:35:46 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/23 20:47:34 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_exp **export)
 {
 	t_export_var	exp;
 	int				x;
+	int				check;
 
-	x = 1;
+	(1) && (x = 1 , check = 0);
 	ft_set_zero_to_struct(&exp);
 	while (cmnd->cmds[x])
 	{
@@ -80,18 +81,15 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_exp **export)
 		exp.value = ft_substr_env(cmnd->cmds[x],
 				exp.start, (ft_strlen(cmnd->cmds[x]) - exp.start));
 		if (ft_check_key(exp.key) == 0)
-		{
-			ft_printf("Minishell: export: '%s'", cmnd->cmds[x]);
-			ft_printf(": not a valid identifier\n");
-			ft_exit_status(1, SET);
-		}
+			ft_display_erorr_export(cmnd->cmds[x], &check);
 		else if (exp.append == 0)
 			ft_add_export_or_env(env, export, &exp);
 		else
 			ft_add_var_to_env_export(env, export, &exp);
 		((1) && (exp.append = 0, exp.update_ = 0, x++));
-		ft_exit_status(1, SET);
 	}
+	if(check == 0)
+		ft_exit_status(0, SET);
 }
 
 void	ft_export(t_cmd *cmnd, t_env **env, t_exp **export)

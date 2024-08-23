@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/22 23:33:04 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/23 20:51:21 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ t_exp	*create_node(char *key, char *value);
 int		ft_check_key(char *key);
 int		ft_find_key(t_exp **export, char *key);
 char	*ft_strjoin_(char const *s1, char const *s2);
+void	ft_display_erorr_export(char *str, int *check);
 void	ft_run_built_continue(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp);
 //testing

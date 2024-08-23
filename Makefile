@@ -6,14 +6,14 @@
 #    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/21 21:18:54 by hchadili         ###   ########.fr        #
+#    Updated: 2024/08/23 20:52:13 by hchadili         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 #  
 CC = cc
-# CC += -g -fsanitize=address
+CC += -g -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror 
 RDFLAGS = -lreadline
 
@@ -81,6 +81,7 @@ SRC = 	minishell.c 					\
 		builtins/unset_env.c 			\
 		builtins/unset_export.c 		\
 		builtins/exit.c 				\
+		builtins/display_er.c 			\
 		signals/signals.c 				\
 		exit/exit.c 					\
 		printf/ft_putnbr.c 				\

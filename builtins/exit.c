@@ -6,11 +6,18 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 21:34:56 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 21:58:41 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:54:33 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_exite_and_free_garb(int nut_exite)
+{
+	g_malloc_env(0, FREE);
+	g_malloc(0, FREE);
+	exit(nut_exite);
+}
 
 int	ft_atoi_l(const char *str)
 {
@@ -69,7 +76,7 @@ void	ft_exit_many_arg(t_cmd *cmnd)
 	{
 		ft_printf("exit\nMinishell: exit: %s: ", cmnd->cmds[1]);
 		ft_printf("numeric argument required\n");
-		exit(255);
+		ft_exite_and_free_garb(255);
 	}
 }
 
@@ -85,12 +92,12 @@ void	ft_exit(t_cmd *cmnd)
 	if (x == 2)
 	{
 		if (ft_check_exit_number(cmnd->cmds[1]))
-			exit((unsigned char)ft_atoi_l(cmnd->cmds[1]));
+			ft_exite_and_free_garb((unsigned char)ft_atoi_l(cmnd->cmds[1]));
 		else
 		{
 			ft_printf("exit\nMinishell: exit: %s: ", cmnd->cmds[1]);
 			ft_printf("numeric argument required\n");
-			exit(255);
+			ft_exite_and_free_garb(255);
 		}
 	}
 	else
