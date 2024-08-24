@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/21 22:07:11 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/24 23:12:44 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,16 @@ void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 	(1) && (t.red_in = 0, t.red_out = 1, t.cmd_strs = NULL, t.std = dup(0));
 	while (*tmp && (*tmp)->value != PIPE)
 	{
-		find_node(envi, *tmp);
-		join_nodes(tmp);
-		if ((!(*tmp)->next && (*tmp)->value == SPC) || (*tmp)->key == NULL)
+		if ((!(*tmp)->next && (*tmp)->value == SPC))
 		{
 			*tmp = (*tmp)->next;
 			continue ;
 		}
-		if ((*tmp && (*tmp)->next && (*tmp)->value == SPC)
-			|| (*tmp)->key == NULL)
+		if ((*tmp && (*tmp)->next && (*tmp)->value == SPC))
 			*tmp = (*tmp)->next;
-		if ((*tmp && (*tmp)->value == PIPE) || (*tmp)->key == NULL)
+		if ((*tmp && (*tmp)->value == PIPE))
 			continue ;
 		if (handle_redir(tmp, &t.red_in, &t.red_out, envi))
-			continue ;
-		if ((*tmp)->key == NULL)
 			continue ;
 		(split_in_cmd(&t.cmd_strs, tmp), *tmp = (*tmp)->next);
 	}

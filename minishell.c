@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/23 18:48:14 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/24 23:10:38 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ bool	ft_parse(char *line, t_token **list, t_env **envi, t_cmd **cmd)
 		return (true);
 	else if (!catch_errors(list))
 		return (true);
+	find_node(*envi, *list);
+	join_nodes(list);
 	if (!prepare_cmd(*list, cmd, *envi))
 		return (true);
 	return (false);
@@ -60,7 +62,7 @@ void	ft_loop_main(t_env **envi)
 			free((void *)line);
 			continue ;
 		}
-		free(line);
+		(free(line), unlink("/tmp/dog"));
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		g_malloc(0, FREE);
 	}
@@ -78,5 +80,4 @@ int	main(int ac, char **av, char **env)
 		print_error("no argument needed");
 	initenv(env, &envi);
 	ft_loop_main(&envi);
-	system("leaks minishell");
 }

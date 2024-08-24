@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 21:29:07 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/24 23:32:36 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 		ft_exit_status(126, SET);
 		return ;
 	}
-	else if (exp->flag == 0)
+	else if (exp->flag == 0 && tmp->cmds[0])
 		ft_printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 	ft_exit_status(127, SET);
 	exp->flag = 0;

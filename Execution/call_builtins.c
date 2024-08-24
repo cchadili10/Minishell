@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:30:43 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 21:14:51 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/24 23:18:17 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_check_cmnd(t_cmd *cmnd)
 	x = 0;
 	while (builts[x])
 	{
-		if (strcmp(builts[x], tmp->cmds[0]) == 0)
+		if (tmp->cmds[0] && strcmp(builts[x], tmp->cmds[0]) == 0)
 			break ;
 		x++;
 	}
