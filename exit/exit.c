@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:05:28 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/23 20:50:45 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:16:47 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_exit_status(int value, int set)
 {
 	static int	exit_staus;
+
 	if (set == SET)
 		exit_staus = value;
 	else if (set == GET)

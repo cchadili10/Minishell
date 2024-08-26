@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/23 20:47:34 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:19:53 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_exp **export)
 	int				x;
 	int				check;
 
-	(1) && (x = 1 , check = 0);
+	(1) && (x = 1, check = 0);
 	ft_set_zero_to_struct(&exp);
 	while (cmnd->cmds[x])
 	{
@@ -88,7 +88,7 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_exp **export)
 			ft_add_var_to_env_export(env, export, &exp);
 		((1) && (exp.append = 0, exp.update_ = 0, x++));
 	}
-	if(check == 0)
+	if (check == 0)
 		ft_exit_status(0, SET);
 }
 

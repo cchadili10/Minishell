@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_func.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 23:37:58 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:18:45 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 {
 	struct stat	resp;
 
-	if(!first_cmnd || !(*first_cmnd))
+	if (!first_cmnd || !(*first_cmnd))
 		return (NULL);
 	if (stat(first_cmnd, &resp) == 0)
 	{

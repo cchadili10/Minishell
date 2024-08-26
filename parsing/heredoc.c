@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/23 20:22:14 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/26 05:26:38 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ char	*heredoc_expand(char *line, t_env *envi)
 		else
 			((1) && (ret = join_char(ret, line[i]), i++));
 	}
-	return (free(line), ret);
+	return (ret);
 }
 
 void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
 {
+	char *tompo;
+
 	while (1)
 	{
 		if (!ttyname(0))
@@ -79,11 +81,16 @@ void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
 		*line = readline("> ");
 		if (!*(line))
 			break ;
-		if (!ft_strcmp((*line), (*tmp)->copy_key))
+		tompo = *line;
+		*line = ft_strdup(*line);
+		free(tompo);
+		if (!ft_strcmp_her((*line), (*tmp)->key) && ((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
+			break ;
+		else if (!ft_strcmp_her((*line), (*tmp)->copy_key))
 			break ;
 		if (!((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
 			(*line) = heredoc_expand((*line), *envi);
-		putin_fd(fd_write, (*line));
+		putin_fd(fd_write, *line);
 	}
 }
 
@@ -98,8 +105,8 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 	if (fd_write != -1)
 		*red_in = fd_write;
 	hd_heper(&line, &tmp, fd_write, &envi);
-	free(line);
+	// free(line);
 	close(fd_write);
 	if (ttyname(0))
-			ft_exit_status(0, SET) ;
+		ft_exit_status(0, SET);
 }

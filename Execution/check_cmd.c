@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/24 23:32:36 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/25 01:10:23 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 	}
 	else if (exp->flag == 0 && tmp->cmds[0])
 		ft_printf("Minishell: %s: command not found\n", tmp->cmds[0]);
-	ft_exit_status(127, SET);
+	(tmp->cmds[0]) && (ft_exit_status(127, SET));
+	(!tmp->cmds[0]) && (ft_exit_status(0, SET));
 	exp->flag = 0;
 }
 
