@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/23 20:51:21 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:20:20 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void	find_node(t_env *envi, t_token *list);
 void	handle_expand(t_env *envi, t_token **tmp, int found);
 int		count_word(char *str);
 char	*join_char(char *str, char c);
+int		ft_strcmp_her(const char *s1, const char *s2);
 
 // guarbage collector
 typedef struct s_col
