@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:00:17 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/01 22:48:26 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/27 02:13:40 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	ft_remove_key_env(t_env **env, char *key)
 	{
 		for_free_env = tmp->next;
 		tmp->next = tmp->next->next;
-		free(for_free_env);
+		// free(for_free_env);// <------ dbl free
 	}
 	else if (tmp && !tmp->next->next && tmp->next)
 	{
 		for_free_env = tmp->next;
 		tmp->next = NULL;
-		free(for_free_env);
+		// free(for_free_env); //<------ dbl free
 	}
 }
