@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/26 23:21:42 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:30:48 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 		if ((*tmp && (*tmp)->next && (*tmp)->value == SPC))
 			*tmp = (*tmp)->next;
 		if ((*tmp && (*tmp)->value == PIPE))
+		{
+			t.piped = true;
 			continue ;
-		else if ((*tmp)->value != PIPE && handle_redir(tmp, &t.red_in, &t.red_out, envi)) // i changed here -------> test it
+		}
+		else if ((*tmp)->value != PIPE && handle_redir(tmp, &t, envi)) // i changed here -------> test it
 			continue ;
 		(split_in_cmd(&t.cmd_strs, tmp), *tmp = (*tmp)->next);
 	}

@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/26 22:30:04 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:16:16 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_main_prepare_cmd
 	int		std;
 	int		red_in;
 	int		red_out;
+	bool	piped;
 }			t_main_prepare_cmd;
 
 void	print_cmd(t_cmd **cmd);
@@ -160,7 +161,7 @@ int		is_red(char c);
 void	initenv(char **env, t_env **envi);
 t_cmd	*lst_new_cmd(char **line, int in, int out);
 void	lst_add_back_cmd(t_cmd **head, t_cmd *new);
-int		handle_redir(t_token **tmp, int *red_in, int *red_out, t_env *envi);
+int		handle_redir(t_token **tmp, t_main_prepare_cmd	*t, t_env *envi);
 char	*cpy_part(char *src, int start, int end);
 void	token_exit_status(char **line, t_token **list, int *i);
 void	join_nodes(t_token **list);
