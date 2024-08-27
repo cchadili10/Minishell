@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_line_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:19:32 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/15 22:51:47 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/26 22:29:20 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 int	is_red(char c)
 {
 	return (c == '<' || c == '>');
+}
+int is_redir(int n)
+{
+	return (n == IN || n == OUT || n == APPEND || n == HEREDOC);
 }
 
 void	spc_pipe_red(char *line, t_token **list, int *i)
