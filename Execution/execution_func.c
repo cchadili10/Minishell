@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/25 02:18:45 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:59:31 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 	if (stat(first_cmnd, &resp) == 0)
 	{
 		if (S_ISDIR(resp.st_mode))
+		{
 			return (ft_check_cmd_erorrs(first_cmnd, exp, 3));
+		}
 	}
 	if (first_cmnd[0] == '/' || (first_cmnd[0] == '.' && first_cmnd[1] == '/'))
 		return (ft_check_cmd_erorrs(first_cmnd, exp, 1));
@@ -75,8 +77,11 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 		return (ft_check_cmd_erorrs(first_cmnd, exp, 2));
 	if (access(first_cmnd, F_OK) == 0)
 	{
+		ft_printf("first_cmnd = %s\n", first_cmnd);
 		if (access(first_cmnd, X_OK) == 0)
+		{
 			return (first_cmnd);
+		}
 		else
 			exp->flag = 6;
 	}

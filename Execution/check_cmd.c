@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/25 01:10:23 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 01:19:08 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 		ft_exit_status(126, SET);
 		return ;
 	}
-	else if (exp->flag == 2)
+	else if (exp->flag == 2 || tmp->redir_in == -1)
 		ft_printf("Minishell: %s: No such file or directory\n", tmp->cmds[0]);
 	else if (exp->flag == 3)
 	{
@@ -34,7 +34,7 @@ void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 		ft_exit_status(126, SET);
 		return ;
 	}
-	else if (exp->flag == 0 && tmp->cmds[0])
+	else if (exp->flag == 0 || exp->flag == 0)
 		ft_printf("Minishell: %s: command not found\n", tmp->cmds[0]);
 	(tmp->cmds[0]) && (ft_exit_status(127, SET));
 	(!tmp->cmds[0]) && (ft_exit_status(0, SET));

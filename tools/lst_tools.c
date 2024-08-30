@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 06:12:01 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/05 15:04:25 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/30 01:17:34 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_redir(int n)
+{
+	return (n == IN || n == OUT || n == APPEND || n == HEREDOC);
+}
 
 t_token	*lst_new(char *key, t_type value)
 {

@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:38:09 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/26 21:11:19 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 01:15:18 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	err(char *str, t_token *cur, int flag)
 
 int	redir_errors(t_token *cur)
 {
-	if(cur && cur->next && cur->next->value == PIPE)
+	if (cur && cur->next && cur->next->value == PIPE)
 		return (err("syntax error near unexpected token `|'", cur, 0), 0);
 	if (cur && cur->next && cur->next->next
 		&& (cur->next->value == PIPE && cur->next->next->value == PIPE))

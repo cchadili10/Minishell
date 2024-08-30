@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 23:30:46 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:02:35 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	if (tmp->redir_out != 1)
 		((1) && (dup2(tmp->redir_out, 1), close(tmp->redir_out)));
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
+	{
+		printf("+%d+\n", exp->flag);
 		ft_display_erorr(exp, tmp);
+	}
 	else if (exp->arr_join)
 		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 	else

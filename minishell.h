@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/27 16:16:16 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 19:53:23 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ void	handle_expand(t_env *envi, t_token **tmp, int found);
 int		count_word(char *str);
 char	*join_char(char *str, char c);
 int		ft_strcmp_her(const char *s1, const char *s2);
+int		is_redir(int n);
 
 // guarbage collector
 typedef struct s_col

@@ -6,13 +6,13 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:39:25 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/26 05:38:43 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 01:15:38 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void check_if_hd(t_token *list, int *flag)
+void	check_if_hd(t_token *list, int *flag)
 {
 	t_token	*tmp;
 

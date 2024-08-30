@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/27 17:46:14 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 20:15:25 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	redir_hd(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
 	(t->red_in) = open("/tmp/dog", O_RDONLY);
 	if ((t->red_in) < 0)
 		return (0);
-	printf("KEY: %s\n", (*tmp)->key);
-	if (((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE || ((*tmp)->next->value == SPC && (*tmp)->next->next->value == PIPE))) || !(*tmp)->next || !(*tmp)->next->next)
+	unlink("/tmp/dog");
+	if (t->piped)
 	{
 		(*tmp)->key = "/tmp/dog";
 		return (1);
@@ -98,7 +98,7 @@ int	handle_redir(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
 {
 	int	flag;
 
-	flag = 0;;
+	flag = 0;
 	if ((*tmp)->value == IN)
 		flag = redir_in(tmp, t);
 	else if ((*tmp)->value == HEREDOC)

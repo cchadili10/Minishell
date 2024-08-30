@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/27 16:16:59 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 01:14:55 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	putin_fd(int fd, char *line)
 		write(fd, &line[i], 1);
 		i++;
 	}
-	write(fd, "\n", 1);
 }
 
 void	search_in_env(char **ret, char **exp, t_env **envi)
@@ -70,7 +69,7 @@ char	*heredoc_expand(char *line, t_env *envi)
 	return (ret);
 }
 
-void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
+void	hd_heper(char **line, t_token **tmp, char **buff, t_env **envi)
 {
 	char	*tompo;
 
@@ -91,7 +90,8 @@ void	hd_heper(char **line, t_token **tmp, int fd_write, t_env **envi)
 			break ;
 		if (!((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
 			(*line) = heredoc_expand((*line), *envi);
-		putin_fd(fd_write, *line);
+		*buff = ft_srtjoin(*buff, *line);
+		*buff = join_char(*buff, '\n');
 	}
 }
 
@@ -99,13 +99,16 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 {
 	t_token	*tmp;
 	char	*line;
+	char	*buff;
 	int		fd_write;
 
+	buff = NULL;
 	((1) && (tmp = cmd, line = NULL));
+	hd_heper(&line, &tmp, &buff, &envi);
 	fd_write = open("/tmp/dog", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_write != -1)
 		*red_in = fd_write;
-	hd_heper(&line, &tmp, fd_write, &envi);
+	putin_fd(fd_write, buff);
 	close(fd_write);
 	if (ttyname(0))
 		ft_exit_status(0, SET);
