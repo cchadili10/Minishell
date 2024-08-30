@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/27 15:28:29 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 22:26:41 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	ft_parse(char *line, t_token **list, t_env **envi, t_cmd **cmd)
 	if (!prepare_cmd(*list, cmd, *envi))
 		return (true);
 	// print_list(*list);
-	print_cmd(cmd);
+	// print_cmd(cmd);
 	return (false);
 }
 

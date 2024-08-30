@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:35:26 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/27 16:30:48 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:17:00 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ void	split_in_cmd(char ***cmd_strs, t_token **tmp)
 
 	i = -1;
 	j = -1;
-	if (*tmp && (*tmp)->value == CMD)
+	if ((*tmp && (*tmp)->value == CMD))
 	{
 		(*tmp)->value = VAR;
 		arr = ft_split((*tmp)->key, 32, 9);
+		if (!arr)
+			return ;
 		while (arr[++i])
 			*cmd_strs = dbl_join(*cmd_strs, arr[i]);
 	}
@@ -75,7 +77,7 @@ void	main_prepare_cmd(t_token **tmp, t_cmd **cmd, t_env *envi)
 			t.piped = true;
 			continue ;
 		}
-		else if ((*tmp)->value != PIPE && handle_redir(tmp, &t, envi)) // i changed here -------> test it
+		else if ((*tmp)->value != PIPE && handle_redir(tmp, &t, envi))
 			continue ;
 		(split_in_cmd(&t.cmd_strs, tmp), *tmp = (*tmp)->next);
 	}

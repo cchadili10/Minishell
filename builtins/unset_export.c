@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:00:12 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/27 02:13:53 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:27:37 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,15 @@ void	ft_remove_key_export(t_exp **export, char *key)
 	{
 		for_free_export = *export;
 		*export = for_free_export->next;
-		free(for_free_export);
 	}
 	else if (tmp->next->next)
 	{
 		for_free_export = tmp->next;
 		tmp->next = tmp->next->next;
-		// free(for_free_export); // <------ dbl free
 	}
 	else if (!tmp->next->next && tmp->next)
 	{
 		for_free_export = tmp->next;
 		tmp->next = NULL;
-		// free(for_free_export); //<------ dbl free
 	}
 }

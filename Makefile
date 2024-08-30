@@ -6,13 +6,13 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/26 21:10:21 by yessemna         ###   ########.fr        #
+#    Updated: 2024/08/30 00:23:54 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CC += -g -fsanitize=address
+# CC += -g -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror 
 RDFLAGS = -lreadline
 
