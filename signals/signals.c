@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:46:20 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/21 22:51:58 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:43:47 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,14 @@ void	sigusr_handler(int sig)
 {
 	(void)sig;
 	if (sig == SIGQUIT)
-	{
-		ft_exit_status(128 + sig, SET);
 		return ;
-	}
 	else
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		rl_redisplay();
-		ft_exit_status(128 + sig, SET);
+		ft_exit_status(1, SET);
 	}
 }
 

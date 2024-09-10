@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/27 18:02:35 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:51:16 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	if (tmp->redir_out != 1)
 		((1) && (dup2(tmp->redir_out, 1), close(tmp->redir_out)));
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
-	{
-		printf("+%d+\n", exp->flag);
 		ft_display_erorr(exp, tmp);
-	}
 	else if (exp->arr_join)
 		ft_buitin_cmnd(tmp, node_env, export, ft_check_cmnd(tmp));
 	else
@@ -47,7 +44,7 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 			t_exection_var *exp, char **env)
 {
-	int	status;
+	int	status[2];
 
 	ft_signal(2);
 	exp->id = fork();
@@ -66,10 +63,11 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 		execve(exp->arr_join, tmp->cmds, env);
 		exit(1);
 	}
-	waitpid(exp->id, &status, 0);
-	if (status == 256)
-		status = 1;
-	ft_exit_status(status, SET);
+	waitpid(exp->id, status, 0);
+	status[1] = WEXITSTATUS(status[0]);
+	if (WIFSIGNALED(status[0]))
+		status[1] = 128 + WTERMSIG(status[0]);
+	ft_exit_status(status[1], SET);
 }
 
 void	ft_excute_one(t_cmd **cmnds, t_exp **export,

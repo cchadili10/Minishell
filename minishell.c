@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/30 22:26:41 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:06:02 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	free_garb_exite(void)
 {
 	printf("exit\n");
 	g_malloc_env(0, FREE);
-	exit(0);
+	exit(ft_exit_status(0, GET));
 }
 
 void	ft_loop_main(t_env **envi)

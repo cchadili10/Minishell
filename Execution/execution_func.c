@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_func.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/27 17:59:31 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:59:44 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,8 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 		return (ft_check_cmd_erorrs(first_cmnd, exp, 2));
 	if (access(first_cmnd, F_OK) == 0)
 	{
-		ft_printf("first_cmnd = %s\n", first_cmnd);
 		if (access(first_cmnd, X_OK) == 0)
-		{
 			return (first_cmnd);
-		}
 		else
 			exp->flag = 6;
 	}
