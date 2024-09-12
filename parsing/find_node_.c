@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_node_.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/24 23:11:57 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:28:11 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	core_dbl_q(t_token **tmp, char **line, int *x, t_env **envi)
 	var = cpy_part((*tmp)->key + arr[0], arr[0], arr[1]);
 	if (ft_strcmp(var, "?") == 0)
 	{
-		(*line) = ft_srtjoin((*line), ft_itoa(ft_exit_status(0, GET)));
+		(*line) = ft_srtjoin((*line), ft_strdup("$?"));
 		found = 1;
 	}
 	while (tv)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_multi.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/10 13:08:36 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:18:46 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 		((1) && (tmp = tmp->next, exp.num_cmnd--));
 	}
 	((1) && (close(exp.p[0]), close(exp.p[1]), exp.num_cmnd = 0));
-	while (exp.num_cmnd < exp.cont)
-		waitpid(exp.pids[exp.num_cmnd++], &exp.status, 0);
-	ft_exit_status(WEXITSTATUS(exp.status), SET);
+	// while (exp.num_cmnd < exp.cont)
+	// {
+	// 	waitpid(exp.pids[exp.num_cmnd++], &exp.status, 0);
+	// 	ft_exit_status(WEXITSTATUS(exp.status), SET);
+	// }
 }

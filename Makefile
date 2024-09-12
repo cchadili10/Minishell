@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/08/30 00:23:54 by yessemna         ###   ########.fr        #
+#    Updated: 2024/09/12 17:40:28 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC = 	minishell.c 					\
 		tools/error.c 					\
 		tools/ft_malloc.c 				\
 		tools/count_word.c 				\
+		tools/ft_strstr.c					\
 		tools/ft_putendl_fd.c 			\
 		tools/ft_lstclear.c 			\
 		tools/ft_atoi.c 				\
@@ -81,6 +82,7 @@ SRC = 	minishell.c 					\
 		builtins/unset_export.c 		\
 		builtins/exit.c 				\
 		builtins/display_er.c 			\
+		builtins/expand_exit.c 			\
 		signals/signals.c 				\
 		exit/exit.c 					\
 		printf/ft_putnbr.c 				\
