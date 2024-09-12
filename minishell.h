@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/30 19:53:23 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:42:58 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ char	**dbl_join(char **s1, char *s2);
 char	*ft_strdup(const char *s);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
+char	*ft_strstr(const char *haystack, const char *needle);
 
 //finders
 int		is_space(char c);
@@ -286,6 +287,7 @@ int		ft_check_key(char *key);
 int		ft_find_key(t_exp **export, char *key);
 char	*ft_strjoin_(char const *s1, char const *s2);
 void	ft_display_erorr_export(char *str, int *check);
+void	ft_expand_exit_status(char **str);
 void	ft_run_built_continue(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp);
 //testing

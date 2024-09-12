@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_last_cmnd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 23:31:20 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:30:33 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_run_last_built(t_cmd *tmp, t_env **node_env,
 void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
+	ft_expand_exit_status(tmp->cmds);
 	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);
 	exp->pids[exp->cont] = fork();
 	if (exp->pids[exp->cont++] == 0)
@@ -58,5 +59,6 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 		execve(exp->arr_join, tmp->cmds, exp->env);
 		exit(1);
 	}
-	ft_exit_status(0, SET);
+	waitpid(exp->pids[exp->cont - 1], &exp->status, 0);
+	ft_exit_status(WEXITSTATUS(exp->status), SET);
 }
