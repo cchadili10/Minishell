@@ -6,17 +6,29 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 12:46:42 by yessemna          #+#    #+#             */
-/*   Updated: 2024/07/19 07:06:58 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/13 02:26:23 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*logic(char *str)
+{
+	char	*ret;
+
+	ret = ft_strdup("");
+	ret = join_char(ret, '\'');
+	ret = ft_srtjoin(ret, str);
+	ret = join_char(ret, '\'');
+	return (ret);
+}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*str;
 	size_t	slen ;
+	char	*ret;
 
 	i = 0;
 	if (!s)
@@ -32,6 +44,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	while (len--)
 		str[i++] = s[start++];
 	str[i] = '\0';
+	if (ft_strstr(str, "$?"))
+	{
+		((1) && ret = ft_strdup(""), ret = logic(str));
+		return (ret);
+	}
 	return (str);
 }
 
