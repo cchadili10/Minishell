@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:28:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/12 16:14:58 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/12 23:15:04 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ void	expand_exit_status(t_token **list)
 	while (tmp)
 	{
 		if (tmp->value == EXIT_STATUS)
+		{
+			tmp->key = ft_itoa(ft_exit_status(0, GET));
 			tmp->value = CMD;
+		}
 		tmp = tmp->next;
 	}
 }

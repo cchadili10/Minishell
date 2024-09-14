@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/12 15:24:25 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/08/30 00:22:19 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	ft_run_first_built(t_cmd *tmp, t_env **node_env,
 void	ft_first_cmnd(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
-	ft_expand_exit_status(tmp->cmds);
 	exp->arr_join = ft_get_path(exp->arr_phat, tmp->cmds[0], exp);
 	pipe(exp->p);
 	exp->pids[exp->cont] = fork();
@@ -59,7 +58,5 @@ void	ft_first_cmnd(t_cmd *tmp, t_env **node_env,
 		execve(exp->arr_join, tmp->cmds, exp->env);
 		exit(1);
 	}
-	waitpid(exp->pids[exp->cont - 1], &exp->status, 0);
-	ft_exit_status(WEXITSTATUS(exp->status), SET);
 	close(exp->p[1]);
 }

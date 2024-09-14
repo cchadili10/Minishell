@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/12 14:24:57 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:51:16 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_excute_one(t_cmd **cmnds, t_exp **export,
 {
 	t_cmd			*tmp;
 	t_exection_var	exp;
-	ft_expand_exit_status((*cmnds)->cmds);
+
 	ft_set_zero(&exp);
 	tmp = *cmnds;
 	exp.arr_phat = ft_split(ft_look_for_paht(node_env), ':', 9);

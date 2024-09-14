@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/13 02:29:08 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:06:02 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	ft_parse(char *line, t_token **list, t_env **envi, t_cmd **cmd)
 	}
 	if (!prepare_cmd(*list, cmd, *envi))
 		return (true);
-	print_list(*list);
+	// print_list(*list);
 	// print_cmd(cmd);
 	return (false);
 }
