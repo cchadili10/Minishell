@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_first_cmnd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/30 00:22:19 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/14 21:00:26 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_first_cmnd(t_cmd *tmp, t_env **node_env,
 			exit(ft_exit_status(0, GET));
 		}
 		if (tmp->redir_out == -1)
-			exit(0);
+			exit(1);
 		dup2(exp->p[1], STDOUT_FILENO);
 		if (tmp->redir_out != 1)
 		{

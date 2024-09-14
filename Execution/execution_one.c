@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/10 12:51:16 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:38:52 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 	{
 		ft_signal(3);
 		if (tmp->redir_out == -1)
-			exit(0);
+			exit(1);
 		if (tmp->redir_out != 1)
 		{
 			dup2(tmp->redir_out, 1);
