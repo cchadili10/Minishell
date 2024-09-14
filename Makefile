@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+         #
+#    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/09/14 20:06:36 by hchadili         ###   ########.fr        #
+#    Updated: 2024/09/14 21:14:43 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,3 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 re: fclean all
-# -I$(READLINEDIR)/include 
-# -L$(READLINEDIR)/lib
-# CC += -g -fsanitize=address
