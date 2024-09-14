@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/10 13:08:36 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:00:13 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ void	ft_set_zero(t_exection_var *exp)
 	exp->cont = 0;
 	exp->num_cmnd = 0;
 }
-
-// void	ft_set_status(t_exection_var *exp)
-// {
-	
-// }
 
 void	ft_set_exp(t_exection_var *exp, t_env **node_env)
 {

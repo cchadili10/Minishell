@@ -6,68 +6,11 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/10 11:06:02 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:57:52 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// print list as a table
-
-void print_list(t_token *list)
-{
-	t_token *tmp = list;
-	while (tmp)
-	{
-		printf(" (%s)  ->  ", tmp->key);
-		if (tmp->value == PIPE)
-			printf("PIPE\n");
-		else if (tmp->value == SPC)
-			printf("SPC\n");
-		else if (tmp->value == IN)
-			printf("IN\n");
-		else if (tmp->value == HEREDOC)
-			printf("HEREDOC\n");
-		else if (tmp->value == OUT)
-			printf("OUT\n");
-		else if (tmp->value == APPEND)
-			printf("APPEND\n");
-		else if (tmp->value == SNGL_Q)
-			printf("Sgl_q\n");
-		else if (tmp->value == DBL_Q)
-			printf("Dbl_q\n");
-		else if (tmp->value == VAR)
-			printf("VAR\n");	
-		else if (tmp->value == CMD)
-			printf("CMD\n");
-		else if (tmp->value == DBL_VAR)
-			printf("DBL_VAR\n");
-		tmp = tmp->next;
-	}
-}
-
-
-
-
-void print_cmd(t_cmd **cmd)
-{
-	t_cmd *tmp = *cmd;
-	int i = 0;
-	printf("\n-----------\n");
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->cmds && tmp->cmds[i])
-		{
-			printf("cmd[%d] : %s\n", i, tmp->cmds[i]);
-			i++;
-		}
-		printf("redir_in: %d\n", tmp->redir_in);
-		printf("redir_out: %d\n", tmp->redir_out);
-		tmp = tmp->next;
-	}
-	printf("\n-----------\n");
-}
 
 bool	ft_parse(char *line, t_token **list, t_env **envi, t_cmd **cmd)
 {
@@ -86,8 +29,6 @@ bool	ft_parse(char *line, t_token **list, t_env **envi, t_cmd **cmd)
 	}
 	if (!prepare_cmd(*list, cmd, *envi))
 		return (true);
-	// print_list(*list);
-	// print_cmd(cmd);
 	return (false);
 }
 

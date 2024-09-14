@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 21:34:56 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/10 13:58:34 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:00:54 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void	ft_exit_many_arg(t_cmd *cmnd)
 		printf("exit\n");
 		ft_printf("Minishell: exit: %s: ", cmnd->cmds[1]);
 		ft_printf("numeric argument required\n");
-		ft_exite_and_free_garb(cmnd->cmds[1] ,255, 0);
+		ft_exite_and_free_garb(cmnd->cmds[1], 255, 0);
 	}
 }
 
 void	ft_exit(t_cmd *cmnd)
 {
 	int	x;
-	int check;
+	int	check;
 
 	x = 0;
 	check = 0;
@@ -103,7 +103,8 @@ void	ft_exit(t_cmd *cmnd)
 	if (x == 2)
 	{
 		if (ft_check_exit_number(cmnd->cmds[1]))
-			ft_exite_and_free_garb(cmnd->cmds[1], (unsigned char)ft_atoi_l(cmnd->cmds[1], &check), check);
+			ft_exite_and_free_garb(cmnd->cmds[1],
+				(unsigned char)ft_atoi_l(cmnd->cmds[1], &check), check);
 		else
 		{
 			printf("exit\n");

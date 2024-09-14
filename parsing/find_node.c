@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   find_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:39:25 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/30 01:15:38 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:59:32 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	fill_line(t_token **tmp, char **line, int *x)
+{
+	if ((*tmp)->key[*x] == '$' && (*tmp)->key[(*x) + 1] == '$')
+	{
+		while ((*tmp)->key[(*x)] == '$')
+			(*line) = join_char((*line), (*tmp)->key[(*x)++]);
+	}
+	else
+		(*line) = join_char((*line), (*tmp)->key[(*x)++]);
+}
 
 void	check_if_hd(t_token *list, int *flag)
 {

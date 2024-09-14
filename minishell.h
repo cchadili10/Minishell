@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/30 19:53:23 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:59:58 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ char	*cpy_part(char *src, int start, int end);
 void	token_exit_status(char **line, t_token **list, int *i);
 void	join_nodes(t_token **list);
 int		is_redir(int n);
+void	fill_line(t_token **tmp, char **line, int *x);
 
 //lst_tools.c
 void	lst_add_back(t_token **head, t_token *new);

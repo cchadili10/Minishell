@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 01:29:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/24 23:11:57 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:59:25 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,7 @@ void	handle_expand(t_env *envi, t_token **tmp, int found)
 				|| ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '\0')
 				|| ((*tmp)->key[x] == '$' && (*tmp)->key[x + 1] == '$'))
 			{
-				line = join_char(line, (*tmp)->key[x]);
-				x++;
+				fill_line(tmp, &line, &x);
 			}
 			else
 				core_dbl_q(tmp, &line, &x, &tmp_env);
