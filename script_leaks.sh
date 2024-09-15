@@ -1,1 +1,0 @@
-while true ; do leaks minishell ; sleep 1 ; clear ; done; # This script will show the memory leaks in the minishell process.
