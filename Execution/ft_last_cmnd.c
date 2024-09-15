@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 23:31:20 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/15 13:09:56 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 void	ft_run_last_built(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-
-	((1) && (saved_stdin = dup(0), saved_stdout = dup(1)));
 	dup2(exp->p[0], 0);
+	if (tmp->redir_out == -1)
+	{
+		ft_exit_status(1, SET);
+		return ;
+	}
 	if (tmp->redir_out != 1)
 	{
 		dup2(tmp->redir_out, 1);
@@ -28,8 +29,6 @@ void	ft_run_last_built(t_cmd *tmp, t_env **node_env,
 	if (!exp->arr_join && ft_check_cmnd(tmp) == -1)
 		ft_display_erorr(exp, tmp);
 	ft_run_built_continue(tmp, node_env, export, exp);
-	((1) && (dup2(saved_stdout, 1), dup2(saved_stdin, 0)));
-	((1) && (close(saved_stdout), close(saved_stdin)));
 }
 
 void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
@@ -45,7 +44,7 @@ void	ft_last_cmnd(t_cmd *tmp, t_env **node_env,
 			exit(ft_exit_status(0, GET));
 		}
 		if (tmp->redir_out == -1)
-			exit(0);
+			exit(1);
 		dup2(exp->p[0], STDIN_FILENO);
 		if (tmp->redir_out != 1)
 		{

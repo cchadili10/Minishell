@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/14 20:38:52 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/15 13:07:01 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	int	saved_stdout;
 	int	saved_stdin;
 
+	if (tmp->redir_out == -1)
+	{
+		ft_exit_status(1, SET);
+		return ;
+	}
 	((1) && (saved_stdin = dup(0), saved_stdout = dup(1)));
 	if (tmp->redir_out != 1)
 		((1) && (dup2(tmp->redir_out, 1), close(tmp->redir_out)));
@@ -35,10 +40,6 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	}
 	((1) && (dup2(saved_stdout, 1), dup2(saved_stdin, 0)));
 	((1) && (close(saved_stdout), close(saved_stdin)));
-	if (tmp->redir_out != 1)
-		close(tmp->redir_out);
-	if (tmp->redir_in != 0)
-		close(tmp->redir_in);
 }
 
 void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
