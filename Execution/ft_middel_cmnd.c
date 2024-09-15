@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/22 23:31:34 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/15 13:03:27 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void	ft_run_mid_built(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-
-	((1) && (saved_stdin = dup(0), saved_stdout = dup(1)));
+	if (tmp->redir_out == -1)
+	{
+		ft_exit_status(1, SET);
+		return ;
+	}
 	if (tmp->redir_out != 1)
 	{
 		dup2(tmp->redir_out, 1);
@@ -29,8 +30,6 @@ void	ft_run_mid_built(t_cmd *tmp, t_env **node_env,
 	dup2(exp->std_d, STDIN_FILENO);
 	dup2(exp->p[1], STDOUT_FILENO);
 	ft_run_built_continue(tmp, node_env, export, exp);
-	((1) && (dup2(saved_stdout, 1), dup2(saved_stdin, 0)));
-	((1) && (close(saved_stdout), close(saved_stdin)));
 }
 
 void	ft_run_mid_cmd_using_fork(t_cmd *tmp, t_exection_var *exp,
@@ -45,7 +44,7 @@ void	ft_run_mid_cmd_using_fork(t_cmd *tmp, t_exection_var *exp,
 			exit(ft_exit_status(0, GET));
 		}
 		if (tmp->redir_out == -1)
-			exit(0);
+			exit(1);
 		dup2(exp->std_d, STDIN_FILENO);
 		dup2(exp->p[1], STDOUT_FILENO);
 		if (tmp->redir_out != 1)
