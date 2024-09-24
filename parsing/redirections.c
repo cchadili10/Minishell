@@ -6,92 +6,69 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:46:35 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/30 20:15:25 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:43:51 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	redir_in(t_token **tmp, t_main_prepare_cmd	*t)
+void	h_h_hrdc(t_token **tmp2, t_main_prepare_cmd **t)
 {
-	*tmp = (*tmp)->next;
-	if (*tmp && (*tmp)->value == SPC)
-		*tmp = (*tmp)->next;
-	if (access((*tmp)->key, F_OK) == -1)
+	while ((*tmp2) && (*tmp2)->next && (*tmp2)->next->next
+		&& (*tmp2)->value == HEREDOC
+		&& ((*tmp2)->next->value == CMD || ((*tmp2)->next->value == SPC
+				&& (*tmp2)->next->next->value == CMD)))
 	{
-		t->red_in = -1;
-		return (1);
+		(*tmp2) = (*tmp2)->next;
+		if ((*tmp2)->value == SPC)
+			(*tmp2) = (*tmp2)->next;
+		if ((*tmp2)->value == CMD)
+			(*tmp2) = (*tmp2)->next;
+		if ((*tmp2) && (*tmp2)->value == SPC)
+			(*tmp2) = (*tmp2)->next;
 	}
-	(t->red_in) = open((*tmp)->key, O_RDONLY);
-	if ((t->red_in) < 0)
-		return (3);
-	if ((*tmp)->next && (*tmp)->next->next && ((*tmp)->next->value == PIPE
-			|| ((*tmp)->next->value == SPC
-				&& (*tmp)->next->next->value == PIPE)))
-		return (1);
-	if (t->piped)
-		return (1);
-	*tmp = (*tmp)->next;
-	return (1);
+	if ((*tmp2) && (*tmp2)->value == CMD)
+		(*t)->pipe_hd = true;
 }
 
-int	redir_hd(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
+void	h_h_in(t_token **tmp2, t_main_prepare_cmd **t)
 {
-	if ((t->red_in) != 0)
-		close((t->red_in));
-	(*tmp) = (*tmp)->next;
-	if (*tmp && (*tmp)->value == SPC)
+	while ((*tmp2) && (*tmp2)->next && (*tmp2)->next->next
+		&& (*tmp2)->value == IN
+		&& ((*tmp2)->next->value == CMD || ((*tmp2)->next->value == SPC
+				&& (*tmp2)->next->next->value == CMD)))
+	{
+		(*tmp2) = (*tmp2)->next;
+		if ((*tmp2)->value == SPC)
+			(*tmp2) = (*tmp2)->next;
+		if ((*tmp2)->value == CMD)
+			(*tmp2) = (*tmp2)->next;
+		if ((*tmp2) && (*tmp2)->value == SPC)
+			(*tmp2) = (*tmp2)->next;
+	}
+	if ((*tmp2) && (*tmp2)->value == CMD)
+		(*t)->pipe_in = true;
+}
+
+void	handler_hlper(t_token **tmp, t_main_prepare_cmd **t)
+{
+	t_token	*tmp2;
+
+	tmp2 = *tmp;
+	if ((*tmp)->value == HEREDOC)
+		h_h_hrdc(&tmp2, t);
+	if ((*tmp)->value == IN)
+		h_h_in(&tmp2, t);
+}
+
+void	p_denied(t_token **tmp)
+{
+	ft_printf("Minishell: %s: Permission denied\n", (*tmp)->copy_key);
+	while ((*tmp) && (*tmp)->next && (*tmp)->next->value != PIPE)
 		(*tmp) = (*tmp)->next;
-	ft_here_doc(*tmp, envi, &t->red_in);
-	close(t->red_in);
-	(t->red_in) = open("/tmp/dog", O_RDONLY);
-	if ((t->red_in) < 0)
-		return (0);
-	unlink("/tmp/dog");
-	if (t->piped)
-	{
-		(*tmp)->key = "/tmp/dog";
-		return (1);
-	}
-	*tmp = (*tmp)->next;
-	return (1);
-}
-
-int	redir_apnd(t_token **tmp, t_main_prepare_cmd *t)
-{
-	(*tmp) = (*tmp)->next;
-	if (*tmp && (*tmp)->value == SPC)
+	if ((*tmp) && (*tmp)->next && (*tmp)->next->value == SPC)
 		(*tmp) = (*tmp)->next;
-	(t->red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if ((t->red_out) < 0)
-		return (3);
-	if (t->piped)
-		return (1);
-	*tmp = (*tmp)->next;
-	return (1);
-}
-
-int	redir_out(t_token **tmp, t_main_prepare_cmd *t)
-{
-	if ((t->red_out) != 1)
-		close((t->red_out));
-	*tmp = (*tmp)->next;
-	if (*tmp && (*tmp)->value == SPC)
-		*tmp = (*tmp)->next;
-	if (!(*tmp)->key)
-	{
-		printf("bash: %s: ambiguous redirect\n", (*tmp)->copy_key);
-		ft_exit_status(1, SET);
-		ft_exit_herdog(1, SET);
-		return (0);
-	}
-	(t->red_out) = open((*tmp)->key, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if ((t->red_out) < 0)
-		return (2);
-	if (t->piped)
-		return (1);
-	*tmp = (*tmp)->next;
-	return (1);
+	(*tmp)->key = NULL;
 }
 
 int	handle_redir(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
@@ -99,6 +76,8 @@ int	handle_redir(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
 	int	flag;
 
 	flag = 0;
+	if ((*tmp)->value == HEREDOC || (*tmp)->value == IN)
+		handler_hlper(tmp, &t);
 	if ((*tmp)->value == IN)
 		flag = redir_in(tmp, t);
 	else if ((*tmp)->value == HEREDOC)
@@ -107,16 +86,11 @@ int	handle_redir(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
 		flag = redir_apnd(tmp, t);
 	else if ((*tmp)->value == OUT)
 		flag = redir_out(tmp, t);
+	if (flag == 4)
+		return (0);
 	if (flag == 3)
 		ft_printf("Minishell: %s: Permission denied\n", (*tmp)->copy_key);
 	else if (flag == 2)
-	{
-		ft_printf("Minishell: %s: Permission denied\n", (*tmp)->copy_key);
-		while ((*tmp) && (*tmp)->next && (*tmp)->next->value != PIPE)
-			(*tmp) = (*tmp)->next;
-		if ((*tmp) && (*tmp)->next && (*tmp)->next->value == SPC)
-			(*tmp) = (*tmp)->next;
-		(*tmp)->key = NULL;
-	}
+		p_denied(tmp);
 	return (flag);
 }

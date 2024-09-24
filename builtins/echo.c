@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:43:08 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/17 23:52:49 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:29:30 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_check_n(char *str)
 
 int	ft_look_for_n(char *str)
 {
+	if (!str)
+		return (0);
 	if (str[0] == '-')
 		return (ft_check_n(str + 1));
 	else

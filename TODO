@@ -1,0 +1,83 @@
+-------------------------------------- DONE
+Minishell$ ls
+Minishell: ls: is a directory
+-------------------------------------- DONE
+minishell$ > f | cat f
+Minishell: f: command not found
+--------------------------------------
+export > f > g < o > j // o
+--------------------------------------
+minishell$ export x="a b"
+minishell$ ls >> $x
+minishell$ 
+--------------------------------------
+minishell$ export x="a b"
+minishell$ export $x="yassome"
+Minishell: export: 'a b=yassome': not a valid identifier
+--------------------------------------
+minishell$ ""
+minishell$ 
+--------------------------------------
+minishell$ cat << ""l
+> o
+> l
+cat: :: No such file or directory
+--------------------------------------
+minishell$ cat | cat | > $g
+bash: $g: ambiguous redirect
+--------------------------------------
+Minishell: ll: No such file or directory
+l
+l
+minishell$ echo $?
+127
+--------------------------------------
+minishell$ export > f | cat f
+minishell$ cat f
+minishell$ cat f
+minishell$ cat f
+minishell$ cat f
+minishell$ ca
+--------------------------------------
+inishell$ >> l >> k << p | cat >> p
+> yasisne
+> khdsg
+> klfhjdh
+> ;lhld
+> hjd
+> kldhdhg
+> p
+Minishell: l: command not found
+
+// and file leak
+
+--------------------------------------
+bash-3.2$ cat | < dfdf
+bash: dfdf: No such file or directory
+
+bash-3.2$ 
+cmd[0] : cat
+redir_in: 0
+redir_out: 1
+--------------------------------------
+syntax erro lleaks
+export A="ls -l"  echo $A""
+<<a<<b<<c cat
+-------------AYGAOUA----------------
+minishell$ cat << ""HOME
+> 
+minishell$
+------------------------------------
+cat << $$HOME
+the delemiter should be `$$HOME` not `$$`
+------------------------------------
+<  cv cat | wc -l
+
+ls | cat < Mdf
+
+-----------------------------------
+-----------------------------------
+
+ ls || ls <---- should work
+ ls || ls | ls <---- should work
+ ls ||| ls  <---- print error

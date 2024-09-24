@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:22:57 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/19 19:37:39 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:31:31 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,14 @@ void	join_nodes(t_token **list)
 		}
 		else
 			tmp = tmp->next;
+	}
+}
+
+void	token_exit_status(char **line, t_token **list, int *i)
+{
+	if (*line[*i] == '$' && *line[(*i) + 1] == '?')
+	{
+		lst_add_back(list, lst_new("$?", DBL_Q));
+		(*i) += 2;
 	}
 }

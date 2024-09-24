@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 21:34:56 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/14 20:00:54 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/19 22:39:16 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ void	ft_exite_and_free_garb(char *str, int nut_exite, int check)
 {
 	g_malloc_env(0, FREE);
 	g_malloc(0, FREE);
-	if (check)
+	if (check == 1)
 	{
 		printf("exit\n");
 		ft_printf("Minishell: exit: %s: ", str);
 		ft_printf("numeric argument required\n");
 		exit(255);
 	}
+	if (check == 3)
+		printf("exit\n");
 	exit((unsigned char)nut_exite);
 }
 
@@ -61,6 +63,8 @@ int	ft_check_exit_number(char *str)
 	x = 0;
 	if (!str[x])
 		return (0);
+	while (str[x] == ' ')
+		x++;
 	if ((str[x] == '-' || str[x] == '+') && str[x + 1])
 		x++;
 	while (str[x])
@@ -99,12 +103,12 @@ void	ft_exit(t_cmd *cmnd)
 	while (cmnd->cmds[x])
 		x++;
 	if (x == 1)
-		exit(ft_exit_status(0, GET));
+		ft_print_exit();
 	if (x == 2)
 	{
 		if (ft_check_exit_number(cmnd->cmds[1]))
 			ft_exite_and_free_garb(cmnd->cmds[1],
-				(unsigned char)ft_atoi_l(cmnd->cmds[1], &check), check);
+				(unsigned char)ft_atoi_l(cmnd->cmds[1], &check), 3);
 		else
 		{
 			printf("exit\n");

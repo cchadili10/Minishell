@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   errors_.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 15:05:28 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/24 00:59:44 by yessemna         ###   ########.fr       */
+/*   Created: 2024/09/24 04:33:30 by yessemna          #+#    #+#             */
+/*   Updated: 2024/09/24 04:34:07 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_exit_status(int value, int set)
+void    free_garb_exite(void)
 {
-	static int	exit_staus;
-
-	if (set == SET)
-		exit_staus = value;
-	else if (set == GET)
-		return (exit_staus);
-	return (0);
+	printf("exit\n");
+	g_malloc_env(0, FREE);
+	exit(ft_exit_status(0, GET));
 }
 
-int	ft_exit_herdog(int check, int set)
+bool	pipe_syntax_error(t_token **list)
 {
-	static int	res;
-
-	if (set == SET)
-		res = check;
-	else if (set == GET)
-		return (res);
-	return (0);
+	if ((*list)->value == PIPE
+		&& ((*list)->next->value != PIPE || (*list)->next != NULL))
+	{
+		ft_printf("Minishell: syntax error near unexpected token `|'\n");
+		ft_exit_status(258, SET);
+		return (true);
+	}
+	return (false);
 }
