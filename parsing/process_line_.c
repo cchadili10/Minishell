@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_line_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:19:32 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/14 19:58:07 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:53:41 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	single_quote(char *line, t_token **list, int *i)
 		if (end)
 			lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), SNGL_Q));
 		else
-			return (ft_exit_status(127, SET)
+			return (free(line), ft_exit_status(127, SET)
 				, print_error("Error: missing single quote"), 0);
 		(*i) += end + 1;
 	}
@@ -91,7 +91,7 @@ int	double_quotes(char *line, t_token **list, int *i)
 		if (end)
 			lst_add_back(list, lst_new(ft_substr(line, (*i) + 1, end), DBL_Q));
 		else
-			return (ft_exit_status(127, SET)
+			return (free(line), ft_exit_status(127, SET)
 				, print_error("Error: missing double quote"), 0);
 		(*i) += end + 1;
 	}

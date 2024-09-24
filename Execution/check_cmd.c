@@ -6,11 +6,20 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:18:04 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/10 10:54:12 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:41:13 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_set_exit_status(t_exection_var *exp, t_cmd *tmp)
+{
+	(tmp->cmds[0]) && (ft_exit_status(127, SET));
+	if (exp->flag == 17)
+		ft_exit_status(0, SET);
+	(!tmp->cmds[0]) && (ft_exit_status(0, SET));
+	exp->flag = 0;
+}
 
 void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 {
@@ -36,9 +45,7 @@ void	ft_display_erorr(t_exection_var *exp, t_cmd *tmp)
 	}
 	else if (exp->flag == 0 || exp->flag == 6)
 		ft_printf("Minishell: %s: command not found\n", tmp->cmds[0]);
-	(tmp->cmds[0]) && (ft_exit_status(127, SET));
-	(!tmp->cmds[0]) && (ft_exit_status(0, SET));
-	exp->flag = 0;
+	ft_set_exit_status(exp, tmp);
 }
 
 char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test)

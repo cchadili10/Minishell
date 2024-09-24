@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 04:12:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/30 01:14:55 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:55:52 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	hd_heper(char **line, t_token **tmp, char **buff, t_env **envi)
 		if (!ft_strcmp_her((*line), (*tmp)->key)
 			&& ((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
 			break ;
-		else if (!ft_strcmp_her((*line), (*tmp)->copy_key))
+		else if (!ft_strcmp_her((*line), (*tmp)->key))
 			break ;
 		if (!((*tmp)->value == DBL_Q || (*tmp)->value == SNGL_Q))
 			(*line) = heredoc_expand((*line), *envi);
@@ -95,7 +95,7 @@ void	hd_heper(char **line, t_token **tmp, char **buff, t_env **envi)
 	}
 }
 
-void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
+void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in, t_fd_col *collector)
 {
 	t_token	*tmp;
 	char	*line;
@@ -105,7 +105,8 @@ void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in)
 	buff = NULL;
 	((1) && (tmp = cmd, line = NULL));
 	hd_heper(&line, &tmp, &buff, &envi);
-	fd_write = open("/tmp/dog", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_write = ft_open(collector, "/tmp/dog", O_WRONLY
+			| O_CREAT | O_TRUNC, 0644);
 	if (fd_write != -1)
 		*red_in = fd_write;
 	putin_fd(fd_write, buff);

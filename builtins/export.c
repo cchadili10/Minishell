@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:53:16 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/25 02:19:53 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:41:38 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,52 @@ void	ft_export_add(t_cmd *cmnd, t_env **env, t_exp **export)
 		ft_exit_status(0, SET);
 }
 
-void	ft_export(t_cmd *cmnd, t_env **env, t_exp **export)
+int ft_look_for_spaice(char *str)
 {
 	int	x;
 
 	x = 0;
-	while (cmnd->cmds[x])
+	while (str[x])
+	{
+		if(str[x] == ' ')
+			return 1;
 		x++;
+	}
+	return 0;
+}
+void	ft_export(t_cmd *cmnd, t_env **env, t_exp **export)
+{
+	int	x;
+	char **str;
+	char **str2;
+
+	x = 0;
+	str = NULL;
+	str2 = NULL;
+	while (cmnd->cmds[x])
+	{
+		// printf("++%s++\n",cmnd->cmds[x]);
+		// if(ft_look_for_spaice(cmnd->cmds[x]))
+		// {
+		// 	str2 = ft_split(cmnd->cmds[x], ' ', '\t');
+		// 	if (!str)
+		// 		return ;
+		// 	while (*str2)
+		// 	{
+		// 		str = dbl_join(str, *str2);
+		// 		str2++;
+		// 	}
+		// }
+		// else
+		// 	str = dbl_join(str, cmnd->cmds[x]);
+		x++;
+	}
+	// x = 0;
+	// while (str[x])
+	// {
+	// 	printf("++%s++\n",str[x++]);
+	// }
+	
 	if (x == 1)
 		ft_print_export(export);
 	else

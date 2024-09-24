@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:13:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/15 13:07:01 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:36:44 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_excute_one_builtin_comd(t_cmd *tmp, t_env **node_env,
 	int	saved_stdout;
 	int	saved_stdin;
 
-	if (tmp->redir_out == -1)
+	if (tmp->redir_out == -1 || tmp->redir_in == -1)
 	{
 		ft_exit_status(1, SET);
 		return ;
@@ -52,7 +52,7 @@ void	ft_excute_one_cmd_using_fork(t_cmd *tmp,
 	if (exp->id == 0)
 	{
 		ft_signal(3);
-		if (tmp->redir_out == -1)
+		if (tmp->redir_out == -1 || tmp->redir_in == -1)
 			exit(1);
 		if (tmp->redir_out != 1)
 		{

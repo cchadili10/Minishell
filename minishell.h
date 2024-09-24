@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/14 19:59:58 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/24 04:35:05 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define SET 1
 # define HEXA "0123456789abcdef"
 # define HEXA_MAJ "0123456789ABCDEF"
+# define MAX_FDS 1024
 
 typedef enum e_type
 {
@@ -109,15 +110,37 @@ typedef struct s_exection_var
 
 typedef struct s_main_prepare_cmd
 {
-	char	**cmd_strs;
-	int		std;
-	int		red_in;
-	int		red_out;
-	bool	piped;
+	struct s_fd_col	*col;
+	char			**cmd_strs;
+	int				flag;
+	int				std;
+	int				red_in;
+	int				red_out;
+	bool			piped;
+	bool			cmd_exist;
+	bool			pipe_hd;
+	bool			pipe_in;
 }			t_main_prepare_cmd;
 
-void	print_cmd(t_cmd **cmd);
-void	print_list(t_token *list);
+// fd collector
+
+typedef struct s_fd_col
+{
+	int	fds[MAX_FDS];
+	int	count;
+}	t_fd_col;
+
+// redirecions
+int		redir_apnd(t_token **tmp, t_main_prepare_cmd *t);
+int		redir_hd(t_token **tmp, t_main_prepare_cmd *t, t_env *envi);
+int		redir_in(t_token **tmp, t_main_prepare_cmd	*t);
+int		redir_out(t_token **tmp, t_main_prepare_cmd *t);
+
+// fd collector
+void	init_fd_collector(t_fd_col *collector);
+int		ft_open(t_fd_col *collector,
+			const char *filename, int flags, mode_t mode);
+void	close_all_fds(t_fd_col *collector);
 // tools
 char	*ft_strcpy(char *dest, const char *src);
 int		ft_strlen(const char *str);
@@ -134,6 +157,7 @@ char	**dbl_join(char **s1, char *s2);
 char	*ft_strdup(const char *s);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
+void	token_exit_status(char **line, t_token **list, int *i);
 
 //finders
 int		is_space(char c);
@@ -150,7 +174,8 @@ void	print_list(t_token *list);
 void	join_nodes(t_token **list);
 void	pipe_redirection(char *line, t_token **list, int *i);
 // void	dollar_sign(char *line, t_token **list, int *i, int start, int end);
-int		prepare_cmd(t_token *list, t_cmd **cmd, t_env *envi);
+int		prepare_cmd(t_token *list, t_cmd **cmd,
+			t_env *envi, t_fd_col *collector);
 
 // parsing
 int		processline(char *line, t_token **list);
@@ -167,6 +192,10 @@ void	token_exit_status(char **line, t_token **list, int *i);
 void	join_nodes(t_token **list);
 int		is_redir(int n);
 void	fill_line(t_token **tmp, char **line, int *x);
+void	join_nodes(t_token **list);
+void	split_in_cmd(char ***cmd_strs, t_token **tmp);
+bool	pipe_syntax_error(t_token **list);
+void	free_garb_exite(void);
 
 //lst_tools.c
 void	lst_add_back(t_token **head, t_token *new);
@@ -212,7 +241,8 @@ void	ft_herdoc(int sig);
 
 //exection
 void	ft_execution(t_cmd **cmnds, t_env **env);
-void	ft_here_doc(t_token *cmd, t_env *envi, int *red_in);
+void	ft_here_doc(t_token *cmd,
+			t_env *envi, int *red_in, t_fd_col *collector);
 
 //exit_status
 int		ft_exit_status(int value, int set);
@@ -287,6 +317,8 @@ int		ft_check_key(char *key);
 int		ft_find_key(t_exp **export, char *key);
 char	*ft_strjoin_(char const *s1, char const *s2);
 void	ft_display_erorr_export(char *str, int *check);
+void	ft_print_exit(void);
+int		ft_check_first(char *first_cmnd, t_exection_var *exp, int check);
 void	ft_run_built_continue(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp);
 //testing

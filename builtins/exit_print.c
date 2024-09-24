@@ -1,35 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   exit_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 15:05:28 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/24 00:59:44 by yessemna         ###   ########.fr       */
+/*   Created: 2024/09/17 17:30:46 by hchadili          #+#    #+#             */
+/*   Updated: 2024/09/24 04:35:50 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_exit_status(int value, int set)
+void	ft_print_exit(void)
 {
-	static int	exit_staus;
-
-	if (set == SET)
-		exit_staus = value;
-	else if (set == GET)
-		return (exit_staus);
-	return (0);
+	g_malloc_env(0, FREE);
+	g_malloc(0, FREE);
+	printf("exit\n");
+	exit(ft_exit_status(0, GET));
 }
 
-int	ft_exit_herdog(int check, int set)
+int	ft_check_first(char *first_cmnd, t_exection_var *exp, int check)
 {
-	static int	res;
-
-	if (set == SET)
-		res = check;
-	else if (set == GET)
-		return (res);
+	if (check)
+	{
+		if (!first_cmnd)
+		{
+			exp->flag = 16;
+			return (1);
+		}
+		if (!(*first_cmnd))
+		{
+			exp->flag = 6;
+			return (1);
+		}
+	}
+	else
+	{
+		if (ft_strcmp(":", first_cmnd) == 0)
+		{
+			exp->flag = 17;
+			return (1);
+		}
+	}
 	return (0);
 }

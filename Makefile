@@ -6,12 +6,12 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 23:22:21 by yessemna          #+#    #+#              #
-#    Updated: 2024/09/14 21:14:43 by yessemna         ###   ########.fr        #
+#    Updated: 2024/09/24 04:36:41 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CC = cc
+CC = cc #-g -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror 
 RDFLAGS = -lreadline
 
@@ -41,6 +41,8 @@ SRC = 	minishell.c 					\
 		tools/ft_atoi.c 				\
 		tools/ft_itoa.c 				\
 		tools/ft_malloc_tools.c 		\
+		fd_collector/ft_open_tools.c	\
+		fd_collector/ft_open.c			\
 		parsing/errors.c 				\
 		parsing/tokenazing.c 			\
 		parsing/finders.c 				\
@@ -54,6 +56,11 @@ SRC = 	minishell.c 					\
 		parsing/redirections.c 			\
 		parsing/copy_part.c 			\
 		parsing/join_nodes.c 			\
+		parsing/split_in_cmd.c	 		\
+		parsing/errors_.c		 		\
+		parsing/redirections/hrdc_apnd.c\
+		parsing/redirections/red_in.c	\
+		parsing/redirections/red_out.c	\
 		init/init_env.c 				\
 		Execution/call_builtins.c 		\
 		Execution/execution.c 			\
@@ -79,6 +86,7 @@ SRC = 	minishell.c 					\
 		builtins/unset_env.c 			\
 		builtins/unset_export.c 		\
 		builtins/exit.c 				\
+		builtins/exit_print.c			\
 		builtins/display_er.c 			\
 		signals/signals.c 				\
 		exit/exit.c 					\

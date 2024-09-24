@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_func.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:45:31 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/10 10:59:44 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:57:58 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,16 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 {
 	struct stat	resp;
 
-	if (!first_cmnd || !(*first_cmnd))
+	if (first_cmnd && ft_loop_for_path(arr_phat, first_cmnd, exp) && first_cmnd[0] != '/' && (first_cmnd[0] != '.' && first_cmnd[1] != '/') && *first_cmnd)
+		return(ft_loop_for_path(arr_phat, first_cmnd, exp));
+	if (ft_check_first(first_cmnd, exp, 1))
+		return (NULL);
+	if (ft_check_first(first_cmnd, exp, 0))
 		return (NULL);
 	if (stat(first_cmnd, &resp) == 0)
 	{
 		if (S_ISDIR(resp.st_mode))
-		{
 			return (ft_check_cmd_erorrs(first_cmnd, exp, 3));
-		}
 	}
 	if (first_cmnd[0] == '/' || (first_cmnd[0] == '.' && first_cmnd[1] == '/'))
 		return (ft_check_cmd_erorrs(first_cmnd, exp, 1));
@@ -82,7 +84,7 @@ char	*ft_get_path(char **arr_phat, char *first_cmnd, t_exection_var *exp)
 		else
 			exp->flag = 6;
 	}
-	return (ft_loop_for_path(arr_phat, first_cmnd, exp));
+	return (NULL);
 }
 
 char	**ft_get_charenv(t_env **env)
