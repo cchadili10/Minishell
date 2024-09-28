@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:54 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/15 13:03:27 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:48:25 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_run_mid_built(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
-	if (tmp->redir_out == -1)
+	if (tmp->redir_out == -1 || tmp->redir_in == -1)
 	{
 		ft_exit_status(1, SET);
 		return ;
@@ -43,7 +43,7 @@ void	ft_run_mid_cmd_using_fork(t_cmd *tmp, t_exection_var *exp,
 			ft_run_mid_built(tmp, node_env, export, exp);
 			exit(ft_exit_status(0, GET));
 		}
-		if (tmp->redir_out == -1)
+		if (tmp->redir_out == -1 || tmp->redir_in == -1)
 			exit(1);
 		dup2(exp->std_d, STDIN_FILENO);
 		dup2(exp->p[1], STDOUT_FILENO);

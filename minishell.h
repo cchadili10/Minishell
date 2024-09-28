@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 04:15:07 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/24 04:35:05 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:41:31 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,10 @@
 # include <termios.h>
 # include <stdarg.h>
 # include <sys/stat.h>
-# define COLOR_WHITE "\033[37m" 
-# define COLOR_ORANGE "\033[38;5;214m" 
-# define MAXCMD 1024
-# define MAXLIST 100
 # define GET 0
 # define SET 1
 # define HEXA "0123456789abcdef"
 # define HEXA_MAJ "0123456789ABCDEF"
-# define MAX_FDS 1024
 
 typedef enum e_type
 {
@@ -96,6 +91,7 @@ typedef struct s_export_var
 typedef struct s_exection_var
 {
 	int		p[2];
+	int		status_p[2];
 	char	**arr_phat;
 	char	**env;
 	char	*arr_join;
@@ -126,7 +122,7 @@ typedef struct s_main_prepare_cmd
 
 typedef struct s_fd_col
 {
-	int	fds[MAX_FDS];
+	int	fds[OPEN_MAX];
 	int	count;
 }	t_fd_col;
 
@@ -173,7 +169,6 @@ int		processline(char *line, t_token **list);
 void	print_list(t_token *list);
 void	join_nodes(t_token **list);
 void	pipe_redirection(char *line, t_token **list, int *i);
-// void	dollar_sign(char *line, t_token **list, int *i, int start, int end);
 int		prepare_cmd(t_token *list, t_cmd **cmd,
 			t_env *envi, t_fd_col *collector);
 
@@ -329,4 +324,3 @@ char	*ft_loop_for_path(char **arr_phat,
 char	*ft_check_cmd_erorrs(char *first_cmnd, t_exection_var *exp, int test);
 
 #endif
-// Structure for the command line

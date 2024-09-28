@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:10:52 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/20 21:00:00 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:53:02 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void	ft_set_zero(t_exection_var *exp)
 	exp->arr_join = NULL;
 	exp->arr_phat = NULL;
 	exp->env = NULL;
-	exp->id = 0;
-	exp->std_d = 0;
+	exp->pids = NULL;
 	exp->p[0] = 0;
 	exp->p[1] = 0;
+	exp->status_p[0] = 0;
+	exp->status_p[1] = 0;
+	exp->id = 0;
+	exp->std_d = 0;
 	exp->flag = 0;
 	exp->status = 0;
-	exp->pids = NULL;
 	exp->cont = 0;
 	exp->num_cmnd = 0;
 }
@@ -39,7 +41,6 @@ void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 {
 	t_cmd			*tmp;
 	t_exection_var	exp;
-	int	status[2];
 
 	ft_set_zero(&exp);
 	(1) && (exp.num_cmnd = ft_count_cmnds(cmnds), tmp = *cmnds);
@@ -58,9 +59,9 @@ void	ft_excute(t_cmd **cmnds, t_exp **export, t_env **node_env)
 	}
 	((1) && (close(exp.p[0]), close(exp.p[1]), exp.num_cmnd = 0));
 	while (exp.num_cmnd < exp.cont)
-		waitpid(exp.pids[exp.num_cmnd++], status, 0);
-	status[1] = WEXITSTATUS(status[0]);
-	if (WIFSIGNALED(status[0]))
-		status[1] = 128 + WTERMSIG(status[0]);
-	ft_exit_status(status[1], SET);
+		waitpid(exp.pids[exp.num_cmnd++], exp.status_p, 0);
+	exp.status_p[1] = WEXITSTATUS(exp.status_p[0]);
+	if (WIFSIGNALED(exp.status_p[0]))
+		exp.status_p[1] = 128 + WTERMSIG(exp.status_p[0]);
+	ft_exit_status(exp.status_p[1], SET);
 }

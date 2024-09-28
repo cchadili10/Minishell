@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 08:37:49 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/24 00:59:25 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:20:11 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_open(t_fd_col *collector, const char *filename, int flags, mode_t mode)
 {
 	int	fd;
 
-	if (collector->count >= MAX_FDS)
+	if (collector->count >= OPEN_MAX)
 	{
 		ft_printf("Error: Maximum file descriptor limit reached.\n");
 		return (false);

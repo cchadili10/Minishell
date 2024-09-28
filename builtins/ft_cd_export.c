@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 07:29:48 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/18 10:53:10 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:57:03 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_go_to_home_export(t_exp **export)
 	if (!tmp)
 	{
 		ft_printf("Minishell: cd: HOME not set\n");
+		ft_exit_status(1, SET);
 		return (0);
 	}
 	if (chdir(tmp->value))
@@ -43,7 +44,6 @@ int	ft_go_to_home_export(t_exp **export)
 	(1) && (tmp = *export, arr = getcwd(0, 0));
 	ft_look_for_pwd_export(&tmp, "PWD");
 	ft_look_for_pwd_export(&tmp2, "OLDPWD");
-	ft_exit_status(0, SET);
 	if (tmp2 && tmp)
 		tmp2->value = tmp->value;
 	if (tmp)

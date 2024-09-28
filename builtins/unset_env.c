@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 22:00:17 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/27 15:27:26 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/26 22:37:41 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_remove_key_env(t_env **env, char *key)
 		for_free_env = tmp->next;
 		tmp->next = tmp->next->next;
 	}
-	else if (tmp && !tmp->next->next && tmp->next)
+	else if (tmp && tmp->next && !tmp->next->next)
 	{
 		for_free_env = tmp->next;
 		tmp->next = NULL;
