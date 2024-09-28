@@ -6,7 +6,7 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:34:51 by hchadili          #+#    #+#             */
-/*   Updated: 2024/09/15 13:09:44 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:47:32 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_run_first_built(t_cmd *tmp, t_env **node_env,
 			t_exp **export, t_exection_var *exp)
 {
-	if (tmp->redir_out == -1)
+	if (tmp->redir_out == -1 || tmp->redir_in == -1)
 	{
 		ft_exit_status(1, SET);
 		return ;
@@ -44,7 +44,7 @@ void	ft_first_cmnd(t_cmd *tmp, t_env **node_env,
 			ft_run_first_built(tmp, node_env, export, exp);
 			exit(ft_exit_status(0, GET));
 		}
-		if (tmp->redir_out == -1)
+		if (tmp->redir_out == -1 || tmp->redir_in == -1)
 			exit(1);
 		dup2(exp->p[1], STDOUT_FILENO);
 		if (tmp->redir_out != 1)

@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 21:05:56 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/24 00:42:21 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:08:55 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ int	redir_hd(t_token **tmp, t_main_prepare_cmd *t, t_env *envi)
 
 int	redir_apnd(t_token **tmp, t_main_prepare_cmd *t)
 {
+	if (t->flag == 1)
+	{
+		(*tmp)->key = NULL;
+		return (4);
+	}
 	(*tmp) = (*tmp)->next;
 	if (*tmp && (*tmp)->value == SPC)
 		(*tmp) = (*tmp)->next;

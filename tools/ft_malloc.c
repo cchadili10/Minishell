@@ -6,11 +6,19 @@
 /*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 01:36:32 by yessemna          #+#    #+#             */
-/*   Updated: 2024/08/23 20:35:30 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:46:43 by hchadili         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_free_exit(void *ptr, t_col **head)
+{
+	ft_printf("minishell : error malloc failed\n");
+	free(ptr);
+	clear_all(head);
+	exit(1);
+}
 
 void	*g_malloc(size_t size, t_call call)
 {
@@ -22,10 +30,14 @@ void	*g_malloc(size_t size, t_call call)
 	{
 		ptr = malloc(size);
 		if (!ptr)
-			return (clear_all(&head), NULL);
+		{
+			ft_printf("minishell : error malloc failed\n");
+			clear_all(&head);
+			exit(1);
+		}
 		tmp = new_node(ptr);
 		if (!tmp)
-			return (clear_all(&head), free(ptr), NULL);
+			ft_free_exit(ptr, &head);
 		add_back(&head, tmp);
 		return (ptr);
 	}
@@ -44,10 +56,14 @@ void	*g_malloc_env(size_t size, t_call call)
 	{
 		ptr = malloc(size);
 		if (!ptr)
-			return (clear_all(&head), NULL);
+		{
+			ft_printf("minishell : error malloc failed\n");
+			clear_all(&head);
+			exit(1);
+		}
 		tmp = new_node(ptr);
 		if (!tmp)
-			return (clear_all(&head), free(ptr), NULL);
+			ft_free_exit(ptr, &head);
 		add_back(&head, tmp);
 		return (ptr);
 	}

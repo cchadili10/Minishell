@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchadili <hchadili@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:35:30 by hchadili          #+#    #+#             */
-/*   Updated: 2024/08/12 15:35:27 by hchadili         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:40:02 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	null_env_case(char **env, t_env **envi, char arr[PATH_MAX])
 {
 	if (*env == NULL)
 	{
-		lst_add_back_env(envi, lst_new_env(ft_strdup_env("PATH"),
-				ft_strdup_env("/usr/local/bin:/bin:/usr/bin:/bin")));
 		lst_add_back_env(envi, lst_new_env(ft_strdup_env("PWD"),
 				ft_strdup_env(arr)));
 		lst_add_back_env(envi, lst_new_env(ft_strdup_env("SHLVL"),

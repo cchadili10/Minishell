@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:59:59 by yessemna          #+#    #+#             */
-/*   Updated: 2024/09/24 04:33:17 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:41:51 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ bool	ft_parse(t_token **list, t_env **envi, t_cmd **cmd, t_fd_col *collector)
 	else if (!catch_errors(list))
 	{
 		free(line);
+		ft_exit_status(258, SET);
 		return (true);
 	}
 	find_node(*envi, *list);
@@ -60,9 +61,7 @@ void	ft_loop_main(t_env **envi, t_fd_col *collector)
 		(ft_signal(1), (1) && (list = NULL, cmd = NULL));
 		if (ft_parse(&list, envi, &cmd, collector)
 			|| ft_execute(&list, &cmd, envi))
-		{
 			continue ;
-		}
 		(unlink("/tmp/dog"));
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		g_malloc(0, FREE);
@@ -77,11 +76,19 @@ int	main(int ac, char **av, char **env)
 	t_fd_col	collector;
 
 	(void)av;
+	if (!isatty(STDIN_FILENO))
+	{
+		ft_printf("minishell: is not a tty\n");
+		exit(1);
+	}
+	if (ac > 1)
+	{
+		print_error("no argument needed");
+		exit(1);
+	}
 	init_fd_collector(&collector);
 	rl_catch_signals = 0;
 	envi = NULL;
-	if (ac > 1)
-		print_error("no argument needed");
 	initenv(env, &envi);
 	ft_loop_main(&envi, &collector);
 }
