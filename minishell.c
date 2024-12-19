@@ -25,8 +25,8 @@ bool	ft_parse(t_token **list, t_env **envi, t_cmd **cmd, t_fd_col *collector)
 	if (!processline(line, list))
 		return (true);
 	else if (!catch_errors(list))
-	{
-		free(line);
+	{       
+		 free(line);
 		ft_exit_status(258, SET);
 		return (true);
 	}
@@ -92,3 +92,4 @@ int	main(int ac, char **av, char **env)
 	initenv(env, &envi);
 	ft_loop_main(&envi, &collector);
 }
+//sdhfsjdhfksd
